@@ -34,3 +34,35 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Project Structure
+
+This defines the different directories and file of this project. 
+
+### package.json
+```package.json``` defines the dependencies needed to build the website. It contains the following dependencies:
+- node (server environment)
+- react (frontend framework)
+- react-dom (document object model for react)
+- autoprefixer
+- eslint (linter / error detection)
+- esling-config-next (configuration for next.js framework)
+- next (node framework)
+- tailwindcss (css frontend framework)
+- typescript (subset of javacript)
+
+### node modules
+```node_modules/``` directory contains the dependencies for the node environment.
+
+### components
+```components/``` directory contains the react components to load a page.
+
+### pages 
+```pages/``` directory contains the files that will be served to the client.
+
+### public
+```public/``` directory contains the files needed to serve for all pages such as images and icons.
+
+### styles
+```styles/``` directory contains the files for frontend design.
+
