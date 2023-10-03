@@ -66,3 +66,6 @@ This defines the different directories and file of this project.
 ### styles
 ```styles/``` directory contains the files for frontend design.
 
+### models
+```models/``` directory contains the files for database schema.
+
