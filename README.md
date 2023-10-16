@@ -59,10 +59,10 @@ This defines the different directories and file of this project.
 
 ### pages 
 ```pages/``` directory contains the files that will be served to the client.
+```pages/_app.tsx``` file that wraps every single page.
 
 ### public
-```public/``` directory contains the files needed to serve for all pages such as images and icons.
+```public/``` directory contains the files (assets) needed to serve for all pages such as images and icons.
 
 ### styles
 ```styles/``` directory contains the files for frontend design.
-
