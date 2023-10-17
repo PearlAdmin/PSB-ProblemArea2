@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pearl S. Buck Philippines DB</title>
+        <link rel="icon" href="/public/logo.png">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
+    </head>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@100;300;400;700&display=swap');
+
+            body {
+                font-family: 'Pathway Extreme', sans-serif;
+            }
+
+            #todoContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 80rem;
+                background-color: #c5e2ea;
+                border-radius: 5px;
+                padding: 1rem;  
+                margin: 2rem;
+            }
+
+            i:hover {
+                opacity: 70%;
+            }
+
+            i{
+                padding: 5px;
+                margin: 5px;
+            }  
+            
+            .p-2 {
+                overflow: hidden; 
+                white-space: nowrap; 
+            }
+
+            #navbar-name-img {
+                max-width: 100%;
+                height: auto; 
+            }
+
+            .custom-height-31 {
+                height: 31px;
+            }
+
+            .navbar-create-record-btn {
+                color: rgba(0, 0, 0, 0.55);;
+                text-decoration: none;
+                font-size: 2em;
+            }
+            .navbar-menu-container {
+                display: none;
+                z-index: 1030;
+                width: 20%;
+                position: fixed;
+            }
+            .navbar-menu-option {
+                font-size: calc(1.5em+15vh);
+                margin-bottom: 2em;
+                font-weight: bold;
+            }
+            .red-text {
+                color: #cd3a3a;
+            }
+            .navbar-menu-btn {
+                background-color: transparent;
+            }
+            .navbar-menu-option:hover {
+                opacity: 50%;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+            a:hover {
+                color: inherit;
+            }
+            #navbar {
+                height: 75px;
+            }
+            #navbar-menu-btn {
+                border: 0;
+            }
+            #navbar-menu-open {
+                width: 25%;
+            }
+        </style>
+
+    <body>
+        <!--Navigation Bar-->
+        <nav class ="navbar navbar-light bg-light sticky-top" id="navbar">
+            <div class="nav-container container-fluid h-100">
+                <div class="nav-left row h-100">
+                    <div class="col-md-auto h-100">
+                        <a class="navbar-brand h-100 w-auto d-flex align-items-center" href="view.html">
+                            <img class="d-inline-block me-1 h-100" id="navbar-logo-img" draggable="false" src="/public/logo.png" alt="">
+                            <img class="h-75 d-none d-md-inline-block" id="navbar-name-img" draggable="false" src="/public/name.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="nav-right col-md text-end d-flex align-items-center h-100">
+                    <a class="navbar-create-record-btn ms-auto pe-3" href="createform.html">+</a>
+                    <button class="navbar-menu-btn navbar-toggler-icon" id="navbar-menu-btn" onclick="return toggleMenu()" ></button>
+                </div>
+            </div>
+        </nav>
+        <!--Collapsable menu-->
+        <div class="navbar-menu-container bg-light end-0 flex-column" id="navbar-menu">
+            <ul class="navbar-menu-options list-unstyled p-3">
+                <li class="navbar-menu-option"><a href="createform.html">Create Record</a></li>
+                <li class="navbar-menu-option"><a href="view.html">View Records</a></li>
+                <li class="navbar-menu-option"><a href="">View Form</a></li>
+                <li class="navbar-menu-option"><a href="">Edit Form</a></li>
+                <li class="navbar-menu-option"><a href="">Edit Access</a></li>
+                <li class="navbar-menu-option"><a href="">Trash</a></li>
+                <li class="navbar-menu-option red-text mb-auto"><a href="login.html">Log Out</a></li>
+            </ul>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <div id="todoContainer">
+                <div class="d-flex align-items-center">
+                    <div class="p-2 fs-3 fw-bolder flex-grow-1"> Child Records </div>
+                    <div class="p-2">
+                        <a href="createform.html" class="btn btn-outline-dark btn-sm"> + Create Record </a>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-md-row align-items-center">
+                    <div class="p-2 d-flex flex-grow-1">
+                        <select id="searchChild" name="searchChild" class="custom-select custom-height-31" style="width: 60px;">
+                            <option value="SCN" selected>SCN</option>
+                            <option value="SC">SC</option>
+                            <option value="Lastname">Lastname</option>
+                            <option value="Firstname">Firstname</option>
+                        </select>
+                        <input type="text" placeholder="Search..." class="form-control custom-height-31" id="search" name="search">
+                        <button type="button" class="btn btn-secondary btn-sm"><i class="bi bi-search"></i></button>
+                    </div>
+                    <div class="p-2">
+                        <label for="sortTodo">Sort by:</label>
+                        <select id="sortTodo" name="sortTodo" class="custom-height-31">
+                            <option value="SCN_Asc" selected>SCN (Ascending)</option>
+                            <option value="SCN_Des">SCN (Descending)</option>
+                            <option value="Lastname">Lastname (A to Z)</option>
+                            <option value="Firstname">Firstname (A to Z)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="d-flex flex-column">
+                    <div id="child1" class="info card d-flex flex-row align-items-center">
+                        <div class="p-2">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="p-2 flex-grow-1">
+                            <div style="font-weight: bold"><a href="view indiv.html"> Dela Cruz, Juan </a></div>
+                            <div style="display: flex;">
+                                <div style="font-size: 10px;"> SCN#1234 </div>
+                                <div style="font-size: 10px; margin-left: 20px;"> SC#0001 </div>
+                            </div>
+                            <div style="font-size: 10px;"> Last Updated: 10/03/2023 </div>
+                        </div>    
+                        <div class="p-2">
+                            <a href="view indiv.html"><i class="bi bi-pencil-fill"></i></a>
+                            <i class="bi bi-trash"></i>
+                        </div>
+                    </div>
+
+                    <div id="child2" class="info card d-flex flex-row align-items-center">
+                        <div class="p-2">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="p-2 flex-grow-1">
+                            <div style="font-weight: bold"><a href="view indiv.html"> Dalisay, Cardo </a></div>
+                            <div style="display: flex;">
+                                <div style="font-size: 10px;"> SCN#1224 </div>
+                                <div style="font-size: 10px; margin-left: 20px;"> SC#0002 </div>
+                            </div>
+                            <div style="font-size: 10px;"> Last Updated: 10/05/2023 </div>
+                        </div>    
+                        <div class="p-2">
+                            <a href="view indiv.html"><i class="bi bi-pencil-fill"></i></a>
+                            <i class="bi bi-trash"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function toggleMenu() {
+            if(document.getElementById("navbar-menu").style.display == "none" || document.getElementById("navbar-menu").style.display == "") {
+                document.getElementById("navbar-menu").style.display = "flex";
+            } else {
+                document.getElementById("navbar-menu").style.display = "none";
+            }
+        }
+    </script>
+</html>

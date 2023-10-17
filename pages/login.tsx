@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useState } from "react";
 import Head from 'next/head';
-import Image from 'next/image'; 
+import Image from 'next/image';
 import {signIn} from 'next-auth/react';
 
 const SignIn: NextPage = () => {
@@ -34,10 +34,7 @@ const SignIn: NextPage = () => {
   return (
     <div>
       <Head>
-        <style dangerouslySetInnerHTML={{ __html: `
-          @import url('https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css');
-          @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css');
-
+        <style dangerouslySetInnerHTML={{ __html: `        
           .container{
               max-width: 600px;
               padding: 5%;
@@ -66,52 +63,52 @@ const SignIn: NextPage = () => {
                 <Image src="/name.png" alt="Pearl S Buck Name" width={350} height={50} />
             </div>
 
-          {/* LOGIN FORM */}
-          <form onSubmit={onLogin}>
-            <div className="user-details">
-              <div className="input-group mb-3">
-                <input type="text" 
-                id="username" 
-                className="form-control" 
-                placeholder="Username" 
-                required 
-                onChange={event => setCredentials({ ...credentials, username: event.target.value})}/>
+            {/* LOGIN FORM */}
+            <form onSubmit={onLogin}>
+              <div className="user-details">
+                <div className="input-group mb-3">
+                  <input type="text" 
+                  id="username" 
+                  className="form-control" 
+                  placeholder="Username" 
+                  required 
+                  onChange={event => setCredentials({ ...credentials, username: event.target.value})}/>
+                </div>
+
+                <div className="input-group mb-3">
+                  <input
+                    type={passwordVisible ? 'text' : 'password'}
+                    id="password"
+                    className="form-control"
+                    placeholder="Password"
+                    required
+                    onChange={event => setCredentials({ ...credentials, password: event.target.value })}
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-light"
+                    id="showPasswordButton"
+                    onClick={togglePasswordVisibility}
+                  >
+                    <i className={`bi ${passwordVisible ? 'bi-eye' : 'bi-eye-slash'}`} id="togglePassword"></i>
+                  </button>
+                </div>
               </div>
 
-              <div className="input-group mb-3">
-                <input
-                  type={passwordVisible ? 'text' : 'password'}
-                  id="password"
-                  className="form-control"
-                  placeholder="Password"
-                  required
-                  onChange={event => setCredentials({ ...credentials, password: event.target.value })}
-                />
-                <button
-                  type="button"
-                  className="btn btn-light"
-                  id="showPasswordButton"
-                  onClick={togglePasswordVisibility}
-                >
-                  <i className={`bi ${passwordVisible ? 'bi-eye' : 'bi-eye-slash'}`} id="togglePassword"></i>
-                </button>
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                <label className="form-check-label" htmlFor="flexCheckDefault">
+                  Remember Me
+                </label>
               </div>
-            </div>
 
-            <div className="form-check">
-              <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-              <label className="form-check-label" htmlFor="flexCheckDefault">
-                Remember Me
-              </label>
-            </div>
-
-            <div className="submit-button" style={{ marginTop: '10px' }}>
-              <input type="submit" className="form-control btn btn-primary" value="Login" />
-            </div>
-          </form>
+              <div className="submit-button" style={{ marginTop: '10px' }}>
+                <input type="submit" className="form-control btn btn-primary" value="Login" />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   )
 }
