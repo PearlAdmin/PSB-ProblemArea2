@@ -16,7 +16,6 @@ const authOptions: AuthOptions = {
                 let user;
                 try {
                     await dbConnect();
-
                     user = await User.findOne({username: credentials?.username, password: credentials?.password});
                 } catch {
                     throw new Error("Cannot connect to database.");
