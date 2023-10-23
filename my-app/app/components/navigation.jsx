@@ -1,8 +1,7 @@
-import { FC } from 'react';
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
 
-const Navbar:FC = () => {
+const Navbar = () => {
     const toggleMenu = () => {
         // Add your toggleMenu logic here
     };

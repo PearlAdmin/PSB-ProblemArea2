@@ -1,39 +1,12 @@
-import { FC } from 'react';
 import Head from 'next/head'
 import { Card } from 'react-bootstrap';
 
-interface CardIndivProps {
-  lastName: string;
-  firstname: string;
-  scn: string;
-  sc: string;
-  date: string;  
-}
-
-const CardIndiv: FC<CardIndivProps> = ({ lastName, firstname, scn, sc, date }) => {
+const CardIndiv = ({ lastName, firstname, scn, sc, date }) => {
   return (
       <div>
         <Head>
         <style dangerouslySetInnerHTML={{ __html: `        
-        #todoContainer {
-          display: flex;
-          flex-direction: column;
-          width: 80rem;
-          background-color: #c5e2ea;
-          border-radius: 5px;
-          padding: 1rem;  
-          margin: 2rem;
-        }
-        .header{
-          display: flex;
-          flex-direction: row;
-        }
-        .custom-height-31 {
-          height: 38px;
-          display: flex;
-          alignItems: center;
-          justifyContent: center;
-        }
+        
         `}} />
       </Head>
       <Card className="info d-flex flex-row align-items-center">

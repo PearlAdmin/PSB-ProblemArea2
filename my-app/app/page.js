@@ -1,34 +1,25 @@
-"use client";
-import { NextPage } from "next";
-import Head from 'next/head';
+'use client'
+import styles from './homepage.module.css'
 import Navbar from "./components/navigation"
 import CardIndiv from "./components/view-all-individual-card"
-import { Button, Pagination, Form, InputGroup } from 'react-bootstrap';
+import { Button, Pagination, Form, InputGroup } from './components/bootstrap';
 
-const Home: NextPage = () => {
+export default function Home() {
   return (
     <div>
-      <Head>
-        <style dangerouslySetInnerHTML={{ __html: `        
-        i:hover{
-          opacity: 50%;
-        }
-        `}} />
-      </Head>
-
       <Navbar/>
-      <div id="todoContainer" >
-        <div className="header">
+      <div id="todoContainer" className={styles.todoContainer}>
+        <div className={styles.header}>
           <h3 style={{fontWeight: 'bolder'}} className="p-2 flex-grow-1">Child Records</h3>
-          <Button variant="outline-dark" className="p-2 custom-height-31 d-flex align-items-center" style={{marginRight: '5px'}}>+ Create Record</Button>
+          <Button variant="outline-dark" className={`p-2 ${styles.customHeight31} d-flex align-items-center`} style={{marginRight: '5px'}}>+ Create Record</Button>
         </div>
 
-        <div className="header mb-3">
+        <div className={`${styles.header} mb-3`}>
           {/* Serch By */}
           <Form.Select
             id="searchChild"
             name="searchChild"
-            className="custom-select custom-height-31"
+            className={`custom-select ${styles.customHeight31}`}
             style={{ width: '80px' }}
             defaultValue={"SCN"}
           >
@@ -40,14 +31,14 @@ const Home: NextPage = () => {
           <InputGroup style={{marginRight: '5px'}}>
             <Form.Control type="text" placeholder="Search..." id="search" name="search" />
               <Button variant="secondary" size="sm">
-                <i className="bi bi-search"></i>
+                <i className={`${styles.i} bi bi-search`}></i>
               </Button>
           </InputGroup>
-          <div className="custom-height-31  align-items-center p-2" style={{width: '90px'}}>Sort By:</div>
+          <div className={`${styles.customHeight31}  align-items-center p-2`} style={{width: '90px'}}>Sort By:</div>
           <Form.Select
             id="searchChild"
             name="searchChild"
-            className="custom-select custom-height-31"
+            className={`custom-select ${styles.customHeight31}`}
             style={{width: '200px'}}
             defaultValue={"SCN"}
           >
@@ -98,5 +89,3 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
-export default Home;
