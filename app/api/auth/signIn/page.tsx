@@ -7,7 +7,7 @@ import {signIn} from 'next-auth/react';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 
 
-const SignIn: NextPage = () => {
+const LogIn: NextPage = () => {
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const [credentials, setCredentials] = useState({
         username: '',
@@ -26,7 +26,7 @@ const SignIn: NextPage = () => {
             callbackUrl: '/'
         });
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     }
 
@@ -114,4 +114,4 @@ const SignIn: NextPage = () => {
     )
 }
 
-export default SignIn;
+export default LogIn;

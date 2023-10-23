@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.5.5",
+    "axios": "^1.5.1",
+    "bootstrap": "^5.3.2",
+    "mongoose": "^7.6.3",
+    "next": "13.5.6",
     "next-auth": "^4.24.3",
     "react": "^18",
+    "react-bootstrap": "^2.9.1",
     "react-dom": "^18"
   },
   "devDependencies": {
@@ -19,7 +23,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "13.5.5",
+    "eslint-config-next": "13.5.6",
     "typescript": "^5"
   }
 }
