@@ -15,6 +15,7 @@ export async function POST(req) {
 // GET ALL QUESTIONS
 export async function GET(req) {
     await dbConnect();
+    
     const questions = await Question.find({});
     return NextResponse.json({questions}, {status: 200});
 }
