@@ -1,5 +1,3 @@
-import Head from 'next/head';
-
 const MC  = ({ question, options, required, setValues }) => {
     return (
         <div>
@@ -30,4 +28,5 @@ const MC  = ({ question, options, required, setValues }) => {
         </div>
     );
 };
+
 export default MC;

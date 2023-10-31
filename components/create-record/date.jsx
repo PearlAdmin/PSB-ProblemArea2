@@ -1,5 +1,3 @@
-import Head from 'next/head';
-
 const Date = ({ question, required, setValues }) => {
     return (
         <div>
