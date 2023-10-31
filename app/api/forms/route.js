@@ -17,10 +17,13 @@ export async function POST(req) {
 
 // GET ALL QUESTIONS
 export async function GET(req) {
-    await dbConnect();
-    
-    const questions = await Question.find({});
-    return NextResponse.json({questions}, {status: 200});
+    try {
+        await dbConnect();
+        const questions = await Question.find({});
+        return NextResponse.json({questions}, {status: 200});
+    } catch (error) {
+        return NextResponse.json({message: error.message}, {status: 500}); 
+    }
 }
 
 // DELETE A QUESTION
