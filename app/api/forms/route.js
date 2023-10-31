@@ -4,12 +4,15 @@ import {NextResponse} from "next/server";
 
 // CREATE A NEW QUESTION
 export async function POST(req) {
-    const { question, inputType, number, deletable } = await req.json();
+    const { question, inputType, number, deletable, required } = await req.json();
 
-    await dbConnect();
-    await Question.create({ question, inputType, number, deletable });
-
-    return NextResponse.json({message: "Question created successfully"}, {status: 201});
+    try {
+        await dbConnect();
+        await Question.create({ question, inputType, number, deletable, required });
+        return NextResponse.json({message: "Question created successfully"}, {status: 201});
+    } catch (error) {
+        return NextResponse.json({message: error.message}, {status: 500}); 
+    }
 }
 
 // GET ALL QUESTIONS

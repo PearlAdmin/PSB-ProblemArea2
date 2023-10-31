@@ -53,8 +53,28 @@ const CreateRecord = () => {
         console.log(values)
     }
 
-    const acceptSubmit = () => {
+    const acceptSubmit = async () => {
         // Save your data if needed
+        try {
+            const response = await fetch('/api/records', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(values),
+            });
+      
+            if (response.ok) {
+              // Handle the successful response here
+              console.log('POST request was successful');
+            } else {
+              // Handle errors or non-2xx responses
+              console.error('POST request failed');
+            }
+          } catch (error) {
+            console.error('An error occurred:', error);
+          
+        };
         setFormConfirmVisible(false);
     }
     
@@ -74,17 +94,11 @@ const CreateRecord = () => {
             <form onSubmit={submitForm}>
                 <div className="flex-row justify-content-center align-items-center">
                     <Header header='Background Information'/>
-                    {/* use a .map function here */}
+
                     {data.questions.map((item) => {
                         return (<CustomInput config={item} setValues={handleInputChange} />);
                     })}
 
-                    {/* // <CustomInput config={{question:'Name', inputType:"text", deletable:false, required:true}} setValues={handleInputChange} />
-                    // <CustomInput config={{question:'Birthday', inputType:"date", deletable:false, required:true}} setValues={handleInputChange} />
-                    // <CustomInput config={{question:'School Type', inputType:"radio", deletable:false, required:true, choices:["Public", "Private"]}} setValues={handleInputChange} />
-                    // <CustomInput config={{question:'Favorite Subjects', inputType:"checkbox", deletable:true, required:false, choices:["Math", "Science", "History", "Art"]}} setValues={handleInputChange} />
-                    // <CustomInput config={{question:'Family Income', inputType:"dropdown", deletable:false, required:true, choices:["10k-50k", "50k-100k", "100k-150k"]}} setValues={handleInputChange} />
-                    // <CustomInput config={{question:'test question', inputType:"checkbox", deletable:true, required:true, choices:["choice1","2","3","4","5","67"]}} setValues={handleInputChange} /> */}
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button className="primary" type='submit' style={{ width: '80%', margin: '10px 25px', borderRadius: '36px' }}>
                             Create Record
