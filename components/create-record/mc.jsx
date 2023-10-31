@@ -1,25 +1,8 @@
 import Head from 'next/head';
 
-const MC  = ({ question, options, required }) => {
+const MC  = ({ question, options, required, setValues }) => {
     return (
         <div>
-            <Head>
-                <style dangerouslySetInnerHTML={{ __html: `
-                .form-container {
-                    background-color: #c5e2ea;
-                    padding: 10px 20px;  
-                    margin: 10px 25px;
-                    border-radius: 36px;
-                }
-                .form-title-required {
-                    color: #cd3a3a;
-                }
-                .form-title {
-                    font-weight: bold;
-                    font-size: 20px;
-                }
-                ` }} />
-            </Head>
             <div className="form-container">
                 <div className="d-flex align-items-center">
                     <label className={`form-title ${!required ? 'flex-grow-1' : ''}`} htmlFor="question">
@@ -33,8 +16,10 @@ const MC  = ({ question, options, required }) => {
                         <label>
                         <input
                             type="radio"
-                            name="answerOptions"
-                            required={required} 
+                            name={question}
+                            required={required}
+                            value={option}
+                            onChange={setValues}
                         />
                         {option}
                         </label>

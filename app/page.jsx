@@ -1,5 +1,4 @@
 "use client";
-import Head from 'next/head';
 import Navbar from "@/components/navigation";
 import CardIndiv from "@/components/view-all-individual-card";
 import { Button, Pagination, Form, InputGroup } from '@/components/bootstrap';
@@ -8,11 +7,6 @@ import styles from './homepage.module.css';
 const Home = () => {
   return (
     <div>
-      <Head>
-        <style dangerouslySetInnerHTML={{ __html: `        
-        
-        `}} />
-      </Head>
 
       <Navbar/>
       <div id="todoContainer" className={styles.todoContainer}>

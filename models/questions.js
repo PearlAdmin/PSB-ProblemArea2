@@ -20,6 +20,11 @@ const questionSchema = new Schema({
         required: true,
         default: true
     },
+    required: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     choices: {
         type: [String],
         default: undefined

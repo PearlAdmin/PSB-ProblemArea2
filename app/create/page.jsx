@@ -2,20 +2,55 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Navbar from "@/components/navigation"
-import Textbox from '@/components/create-record/textbox';
-import Date from '@/components/create-record/date';
-import MC from '@/components/create-record/mc';
-import Checkbox from '@/components/create-record/checkbox';
-import Dropdown from '@/components/create-record/dropdown';
 import Header from '@/components/create-record/header';
 import { Button } from 'react-bootstrap';
+import CustomInput from '@/components/create-record/custominput';
+import useSWR from 'swr';
+import './styles.css';
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+function GetQuestion() {
+    const { data, isLoading, error } = useSWR('/api/forms', fetcher);
+
+    return {data, isLoading, error};
+}
 
 const CreateRecord = () => {
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
+    const [values, setValues] = useState({});
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+    
+        // Use a copy of the current values object
+        let updatedValues = values;
+    
+        if (type === "checkbox") {
+            if (!updatedValues[name]){
+                updatedValues[name] = [ value ];
+            } else {
+                if (checked) {
+                    // If the checkbox is checked, add the value to the array
+                    updatedValues[name] = [...updatedValues[name], value];
+                } else {
+                    // If the checkbox is unchecked, remove the value from the array
+                    updatedValues[name] = updatedValues[name].filter((item) => item !== value);
+                }
+            }
+        } else {
+            // For non-checkbox inputs, update the value directly
+            updatedValues[name] = value;
+        }
+    
+        // Update the state with the modified values
+        setValues(updatedValues);
+    };
 
     const submitForm = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
+        console.log(values)
     }
 
     const acceptSubmit = () => {
@@ -26,81 +61,30 @@ const CreateRecord = () => {
     const declineSubmit = () => {
         setFormConfirmVisible(false);
     }
+
+    const {data, isLoading, error} = GetQuestion();
+
+    if (isLoading) return (<div>Loading...</div>);
+    
+    if (error) return (<div>{error.message}</div>);
+
     return (
         <div>
-            <Head>
-            <style dangerouslySetInnerHTML={{ __html: `
-                .form-container {
-                    background-color: #c5e2ea;
-                    padding: 10px 20px;  
-                    margin: 10px 25px;
-                    border-radius: 36px;
-                }
-                .form-title-required {
-                    color: #cd3a3a;
-                }
-                .form-title {
-                    font-weight: bold;
-                    font-size: 20px;
-                }
-                .popup-modal {
-                    z-index: 1000;
-                    width: 100%;
-                    height: 100%;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    top: 0;
-                    left: 0;
-                    position: fixed;
-                }
-                .popup-modal-box-shadow {
-                    padding: 0;
-                    background-color: #0872a1;
-                    border-radius: 36px;
-                    position: absolute;
-                    text-align: center;
-                }
-                .popup-modal-box {
-                    font-size: 1.75em;
-                    font-weight: bold;
-                    background-color: #c5e2ea;
-                    border-radius: 36px;
-                    height: 100%;
-                }
-                .popup-modal-box-top {
-                    font-size: 0.75em;
-                }
-                .confirm-btn {
-                    border: 3px solid black;
-                    font-size: 0.75em;
-                    font-weight: bold;
-                    width: 25%;
-                    border-radius: 36px;
-                    padding-block: 0.25em;
-                }
-                .yes-btn {
-                    border-color: #00bf63; 
-                }
-                .no-btn {
-                    border-color: #cd3a3a; 
-                }
-                .close-btn {
-                    font-size: 1.15em;
-                    color: #0872a1;
-                    border: none;
-                    background-color: inherit;
-                }
-                ` }} />
-            </Head>
-
             <Navbar />
             <form onSubmit={submitForm}>
                 <div className="flex-row justify-content-center align-items-center">
                     <Header header='Background Information'/>
-                    <Textbox question={'Name'} required={true} />
-                    <Date question={'Birthday'} required={true} />
-                    <MC question="School Type" options={["Public", "Private"]} required={true} />
-                    <Checkbox question="Favorite Subjects" options={["Math", "Science", "History", "Art"]} required={false} />
-                    <Dropdown question="Family Income" options={["10k-50k", "50k-100k", "100k-150k"]} required={true} />
+                    {/* use a .map function here */}
+                    {data.questions.map((item) => {
+                        return (<CustomInput config={item} setValues={handleInputChange} />);
+                    })}
+
+                    {/* // <CustomInput config={{question:'Name', inputType:"text", deletable:false, required:true}} setValues={handleInputChange} />
+                    // <CustomInput config={{question:'Birthday', inputType:"date", deletable:false, required:true}} setValues={handleInputChange} />
+                    // <CustomInput config={{question:'School Type', inputType:"radio", deletable:false, required:true, choices:["Public", "Private"]}} setValues={handleInputChange} />
+                    // <CustomInput config={{question:'Favorite Subjects', inputType:"checkbox", deletable:true, required:false, choices:["Math", "Science", "History", "Art"]}} setValues={handleInputChange} />
+                    // <CustomInput config={{question:'Family Income', inputType:"dropdown", deletable:false, required:true, choices:["10k-50k", "50k-100k", "100k-150k"]}} setValues={handleInputChange} />
+                    // <CustomInput config={{question:'test question', inputType:"checkbox", deletable:true, required:true, choices:["choice1","2","3","4","5","67"]}} setValues={handleInputChange} /> */}
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button className="primary" type='submit' style={{ width: '80%', margin: '10px 25px', borderRadius: '36px' }}>
                             Create Record
