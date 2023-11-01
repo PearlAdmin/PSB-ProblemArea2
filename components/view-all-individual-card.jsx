@@ -1,33 +1,10 @@
-import Head from 'next/head'
 import { Card } from 'react-bootstrap';
+import './home.cards.css'
 
 const CardIndiv = ({ lastName, firstname, scn, sc, date }) => {
   return (
       <div>
-        <Head>
-        <style dangerouslySetInnerHTML={{ __html: `        
-        #todoContainer {
-          display: flex;
-          flex-direction: column;
-          width: 80rem;
-          background-color: #c5e2ea;
-          border-radius: 5px;
-          padding: 1rem;  
-          margin: 2rem;
-        }
-        .header{
-          display: flex;
-          flex-direction: row;
-        }
-        .custom-height-31 {
-          height: 38px;
-          display: flex;
-          alignItems: center;
-          justifyContent: center;
-        }
-        `}} />
-      </Head>
-      <Card className="info d-flex flex-row align-items-center">
+        <Card className="info d-flex flex-row align-items-center">
         <div className="p-2">
           {/* based on last updated */}
           <i className="bi bi-check-circle-fill"></i>
@@ -42,7 +19,7 @@ const CardIndiv = ({ lastName, firstname, scn, sc, date }) => {
           </div>
           <div style={{ fontSize: '10px' }}><a>Last Updated: </a>{date}</div>
         </div>
-        <div className="p-2">
+        <div className="p-2 d-flex flex-row">
           <i className="bi bi-pencil-fill p-3"></i>
           <i className="bi bi-trash p-3"></i>
         </div>

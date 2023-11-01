@@ -50,7 +50,6 @@ const CreateRecord = () => {
     const submitForm = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
-        console.log(values)
     }
 
     const acceptSubmit = async () => {
@@ -95,8 +94,8 @@ const CreateRecord = () => {
                 <div className="flex-row justify-content-center align-items-center">
                     <Header header='Background Information'/>
 
-                    {data.questions.map((item) => {
-                        return (<CustomInput config={item} setValues={handleInputChange} />);
+                    {data.questions.map((item, i) => {
+                        return (<CustomInput key={i} config={item} setValues={handleInputChange} />);
                     })}
 
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
