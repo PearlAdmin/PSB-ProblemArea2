@@ -4,10 +4,13 @@ import { Button, Form, InputGroup } from '@/components/bootstrap';
 import styles from './homepage.module.css';
 import PaginationControls from "@/components/pagination";
 
-const getRecords = async () => {
+const getRecords = async ({searchParams}) => {
   try {
-    const response = await fetch('http://localhost:3000/api/records',{
-      cache: 'no-store'
+    const page = searchParams['page'] ?? '1';
+
+    const response = await fetch(`http://localhost:3000/api/records?page=${page}`,{
+      cache: 'no-store',
+      method: 'GET'
     });
 
     if (!response.ok) {
@@ -21,17 +24,8 @@ const getRecords = async () => {
 }
 
 const Home = async ({searchParams}) => {
-  const page = searchParams['page'] ?? '1';
-  const per_page = '5';
 
-  const start = (Number(page) - 1) * Number(per_page);
-  const end = start + Number(per_page);
-
-  // const entries = records.slice(start, end);
-  // console.log(entries);
-
-  const samples = await getRecords();
-  console.log(samples);
+  const data = await getRecords({searchParams});
 
   return (
     <div>
@@ -41,7 +35,18 @@ const Home = async ({searchParams}) => {
           <h3 style={{fontWeight: 'bolder'}} className="p-2 flex-grow-1">Child Records</h3>
           <Button variant="outline-dark" className={`p-2 ${styles.customHeight31} d-flex align-items-center`} style={{marginRight: '5px'}}>+ Create Record</Button>
         </div>
-        
+        {data.records.map((sample, i) => {
+          return (
+            <CardIndiv
+              key={i}
+              lastName={sample['Last Name: ']}
+              firstname={sample['First Name: ']}
+              scn={sample['SCN: ']}
+              sc={sample['SN: ']}
+              date={sample['Assigned Date: ']}
+            />
+          )
+        })}
         {/* <div className={`${styles.header} mb-3`}>
 
           <Form.Select
@@ -100,7 +105,7 @@ const Home = async ({searchParams}) => {
         /> */}
 
         {/* Pagination */}
-        <PaginationControls/>
+        <PaginationControls count={data.limit}/>
       </div>
     </div>
   )

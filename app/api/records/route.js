@@ -16,12 +16,20 @@ export async function POST(req) {
   }
 };
 
-export async function GET() {
+export async function GET(req) {
   try {
-    await dbConnect();
-    const records = await Record.find({});
+    const url = new URL(req.url);
+    const page = url.searchParams.get('page') ?? '1';
+    const per_page = '5';
 
-    return NextResponse.json({records}, {status: 200});
+    const start = (Number(page) - 1) * Number(per_page);
+    const end = start + Number(per_page);
+
+    await dbConnect();
+    const records = await Record.find({}).skip(start).limit(end);
+    const limit = await Record.countDocuments();
+
+    return NextResponse.json({records, limit}, {status: 200});
   } catch (error) {
     return NextResponse.json({message: error.message}, {status: 500});
   }
