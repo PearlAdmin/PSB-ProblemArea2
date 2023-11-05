@@ -105,7 +105,7 @@ const Home = async ({searchParams}) => {
         /> */}
 
         {/* Pagination */}
-        <PaginationControls count={data.limit}/>
+        <PaginationControls count={data.limit} perpage={data.per_page}/>
       </div>
     </div>
   )

@@ -7,7 +7,7 @@ const questionSchema = new Schema({
     },
     inputType: {
         type: String,
-        enum: ['text', 'radio', 'checkbox', 'file', 'number', 'date'],
+        enum: ['text', 'radio', 'checkbox', 'file', 'number', 'date', 'header'],
         default: 'text'
     },
     number: {

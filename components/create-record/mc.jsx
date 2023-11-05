@@ -1,4 +1,4 @@
-const MC  = ({ question, options, required, setValues }) => {
+const MC  = ({type, question, options, required, setValues }) => {
     return (
         <div>
             <div className="form-container">
@@ -13,7 +13,7 @@ const MC  = ({ question, options, required, setValues }) => {
                     <div key={index}>
                         <label>
                         <input
-                            type="radio"
+                            type={type}
                             name={question}
                             required={required}
                             value={option}

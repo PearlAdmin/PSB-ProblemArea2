@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Pathway+Extreme:wght@100;300;400;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css'); 
+
+.body {
+    font-family: 'Pathway Extreme', sans-serif;
+}
+.p {
+    margin: 0;
+}
+.input{
+    border: 0;
+}
+.input:hover {
+    border: 0;
+}
+.button:hover {
+    opacity: 50%;
+}
+.formContainerShadow {
+    padding: 0;
+    background-color: #0872a1;
+    border-radius: 10px;
+}
+.formContainer {
+    font-size: 1.15em;
+    font-weight: bold;
+    background-color: #c5e2ea;
+    padding: 0.85em;
+    border-radius: 10px;
+}
+.formContainerMoverContainer {
+    width: 3%;
+}
+.formHeader {
+    text-decoration: underline;
+    display: flex;
+}
+.formTitleContainer {
+    display: flex;
+    margin-bottom: 0.5em;
+}
+.formTitleRequired {
+    color: #cd3a3a;
+}
+.actionBtnsContainer {
+    width: 95%;
+}
+.actionBtn {
+    border-radius: 36px;
+    font-size: 0.8em;
+    padding: 0.5em 0;
+    border: 0;
+    font-weight: bold;
+    width: 25%;
+}
+.formChoice {
+    height: 100%;
+}
+.formAnswer {
+    font-weight: lighter;
+    padding: 0.15em;
+    color: black;
+}
+.formTransparent {
+    background-color: transparent;
+}
+.formDropdown {
+    font-size: 0.75em;
+}
+.popupModal {
+    display: block;
+    padding: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    position: fixed;
+}
+.popupModalBoxContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.popupModalBoxShadow {
+    width: 50%;
+    padding: 0;
+    background-color: #0872a1;
+    border-radius: 36px;
+    position: absolute;
+    text-align: center;
+}
+.popupModalBox {
+    font-size: 1.75em;
+    font-weight: bold;
+    background-color: #c5e2ea;
+    border-radius: 36px;
+    height: 100%;
+}
+.popupModalBoxTop {
+    font-size: 0.75em;
+}
+.confirmBtn {
+    border: 3px solid black;
+    font-size: 0.75em;
+    font-weight: bold;
+    width: 25%;
+    border-radius: 36px;
+    padding-block: 0.25em;
+}
+.yesBtn {
+    border-color: #00bf63; 
+    margin-right: 0.5em;
+}
+.noBtn {
+    border-color: #cd3a3a; 
+}
+.closeBtn {
+    font-size: 1.15em;
+    color: #0872a1;
+    border: none;
+    background-color: inherit;
+}
+
+.redText {
+    color: #cd3a3a;
+}
+
+.bgBlue {
+    background-color: #0872a1;
+}
+.editBlockBtn {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    margin-left: auto;
+    background: none;
+}
+.editBlockBtn:hover {
+    cursor: pointer;
+    opacity: 50%;
+}
+.bi:hover {
+    cursor: pointer;
+    opacity: 50%;
+}
+.addOptBtn:hover {
+    cursor: pointer;
+    opacity: 50%;
+}

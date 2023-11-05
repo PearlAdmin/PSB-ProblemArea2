@@ -20,7 +20,7 @@ export async function GET(req) {
   try {
     const url = new URL(req.url);
     const page = url.searchParams.get('page') ?? '1';
-    const per_page = '5';
+    const per_page = '8';
 
     const start = (Number(page) - 1) * Number(per_page);
     const end = start + Number(per_page);
@@ -29,7 +29,7 @@ export async function GET(req) {
     const records = await Record.find({}).skip(start).limit(end);
     const limit = await Record.countDocuments();
 
-    return NextResponse.json({records, limit}, {status: 200});
+    return NextResponse.json({records, limit, per_page}, {status: 200});
   } catch (error) {
     return NextResponse.json({message: error.message}, {status: 500});
   }

@@ -3,12 +3,14 @@
 import {useRouter, useSearchParams} from 'next/navigation';
 import { Pagination } from '@/components/bootstrap';
 
-const PaginationControls = (limit) => {
+const PaginationControls = ({count, perpage}) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
+    console.log("per page: ", perpage)
+
     const page = searchParams.get('page') ?? '1';
-    const maxPage = Math.ceil(limit.count / 5);
+    const maxPage = Math.ceil(count / perpage);
 
     return (
         <Pagination className="justify-content-center mt-2">
