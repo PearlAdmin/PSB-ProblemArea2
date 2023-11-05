@@ -51,9 +51,20 @@ const EditForm = () => {
         e.preventDefault();
         const newQuesID = document.getElementById('add-ques-input').value.trim();
         if(newQuesID) {
-            const newQues = <Question id={newQuesID} question={`Sample Question`} required={true}/>
+            const newQues = <Question 
+                                id={newQuesID} 
+                                question={`Sample Question`} 
+                                required={true}
+                                dbtype={"text"} 
+                                choices={null} 
+                                changeQuestion={handleChangesQuestion} 
+                                changeType={handleChangesType} 
+                                changeChoices={handleChangesChoices} 
+                                changeRequired={handleChangesRequired} 
+                            />
             setBoxes([...boxes, newQues]);
             //idk how to set number and not sure about _id
+            formRef.current = [...formRef.current, {_id:newQuesID, question:"Sample Question", inputType:"text", deletable:true, required:true}]
             setInputQuestionIDVisible(false);
         }
     }
