@@ -13,9 +13,9 @@ props will have:
 const CustomInput = (props) => {
   switch (props.config.inputType){
     //if input a text input
-    case "text":
     case "number":
-      return <Textbox question={props.config.question} required={props.config.required} setValues={props.setValues} />
+    case "text":
+      return <Textbox question={props.config.question} required={props.config.required} setValues={props.setValues} type={props.config.inputType} />
     //if input a radio choice
     case "radio":
       return <MC type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>

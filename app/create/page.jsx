@@ -92,10 +92,14 @@ const CreateRecord = () => {
             <Navbar />
             <form className={`${styles.body} container-fluid my-3 px-5 pt-3`} onSubmit={submitForm}>
                 {/* For now lang div sa Header, since feel ko it should be part of the loop */}
-                <div className={`mb-3`}><Header header='Background Information'/></div>
+                <div className={`mb-3`}><Header header='Background Information' isReadOnly={true}/></div>
 
                 {data.questions.map((item, i) => {
-                    return (<CustomInput key={i} config={item} setValues={handleInputChange} />);
+                    if(item.inputType === 'header'){
+                        return (<Header key={i} header={item.question} isReadOnly={true} />);
+                    } else {
+                        return (<CustomInput key={i} config={item} setValues={handleInputChange} />);
+                    }
                 })}
 
                 <div style={{ display: 'flex', justifyContent: 'center' }}>

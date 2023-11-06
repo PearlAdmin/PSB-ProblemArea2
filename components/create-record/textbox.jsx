@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-const Textbox = ({ question, required, setValues }) => {
+const Textbox = ({ question, required, setValues, type }) => {
     return (
         <div>
             <div className={`${styles.formContainer} col mb-3`}>
@@ -12,7 +12,7 @@ const Textbox = ({ question, required, setValues }) => {
                 </div>
                 <input
                     className={`${styles.input} ${styles.formAnswer} w-100`}
-                    type="text"
+                    type={type}
                     name={question}
                     required={required}
                     onChange={setValues}

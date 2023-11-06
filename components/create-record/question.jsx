@@ -25,6 +25,7 @@ const Question = ({ id, question, required, dbtype, choices, changeQuestion, cha
             </div>
             <div className={`${styles.formChoiceGroup}`}>
                 {type === "text" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="text" disabled required={required}></input>)}
+                {type === "number" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="number" disabled required={required}></input>)}
                 {type === "radio" && (<MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
                 {type === "checkbox" && (<MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
                 {type === "date" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="date" disabled required={required}></input>)}

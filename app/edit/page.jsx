@@ -21,12 +21,7 @@ const EditForm = () => {
     // Variables
     const {data, isLoading, error} = getQuestion()
     const formRef = useRef([])
-    const [boxes, setBoxes] = useState([
-        <Header id={0} header={'Sponsored Child Information'}/>,
-        // <Question id={1} question={'Sponsor Name'} required={true}/>,
-        // <Question id={2} question={'Child Name'} required={false}/>,
-        // <Question id={3} config={item}/>
-    ]);
+    const [boxes, setBoxes] = useState([]);
     const [isInputQuestionIDVisible, setInputQuestionIDVisible] = useState(false);
     const [isDeleteQuestionVisible, setDeleteQuestionVisible] = useState(false);
     const [isSaveChangesVisible, setSaveChangesVisible] = useState(false);
@@ -36,8 +31,9 @@ const EditForm = () => {
     // Adds a Header to the Form
     const addHeader = (e) => {
         e.preventDefault();
-        const newHead = <Header id={boxes.length} header={'Sample Title'}/>;
+        const newHead = <Header id={boxes.length} header={'Sample Title'} isReadOnly={false} changeHeader={handleChangesQuestion}/>;
         setBoxes([...boxes, newHead]);
+        formRef.current = [...formRef.current, { _id:boxes.length, question:'Sample Title', inputType:'header', deletable: true, required:false }]
     }
 
     // Adds Questionnaire Prio (ID Name input)
@@ -63,8 +59,10 @@ const EditForm = () => {
                                 changeRequired={handleChangesRequired} 
                             />
             setBoxes([...boxes, newQues]);
+
             //idk how to set number and not sure about _id
             formRef.current = [...formRef.current, {_id:newQuesID, question:"Sample Question", inputType:"text", deletable:true, required:true}]
+            
             setInputQuestionIDVisible(false);
         }
     }
@@ -74,10 +72,17 @@ const EditForm = () => {
         const currentIndex = boxes.findIndex((box) => box.props.id === id);
         if (currentIndex > 0) {
             const updatedBoxes = [...boxes];
+            const updatedForm = formRef.current
             const temp = updatedBoxes[currentIndex];
+            const tempForm = updatedForm[currentIndex]
+
             updatedBoxes[currentIndex] = updatedBoxes[currentIndex - 1];
             updatedBoxes[currentIndex - 1] = temp;
+            updatedForm[currentIndex] = updatedForm[currentIndex - 1];
+            updatedForm[currentIndex - 1] = tempForm;
+
             setBoxes(updatedBoxes);
+            formRef.current = updatedForm
         }
     };
       
@@ -85,10 +90,17 @@ const EditForm = () => {
         const currentIndex = boxes.findIndex((box) => box.props.id === id);
         if (currentIndex < boxes.length - 1) {
             const updatedBoxes = [...boxes];
+            const updatedForm = formRef.current
             const temp = updatedBoxes[currentIndex];
+            const tempForm = updatedForm[currentIndex]
+
             updatedBoxes[currentIndex] = updatedBoxes[currentIndex + 1];
             updatedBoxes[currentIndex + 1] = temp;
+            updatedForm[currentIndex] = updatedForm[currentIndex + 1];
+            updatedForm[currentIndex + 1] = tempForm;
+
             setBoxes(updatedBoxes);
+            formRef.current = updatedForm
         }
     };      
 
@@ -102,6 +114,9 @@ const EditForm = () => {
     const deleteBox = (e) => {
         const updatedBoxes = boxes.filter((box) => box.props.id !== toDelete);
         setBoxes(updatedBoxes);
+
+        formRef.current = formRef.current.filter((item) => item._id !== toDelete)
+
         setDeleteQuestionVisible(false);
     }
 
@@ -123,8 +138,29 @@ const EditForm = () => {
     }
 
     // Opens Save Changes Success
-    const openSaveSuccess = (e) => {
+    const openSaveSuccess = async (e) => {
         e.preventDefault();
+
+        try {
+            const response = await fetch('/api/forms', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formRef.current),
+            });
+      
+            if (response.ok) {
+              // Handle the successful response here
+              console.log('POST request was successful');
+            } else {
+              // Handle errors or non-2xx responses
+              console.error('POST request failed: ', response);
+            }
+          } catch (error) {
+            console.error('An error occurred:', error);
+        };
+
         setSaveSuccessVisible(true);
     }
 
@@ -137,21 +173,24 @@ const EditForm = () => {
     useEffect(() =>{
         let updatedBoxes = boxes
         if (data) {
-            // setForm(data.questions)
             formRef.current = data.questions
             console.log(formRef.current)
             data.questions.map((item, i) => {
-                updatedBoxes = [...updatedBoxes, <Question 
-                                                    id={item._id} 
-                                                    question={item.question} 
-                                                    required={item.required} 
-                                                    dbtype={item.inputType} 
-                                                    choices={item.choices} 
-                                                    changeQuestion={handleChangesQuestion} 
-                                                    changeType={handleChangesType} 
-                                                    changeChoices={handleChangesChoices} 
-                                                    changeRequired={handleChangesRequired} 
-                                                />]
+                if(item.inputType === 'header'){
+                    updatedBoxes = [...updatedBoxes, <Header id={item._id} header={item.question} isReadOnly={false} changeHeader={handleChangesQuestion}/>]
+                } else {
+                    updatedBoxes = [...updatedBoxes, <Question 
+                                                        id={item._id} 
+                                                        question={item.question} 
+                                                        required={item.required} 
+                                                        dbtype={item.inputType} 
+                                                        choices={item.choices} 
+                                                        changeQuestion={handleChangesQuestion} 
+                                                        changeType={handleChangesType} 
+                                                        changeChoices={handleChangesChoices} 
+                                                        changeRequired={handleChangesRequired} 
+                                                    />]
+                }
             })
             setBoxes(updatedBoxes)
         }
