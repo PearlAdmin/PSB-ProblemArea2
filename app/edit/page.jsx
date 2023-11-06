@@ -232,11 +232,8 @@ const EditForm = () => {
     if (error) return (<div>{error.message}</div>);
     return (
         <div>
-            <Head>
-                <style dangerouslySetInnerHTML={{ __html: `` }} />
-            </Head>
             <Navbar />
-            <form className={`${styles.body} container-fluid mx-auto my-3 px-5 pt-3`} id="form" style={{width: '740px'}}>
+            <form className={`${styles.body} container-fluid my-3 px-5 pt-3`}>
                 {/* Array generating the headers/questions */}
                 {boxes.map((box) =>
                     <div key={box.props.id} className={"row mb-3"}>

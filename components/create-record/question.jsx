@@ -16,7 +16,7 @@ const Question = ({ id, question, required, dbtype, choices, changeQuestion, cha
         <div className={`${styles.formContainer} col`}>
             <div className={`${styles.formTitleContainer}`}>
                 <input className={`${styles.input} ${styles.formAnswer} ${styles.formTransparent} w-100 fw-bold me-4`} id={id} type="text" defaultValue={question} onChange={changeQuestion}></input>
-                <select className={`${styles.formDropdown} custom-select custom-select-sm ms-auto me-4`} name="formtype" id={id} required defaultValue={defaultType} onChange={(e)=>handleTypeChange(choices, e)}>
+                <select className={`${styles.formDropdown} custom-select custom-select-sm ms-auto`} name="formtype" id={id} required defaultValue={defaultType} onChange={(e)=>handleTypeChange(choices, e)}>
                     <option value="text" >Text Box</option>
                     <option value="radio" >Multiple Choice</option>
                     <option value="checkbox" >Checkbox</option>
@@ -31,7 +31,7 @@ const Question = ({ id, question, required, dbtype, choices, changeQuestion, cha
             </div>
             <div className={`form-check form-switch my-2 d-flex`}>
                 <input className={`${styles.input} form-check-input ms-auto me-2`} type="checkbox" id={id} defaultChecked={required} onChange={changeRequired}></input>
-                <label className={`form-check-label me-3 fw-normal`}>Required</label>
+                <label className={`form-check-label fw-normal`}>Required</label>
             </div>
         </div>
     );

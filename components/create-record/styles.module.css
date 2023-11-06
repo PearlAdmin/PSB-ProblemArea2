@@ -4,6 +4,8 @@
 
 .body {
     font-family: 'Pathway Extreme', sans-serif;
+    margin-inline: auto;
+    width: 740px;
 }
 .p {
     margin: 0;
@@ -41,6 +43,7 @@
     margin-bottom: 0.5em;
 }
 .formTitleRequired {
+    padding-left: 0.15em;
     color: #cd3a3a;
 }
 .actionBtnsContainer {
@@ -147,6 +150,10 @@
 .bi:hover {
     cursor: pointer;
     opacity: 50%;
+}
+.addOptBtn {
+    border: none;
+    background: none;
 }
 .addOptBtn:hover {
     cursor: pointer;
