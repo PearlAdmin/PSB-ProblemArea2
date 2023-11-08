@@ -25,7 +25,7 @@ const getUsers = async ({searchParams}) => {
 
 const App = async ({searchParams}) => {
     const data = await getUsers({searchParams});
-    console.log(data.users, data.limit, data.per_page);
+    
     return (
         <div>
             <Navbar />

@@ -32,7 +32,6 @@ export async function GET(req){
 //UPDATE A USER (PUT)
 export async function PUT(req){
     const {lookup, username, password} = await req.json();
-    console.log(lookup, username, password);
     await dbConnect();
     const user = await User.findOne({ username: lookup });
     if(!user) {
@@ -50,7 +49,6 @@ export async function PUT(req){
 //DELETE A USER
 export async function DELETE(req){
     const {username} = await req.json();
-    console.log(username);
     await dbConnect();
 
     const user = await User.findOneAndDelete({username: username});
