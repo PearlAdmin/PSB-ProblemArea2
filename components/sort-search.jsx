@@ -16,13 +16,15 @@ function SortBy({ items }) {
 
         return data.records.slice().sort((a, b) => {
             if (sortBy === 'SCN') {
-                const scnA = parseInt(a['SCN: ']);
-                const scnB = parseInt(b['SCN: ']);
-                return scnA - scnB;
+                // const scnA = parseInt(a['SCN: ']);
+                // const scnB = parseInt(b['SCN: ']);
+                // return scnA - scnB;
+                return a['SCN: '].localeCompare(b['SCN: ']);
             } else if (sortBy === 'SN') {
-                const snA = parseInt(a['SN: ']);
-                const snB = parseInt(b['SN: ']);
-                return snA - snB;
+                // const snA = parseInt(a['SN: ']);
+                // const snB = parseInt(b['SN: ']);
+                // return snA - snB;
+                return a['SN: '].localeCompare(b['SN: ']);
             } else if (sortBy === 'Lastname') {
                 return a['Last Name: '].localeCompare(b['Last Name: ']);
             } else if (sortBy === 'Firstname') {
