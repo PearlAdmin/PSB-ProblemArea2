@@ -1,7 +1,7 @@
 import { Card } from 'react-bootstrap';
 import './home.cards.css'
 
-const CardIndiv = ({ lastName, firstname, scn, sn, date }) => {
+const CardIndiv = ({ lastName, firstname, scn, sc, date }) => {
   return (
       <div>
         <Card className="info d-flex flex-row align-items-center">
@@ -15,7 +15,7 @@ const CardIndiv = ({ lastName, firstname, scn, sn, date }) => {
           </div>
           <div style={{ display: 'flex' }}>
             <div style={{ fontSize: '10px' }}><a>SCN#</a>{scn}</div>
-            <div style={{ fontSize: '10px', marginLeft: '20px' }}><a>SN#</a>{sn}</div>
+            <div style={{ fontSize: '10px', marginLeft: '20px' }}><a>SC#</a>{sc}</div>
           </div>
           <div style={{ fontSize: '10px' }}><a>Last Updated: </a>{date}</div>
         </div>
