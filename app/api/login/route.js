@@ -2,26 +2,28 @@ import dbConnect from "@/libs/db";
 import User from "@/models/users";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { use } from "react";
 
 //GET USER
-export async function GET(req){
+export async function POST(req){
     const data = await req.json();
-    console.log(data);
-    // const SALT_WORK_FACTOR = 10;
-    // const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-    // const hash = await bcrypt.hash(password, salt)
+    console.log(data.username)
+    const SALT_WORK_FACTOR = 10;
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    const hash = await bcrypt.hash(data.password, salt)
 
 
-    // await dbConnect();
-    // const user = await User.findOne({username: username});
-    
-    // if(!user){
-    //     return NextResponse.json({message: "Username not found"}, {status: 404});
-    // }
+    await dbConnect();
+    const user = await User.findOne({username: data.username});
+  
 
-    // if(hash != user.password){
-    //     return NextResponse.json({message: "Incorrect password!"}, {status: 401});
-    // }
+    if(!user){
+        return NextResponse.json({message: "Username not found"}, {status: 404});
+    }
 
-    // return NextResponse.json({message: "Login Successfully!"}, {status: 200});
+    if(hash != user.password){
+        return NextResponse.json({message: "Incorrect password!"}, {status: 401});
+    }
+
+    return NextResponse.json({message: "Login Successfully!"}, {status: 200});
 }

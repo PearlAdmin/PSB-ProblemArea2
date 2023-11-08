@@ -1,9 +1,10 @@
 "use client";
 import {InputGroup, Button, Form} from '@/components/bootstrap';
 import CardUser from './view-authorized-user-card';
-import PaginationControls from '@/components/pagination';
+
 const UserList = (data) => {    
     const users = data.users;
+
     return (
         <div>
             <InputGroup>
@@ -32,7 +33,6 @@ const UserList = (data) => {
                     <p>No users found or data is still loading</p>
                 )
             }
-            <PaginationControls count={data.count} perpage={data.perpage} route={'manage-user'}/>
         </div>  
     );
 };
