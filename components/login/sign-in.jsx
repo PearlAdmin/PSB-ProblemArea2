@@ -2,13 +2,8 @@
 import {React, useState} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import signIn from 'next-auth/react';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
-
-const getCredentials = async (user) => {
-    console.log("hi");
-} 
-
+import { useRouter } from 'next/navigation';
 
 const LogIn = () => {
     const [passwordVisible, setPasswordVisible] = useState(false); 
@@ -17,19 +12,36 @@ const LogIn = () => {
         password: '',
     });
 
+    const router = useRouter();
+    
     const onLogin = async (event) => {
         event.preventDefault();
         const username = credentials.username;
         const password = credentials.password;
+        
 
         try {
-        await signIn('credentials', {
-            username, 
-            password,
-            callbackUrl: '/'
-        });
+            console.log(username);
+            const response = await fetch('http://localhost:3000/api/login', {
+                cache: 'no-store',
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                }),
+            });
+            console.log("Soup: ", response.ok)
+
+            if(!response.ok){
+                throw new Error('Invalid credentials');
+            }   
+            router.push('/');
+
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     }
 
