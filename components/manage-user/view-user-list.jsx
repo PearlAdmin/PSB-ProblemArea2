@@ -4,7 +4,9 @@ import CardUser from './view-authorized-user-card';
 
 const UserList = (data) => {    
     const users = data.users;
-
+    // const router = useRouter();
+    // router.refresh();
+    console.log("USER LIST RELOADED!!!");
     return (
         <div>
             <InputGroup>

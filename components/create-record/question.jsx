@@ -17,15 +17,18 @@ const Question = ({ id, question, required, dbtype, choices, changeQuestion, cha
             <div className={`${styles.formTitleContainer}`}>
                 <input className={`${styles.input} ${styles.formAnswer} ${styles.formTransparent} w-100 fw-bold me-4`} id={id} type="text" defaultValue={question} onChange={changeQuestion}></input>
                 <select className={`${styles.formDropdown} custom-select custom-select-sm ms-auto`} name="formtype" id={id} required defaultValue={defaultType} onChange={(e)=>handleTypeChange(choices, e)}>
-                    <option value="text" >Text Box</option>
+                    <option value="text" >Text</option>
+                    <option value="number" >Number</option>
+                    <option value="alphanumeric" >Alphanumeric</option>
                     <option value="radio" >Multiple Choice</option>
                     <option value="checkbox" >Checkbox</option>
                     <option value="date" >Date</option>
                 </select>
             </div>
             <div className={`${styles.formChoiceGroup}`}>
-                {type === "text" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="text" disabled required={required}></input>)}
-                {type === "number" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="number" disabled required={required}></input>)}
+                {(type === "text" || type === "number" || type === "alphanumeric") &&
+                     (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="text" disabled required={required}></input>)
+                }
                 {type === "radio" && (<MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
                 {type === "checkbox" && (<MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
                 {type === "date" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="date" disabled required={required}></input>)}
