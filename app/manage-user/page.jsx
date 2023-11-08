@@ -2,7 +2,6 @@ import Navbar from "@/components/navigation";
 import UserList from "@/components/manage-user/view-user-list";
 import Register from "@/components/manage-user/register-user";
 import PaginationControls from '@/components/pagination';
-
 import './styles.css';
 
 const getUsers = async ({searchParams}) => {
@@ -26,14 +25,15 @@ const getUsers = async ({searchParams}) => {
 
 const App = async ({searchParams}) => {
     const data = await getUsers({searchParams});
-
+    console.log(data);
     return (
         <div>
+            {console.log("------!")}
             <Navbar />
             <div className="d-flex justify-content-center text-align-center">
                 <div className="col p-3" style={{ backgroundColor: '#C5E2EA', margin: '10px', borderRadius: '10px' }}>
                     <UserList users={data.users} count={data.limit} perpage={data.per_page}/>
-                    <PaginationControls count={data.count} perpage={data.perpage} route={'manage-user'}/>
+                    <PaginationControls count={data.limit} perpage={data.per_page} route={'manage-user'}/>
                 </div>
                 <div className="col p-3" style={{ backgroundColor: '#C5E2EA', margin: '10px', borderRadius: '10px' }}>
                     <Register />

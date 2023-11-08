@@ -19,10 +19,10 @@ function getQuestion() {
 
 const EditForm = () => {
     // Variables
+    const tempID = useRef(1)
     const {data, isLoading, error} = getQuestion()
     const formRef = useRef([])
     const [boxes, setBoxes] = useState([]);
-    const [isInputQuestionIDVisible, setInputQuestionIDVisible] = useState(false);
     const [isDeleteQuestionVisible, setDeleteQuestionVisible] = useState(false);
     const [isSaveChangesVisible, setSaveChangesVisible] = useState(false);
     const [isSaveSuccessVisible, setSaveSuccessVisible] = useState(false);
@@ -31,26 +31,22 @@ const EditForm = () => {
     // Adds a Header to the Form
     const addHeader = (e) => {
         e.preventDefault();
-        const newHead = <Header id={boxes.length} header={'Sample Title'} isReadOnly={false} changeHeader={handleChangesQuestion}/>;
+        const newHead = <Header id={tempID.current} header={'Sample Title'} isReadOnly={false} changeHeader={handleChangesQuestion}/>;
         setBoxes([...boxes, newHead]);
-        formRef.current = [...formRef.current, { _id:boxes.length, question:'Sample Title', inputType:'header', deletable: true, required:false }]
-    }
-
-    // Adds Questionnaire Prio (ID Name input)
-    const inputQuestionID = (e) => {
-        e.preventDefault();
-        setInputQuestionIDVisible(true);
+        formRef.current = [...formRef.current, { _id:tempID.current, question:'Sample Title', inputType:'header', deletable: true, required:false }]
+        tempID.current = tempID.current + 1
     }
 
     // Adds a Question to the Form
     const addQuestion = (e) => {
         e.preventDefault();
-        const newQuesID = document.getElementById('add-ques-input').value.trim();
+        const newQuesID = tempID.current;
         if(newQuesID) {
             const newQues = <Question 
                                 id={newQuesID} 
                                 question={`Sample Question`} 
                                 required={true}
+                                deletable={true}
                                 dbtype={"text"} 
                                 choices={null} 
                                 changeQuestion={handleChangesQuestion} 
@@ -60,10 +56,8 @@ const EditForm = () => {
                             />
             setBoxes([...boxes, newQues]);
 
-            //idk how to set number and not sure about _id
             formRef.current = [...formRef.current, {_id:newQuesID, question:"Sample Question", inputType:"text", deletable:true, required:true}]
-            
-            setInputQuestionIDVisible(false);
+            tempID.current = tempID.current + 1
         }
     }
 
@@ -123,7 +117,7 @@ const EditForm = () => {
     // Close Popup
     const closeModal = (e) => {
         e.preventDefault();
-        setInputQuestionIDVisible(false);
+        // setInputQuestionIDVisible(false);
         setSaveChangesVisible(false);
         setSaveSuccessVisible(false);
         setDeleteQuestionVisible(false);
@@ -170,6 +164,7 @@ const EditForm = () => {
         window.location.href = '/';
     }
 
+    // Put DB data into boxes state and formRef
     useEffect(() =>{
         let updatedBoxes = boxes
         if (data) {
@@ -177,12 +172,13 @@ const EditForm = () => {
             console.log(formRef.current)
             data.questions.map((item, i) => {
                 if(item.inputType === 'header'){
-                    updatedBoxes = [...updatedBoxes, <Header id={item._id} header={item.question} isReadOnly={false} changeHeader={handleChangesQuestion}/>]
+                    updatedBoxes = [...updatedBoxes, <Header id={item._id} header={item.question} deletable={item.deletable}  isReadOnly={false} changeHeader={handleChangesQuestion}/>]
                 } else {
                     updatedBoxes = [...updatedBoxes, <Question 
                                                         id={item._id} 
                                                         question={item.question} 
-                                                        required={item.required} 
+                                                        required={item.required}
+                                                        deletable={item.deletable} 
                                                         dbtype={item.inputType} 
                                                         choices={item.choices} 
                                                         changeQuestion={handleChangesQuestion} 
@@ -196,7 +192,7 @@ const EditForm = () => {
         }
     }, [data])
 
-
+    // Handlers for edits made in the form
     const handleChangesQuestion = (e) => {
         //handle change to question and required
         const newForm = formRef.current;
@@ -252,7 +248,7 @@ const EditForm = () => {
         console.log("formRef.current: ",formRef.current)
     }
 
-    const handleChangesChoices = (options, dbid, e) => {
+    const handleChangesChoices = (options, dbid) => {
         //handle change to choices
         const newForm = formRef.current;
 
@@ -269,6 +265,7 @@ const EditForm = () => {
     
     if (isLoading) return (<div>Loading...</div>);
     if (error) return (<div>{error.message}</div>);
+
     return (
         <div>
             <Navbar />
@@ -279,7 +276,9 @@ const EditForm = () => {
                         {box}
                         <div className={`${styles.formContainerMoverContainer}`}>
                             <i className={`${styles.bi} bi-arrow-up`} onClick={() => moveUp(box.props.id)}></i>
-                            <i className={`${styles.editBlockBtn} ${styles.bi} bi-trash my-auto pe-2`} onClick={() => openDelete(box.props.id)}></i>
+                            {(box.props.deletable && 
+                                <i className={`${styles.editBlockBtn} ${styles.bi} bi-trash my-auto pe-2`} onClick={() => openDelete(box.props.id)}></i>
+                            )}
                             <i className={`${styles.bi} bi-arrow-down`} onClick={() => moveDown(box.props.id)}></i>
                         </div>
                     </div>
@@ -289,27 +288,10 @@ const EditForm = () => {
                 {/* Buttons to Add Headers, Questions, etc. */}
                 <div className={`${styles.actionBtnsContainer} row my-3`} id="action-btns-container">
                     <button className={`${styles.button} ${styles.actionBtn} mx-auto`} id="add-header-btn" onClick={addHeader}>Add Header</button>
-                    <button className={`${styles.button} ${styles.actionBtn} mx-auto`} id="add-ques-btn" onClick={inputQuestionID}>Add Question</button>
+                    <button className={`${styles.button} ${styles.actionBtn} mx-auto`} id="add-ques-btn" onClick={addQuestion}>Add Question</button>
                     <button className={`${styles.button} ${styles.actionBtn} ${styles.bgBlue} text-white mx-auto`} onClick={openSaveChanges}>Save Changes</button>
                 </div>
             </form>
-
-            {/* Add Questionnaire Prio (Input ID first) */}
-            {isInputQuestionIDVisible && (
-                <div className={`${styles.popupModal}`} id="add-confirm-container">
-                    <div className={`${styles.popupModalBoxContainer}`}>
-                        <div className={`${styles.popupModalBoxShadow} pe-2 pb-2`}>
-                            <div className={`${styles.popupModalBox}`}>
-                                <div className={`${styles.popupModalBoxTop} text-start pt-4 ps-4`}>ID Name: <input className={`${styles.formAnswer} w-75`} id="add-ques-input" type="text"></input></div>
-                                <div className={`popup=modal-box-low text-start py-4 ps-4`}>
-                                    <button className={`${styles.button} ${styles.confirmBtn} ${styles.yesBtn}`} onClick={addQuestion}>Add</button>
-                                    <button className={`${styles.button} ${styles.confirmBtn} ${styles.noBtn}`} id="add-no-btn" onClick={closeModal}>Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Save Changes Confirmation Message */}
             {isSaveChangesVisible && (

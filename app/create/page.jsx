@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Head from 'next/head';
 import Navbar from "@/components/navigation"
 import Header from '@/components/create-record/header';
@@ -19,6 +19,7 @@ function getQuestion() {
 const CreateRecord = () => {
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
     const [values, setValues] = useState({});
+    const errorMsg = useRef('')
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -68,13 +69,16 @@ const CreateRecord = () => {
               console.log('POST request was successful');
             } else {
               // Handle errors or non-2xx responses
-              console.error('POST request failed');
+                const data = await response.json()
+                errorMsg.current = data.message
+                console.error('POST request failed: ', errorMsg.current);
             }
           } catch (error) {
             console.error('An error occurred:', error);
-          
+            
         };
         setFormConfirmVisible(false);
+        console.error('errMsg: ', err);
     }
     
     const declineSubmit = () => {

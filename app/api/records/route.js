@@ -8,6 +8,15 @@ export async function POST(req) {
 
     // Insert the data into the database
     await dbConnect();
+    const doubleSCN = await Record.findOne({'SCN: ': data['SCN: ']})
+    const doubleSN = await Record.findOne({'SN: ': data['SN: ']})
+
+    if(doubleSCN) {
+      return NextResponse.json({message: 'SCN should be unique'}, {status: 500});
+    } else if (doubleSN) {
+      return NextResponse.json({message: 'SN should be unique'}, {status: 500});
+    }
+
     await Record.create(data);
 
     return NextResponse.json({message: "Record created successfully"}, {status: 201});
