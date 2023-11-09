@@ -14,7 +14,12 @@ const LogIn = () => {
     });
 
     const router = useRouter();
-    const [cookies, setCookie] = useCookies(['your-cookie-name']);
+    const [cookies, setCookie] = useCookies(['user']);  
+    const [cookieValue, setCookieValue] = useState ({
+        username: '',
+        role: '',
+    })
+    
     const onLogin = async (event) => {
         event.preventDefault();
         const username = credentials.username;
@@ -39,7 +44,7 @@ const LogIn = () => {
                 throw new Error('Invalid credentials');
             }   
             
-            setCookie('user', 'test', { path: '/'});
+            setCookie('user', cookie_value, { path: '/'});
 
             router.push('/');
         } catch (error) {
