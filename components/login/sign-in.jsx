@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
+import { CookiesProvider, useCookies } from 'react-cookie';
 
 const LogIn = () => {
     const [passwordVisible, setPasswordVisible] = useState(false); 
@@ -13,7 +14,7 @@ const LogIn = () => {
     });
 
     const router = useRouter();
-    
+    const [cookies, setCookie] = useCookies(['your-cookie-name']);
     const onLogin = async (event) => {
         event.preventDefault();
         const username = credentials.username;
@@ -33,13 +34,14 @@ const LogIn = () => {
                     password: password,
                 }),
             });
-            console.log("Soup: ", response.ok)
 
             if(!response.ok){
                 throw new Error('Invalid credentials');
             }   
-            router.push('/');
+            
+            setCookie('user', 'test', { path: '/'});
 
+            router.push('/');
         } catch (error) {
             console.log(error);
         }
@@ -50,6 +52,7 @@ const LogIn = () => {
     };
 
     return (
+        <CookiesProvider>
         <div>
             <Head>
                 <style dangerouslySetInnerHTML={{ __html: `        
@@ -126,6 +129,7 @@ const LogIn = () => {
                 </div>
             </div>
         </div>
+        </CookiesProvider>
     )
 }
 export default LogIn;
