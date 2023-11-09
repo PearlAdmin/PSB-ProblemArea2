@@ -2,7 +2,8 @@ import dbConnect from "@/libs/db";
 import User from "@/models/users";
 import { NextResponse } from "next/server";
 
-//GET USER
+
+// GET USER
 export async function POST(req){
     const data = await req.json();
     
@@ -19,5 +20,12 @@ export async function POST(req){
         return NextResponse.json({message: "Incorrect password!"}, {status: 401});
     }
 
-    return NextResponse.json({message: "Login Successfully!"}, {status: 200});
+
+    return NextResponse.json({
+        message: "Login Successfully!",
+        user: {
+            username: user.username,
+            role: user.role,
+        },
+    }, { status: 200 });
 }

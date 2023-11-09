@@ -3,7 +3,8 @@ import Navbar from "@/components/navigation";
 import { Button/*, Form, InputGroup*/ } from '@/components/bootstrap';
 import styles from './homepage.module.css';
 import PaginationControls from "@/components/pagination";
-import SortBy from "@/components/sort-search"
+import SortBy from "@/components/sort-search";
+import { cookies } from 'next/headers';
 
 const getRecords = async ({searchParams}) => {
   try {
@@ -28,16 +29,28 @@ const Home = async ({searchParams}) => {
 
   const data = await getRecords({searchParams});
 
+  const cookieStore = cookies()
+  const cookieUser = cookieStore.get('user')
+  const { username, role } = JSON.parse(cookieUser.value);
+  
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="d-flex justify-content-center align-items-center">
         <div id="todoContainer" className={styles.todoContainer}>
           <div className={styles.header}>
-            <h3 style={{fontWeight: 'bolder'}} className="p-2 flex-grow-1">Child Records</h3>
-            <Button variant="outline-dark" className={`p-2 ${styles.customHeight31} d-flex align-items-center`} style={{marginRight: '5px'}}>+ Create Record</Button>
+            <h3 style={{ fontWeight: "bolder" }} className="p-2 flex-grow-1">
+              Child Records
+            </h3>
+            <Button
+              variant="outline-dark"
+              className={`p-2 ${styles.customHeight31} d-flex align-items-center`}
+              style={{ marginRight: "5px" }}
+            >
+              + Create Record
+            </Button>
           </div>
-          <SortBy items={data} />
+          {/* <SortBy items={data} /> */}
 
           {/* {data.records.map((sample, i) => {
             return (
@@ -88,7 +101,7 @@ const Home = async ({searchParams}) => {
               <option value="Firstname">Firstname</option>
             </Form.Select>
           </div> */}
-          
+
           {/* Individual Child Records */}
           {/* Sample input 1 */}
           {/* <CardIndiv
@@ -98,7 +111,7 @@ const Home = async ({searchParams}) => {
             sc="0001"
             date="October 18, 2023"
           /> */}
-  
+
           {/* Sample input 2 */}
           {/* <CardIndiv
             lastName="Johnson"
@@ -107,13 +120,13 @@ const Home = async ({searchParams}) => {
             sc="0010"
             date="September 25, 2023"
           /> */}
-  
+
           {/* Pagination */}
-          <PaginationControls count={data.limit} perpage={data.per_page}/>
+          <PaginationControls count={data.limit} perpage={data.per_page} />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Home;

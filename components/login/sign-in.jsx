@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
-import { CookiesProvider, useCookies } from 'react-cookie';
+import { setUserCookie, signIn } from '@/app/login/page';
 
 const LogIn = () => {
     const [passwordVisible, setPasswordVisible] = useState(false); 
@@ -14,50 +14,36 @@ const LogIn = () => {
     });
 
     const router = useRouter();
-    const [cookies, setCookie] = useCookies(['user']);  
-    const [cookieValue, setCookieValue] = useState ({
-        username: '',
-        role: '',
-    })
     
     const onLogin = async (event) => {
         event.preventDefault();
-        const username = credentials.username;
-        const password = credentials.password;
-        
 
         try {
-            console.log(username);
-            const response = await fetch('http://localhost:3000/api/login', {
-                cache: 'no-store',
-                method: 'POST',
-                headers:{
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                }),
-            });
+            const response = await signIn(credentials);
+            console.log("test", response);
+            
 
-            if(!response.ok){
+            if(!response.success){
                 throw new Error('Invalid credentials');
             }   
             
-            setCookie('user', cookie_value, { path: '/'});
+            // Gets data from the server call
+            console.log(response.username, " soup " , response.role);
 
+            // Sets the cookies
+            setUserCookie(response.username, response.role)
             router.push('/');
         } catch (error) {
             console.log(error);
         }
     }
 
+
     const togglePasswordVisibility = () => {
         setPasswordVisible(!passwordVisible);
     };
 
     return (
-        <CookiesProvider>
         <div>
             <Head>
                 <style dangerouslySetInnerHTML={{ __html: `        
@@ -134,7 +120,6 @@ const LogIn = () => {
                 </div>
             </div>
         </div>
-        </CookiesProvider>
     )
 }
 export default LogIn;
