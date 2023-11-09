@@ -23,6 +23,8 @@ const CreateRecord = () => {
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
+
+        e.target.setCustomValidity('')
     
         // Use a copy of the current values object
         let updatedValues = values;
@@ -53,8 +55,39 @@ const CreateRecord = () => {
         setFormConfirmVisible(true);
     }
 
+    function validateSN(inputID) {
+        const input = document.getElementById(inputID);
+        const validityState = input.validity;
+        console.log(validityState)
+      
+        if (errorMsg.current == "SN should be unique") {
+          input.setCustomValidity(errorMsg.current);
+        } else {
+          input.setCustomValidity("");
+        }
+      
+        input.reportValidity();
+    }
+
+    function validateSCN(inputID) {
+        const input = document.getElementById(inputID);
+        const validityState = input.validity;
+        console.log(validityState)
+      
+        if (errorMsg.current == "SCN should be unique") {
+          input.setCustomValidity(errorMsg.current);
+        } else {
+          input.setCustomValidity("");
+        }
+      
+        input.reportValidity();
+    }
+
+
     const acceptSubmit = async () => {
         // Save your data if needed
+        errorMsg.current = ''
+
         try {
             const response = await fetch('/api/records', {
               method: 'POST',
@@ -77,8 +110,12 @@ const CreateRecord = () => {
             console.error('An error occurred:', error);
             
         };
+
+        validateSN('654c21139f5068a62536644f')
+        validateSCN('654c21139f5068a625366454')
+
         setFormConfirmVisible(false);
-        console.error('errMsg: ', err);
+        console.error('errMsg: ', errorMsg.current);
     }
     
     const declineSubmit = () => {
