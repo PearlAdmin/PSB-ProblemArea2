@@ -31,7 +31,7 @@ const EditForm = () => {
     // Adds a Header to the Form
     const addHeader = (e) => {
         e.preventDefault();
-        const newHead = <Header id={tempID.current} header={'Sample Title'} isReadOnly={false} changeHeader={handleChangesQuestion}/>;
+        const newHead = <Header id={tempID.current} header={'Sample Title'} isReadOnly={false} changeHeader={handleChangesQuestion} deletable={true}/>;
         setBoxes([...boxes, newHead]);
         formRef.current = [...formRef.current, { _id:tempID.current, question:'Sample Title', inputType:'header', deletable: true, required:false }]
         tempID.current = tempID.current + 1
