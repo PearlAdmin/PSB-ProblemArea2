@@ -19,7 +19,10 @@ const getRecords = async ({searchParams}) => {
       throw new Error('Failed to fetch records...');
     }
 
-    return response.json();
+    return new Promise((resolve) => 
+      setTimeout(() => {
+        resolve(response.json())
+      }, 1000));
   } catch (error) {
     console.log("Error loading topics: ", error);
   }
@@ -72,5 +75,7 @@ const Home = async ({searchParams}) => {
     </div>
   );
 }
+
+export const dynamic = 'force-dynamic';
 
 export default Home;

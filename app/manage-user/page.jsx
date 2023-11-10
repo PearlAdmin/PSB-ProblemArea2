@@ -16,18 +16,23 @@ const getUsers = async ({searchParams}) => {
       if (!response.ok) {
         throw new Error('Failed to fetch authorized users records...');
       }
-      return response.json();
+
+      const res = response.json();
+
+      return new Promise((resolve) => 
+        setTimeout(() => {
+          resolve(res)
+        }, 1000));
     } catch (error) {
       console.log("Error loading authorized users: ", error);
     }
 }
 
-const App = async ({searchParams}) => {
+const ManageUser = async ({searchParams}) => {
     const data = await getUsers({searchParams});
-    console.log(data);
+
     return (
         <div>
-            {console.log("------!")}
             <Navbar />
             <div className="d-flex justify-content-center text-align-center">
                 <div className="col p-3" style={{ backgroundColor: '#C5E2EA', margin: '10px', borderRadius: '10px' }}>
@@ -42,4 +47,6 @@ const App = async ({searchParams}) => {
     );
 };
 
-export default App;
+export const dynamic = 'force-dynamic';
+
+export default ManageUser;
