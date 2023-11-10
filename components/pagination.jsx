@@ -7,8 +7,6 @@ const PaginationControls = ({count, perpage, route}) => {
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    console.log("per page: ", perpage)
-
     const page = searchParams.get('page') ?? '1';
     const maxPage = Math.ceil(count / perpage);
     route = route ?? ''; 

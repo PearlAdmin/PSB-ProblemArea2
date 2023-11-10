@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
 
-const CardUser = ({ username: initialUsername, password: initialPassword }) => {
+const CardUser = ({ username: initialUsername, password: initialPassword, pageNum}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState(initialUsername);
   const [password, setPassword] = useState(initialPassword);
@@ -87,8 +87,16 @@ const CardUser = ({ username: initialUsername, password: initialPassword }) => {
     }else{
       alert("Could not delete user!");
     }
-  
   }
+
+  const [state, setState] = useState(pageNum);
+
+  if (state !== pageNum) {
+    setState(pageNum);
+    setUsername(initialUsername);
+    setPassword(initialPassword);
+  }
+
   return (
     <div>
       <Card className="mb-1">

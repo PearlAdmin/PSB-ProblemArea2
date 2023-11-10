@@ -1,9 +1,13 @@
 "use client";
 import {InputGroup, Button, Form} from '@/components/bootstrap';
 import CardUser from './view-authorized-user-card';
-import PaginationControls from '@/components/pagination';
+import { useSearchParams } from 'next/navigation';
+
 const UserList = (data) => {    
     const users = data.users;
+    const searchParams = useSearchParams();
+    const page = searchParams.get('page') ?? '1';
+
     return (
         <div>
             <InputGroup>
@@ -26,13 +30,13 @@ const UserList = (data) => {
                             key={index}
                             username={users.username}
                             password={users.password}
+                            pageNum={page}
                         />
                     ))
                 ) : (
                     <p>No users found or data is still loading</p>
                 )
             }
-            <PaginationControls count={data.count} perpage={data.perpage} route={'manage-user'}/>
         </div>  
     );
 };

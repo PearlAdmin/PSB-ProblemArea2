@@ -6,11 +6,11 @@ import './nav.styles.css'
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
-
+    
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
-
+    
     return (
         <div style={{ marginBottom: '75px' }}>
             <nav className="navbar navbar-light bg-light fixed-top" id="navbar">

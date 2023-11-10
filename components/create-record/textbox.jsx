@@ -1,18 +1,22 @@
-const Textbox = ({ question, required, setValues }) => {
+import styles from './styles.module.css';
+
+const Textbox = ({ id, question, required, setValues, validation }) => {
     return (
         <div>
-            <div className="form-container">
-                <div className="d-flex align-items-center">
-                    <label className={`form-title ${!required ? 'flex-grow-1' : ''}`} htmlFor="question">
+            <div className={`${styles.formContainer} col mb-3`}>
+                <div className={`${styles.formTitleContainer}`}>
+                    <label className={`${styles.formAnswer} ${styles.formTransparent} w-100 fw-bold d-flex me-4 ${!required ? 'flex-grow-1' : ''}`} htmlFor="question">
                         {question}
+                        {required && <div className={`${styles.formTitleRequired}`}>*</div>}
                     </label>
-                    {required && <div className="form-title form-title-required p-2 flex-grow-1">*</div>}
                 </div>
                 <input
-                    className="form-answer w-100"
+                    className={`${styles.input} ${styles.formAnswer} w-100`}
+                    id={id}
                     type="text"
                     name={question}
                     required={required}
+                    pattern={validation}
                     onChange={setValues}
                 />
             </div>

@@ -13,18 +13,21 @@ props will have:
 const CustomInput = (props) => {
   switch (props.config.inputType){
     //if input a text input
-    case "text":
     case "number":
-      return <Textbox question={props.config.question} required={props.config.required} setValues={props.setValues} />
+      return <Textbox id={props.config._id} question={props.config.question} required={props.config.required} setValues={props.setValues} validation={'[0-9]+'} />
+    case "alphanumeric":
+      return <Textbox id={props.config._id} question={props.config.question} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9]+'} />
+    case "text":
+      return <Textbox id={props.config._id} question={props.config.question} required={props.config.required} setValues={props.setValues} />
     //if input a radio choice
     case "radio":
-      return <MC type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>
+      return <MC id={props.config._id} type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>
     //if input a checkbox choice
     case "checkbox":
-        return <MC type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
+        return <MC id={props.config._id} type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
     //if input a date input
     case "date":
-        return <Date question={props.config.question} required={props.config.required} setValues={props.setValues} />
+        return <Date id={props.config._id} question={props.config.question} required={props.config.required} setValues={props.setValues} />
   }
   // i dunno how we would do file ;-;
     };
