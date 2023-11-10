@@ -7,7 +7,7 @@ export async function signIn(user) {
   const password = user.password;
 
   try {
-      const response = await fetch('http://localhost:3000/api/login', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+'/api/login', {
           cache: 'no-store',
           method: 'POST',
           headers: {
@@ -48,8 +48,17 @@ export async function setUserCookie(username, role){
         path: '/',
       });
     }
-    //TODO: what do if cookie exist
 ;}
+
+export async function handleCookie(){
+  if(!cookies().has('user')){
+    return false;
+  } else{
+    //TODO: check if user.username exists in DB
+    //returns true if user.username is still a valid user
+    return true;
+  }
+}
 
 const App = () => {
     return (

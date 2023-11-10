@@ -3,14 +3,15 @@ import CardIndiv from "@/components/view-all-individual-card";
 import { Button/*, Form, InputGroup*/ } from '@/components/bootstrap';
 import styles from './homepage.module.css';
 import PaginationControls from "@/components/pagination";
+import { handleCookie } from "./login/page";
 // import SortBy from "@/components/sort-search";
-// import { cookies } from 'next/headers';
+
 
 const getRecords = async ({searchParams}) => {
   try {
     const page = searchParams['page'] ?? '1';
 
-    const response = await fetch(`http://localhost:3000/api/records?page=${page}`,{
+    const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?page=${page}`,{
       cache: 'no-store',
       method: 'GET'
     });
@@ -29,16 +30,11 @@ const getRecords = async ({searchParams}) => {
 }
 
 const Home = async ({searchParams}) => {
-
   const data = await getRecords({searchParams});
-
-  // const cookieStore = cookies()
-  // const cookieUser = cookieStore.get('user')
-  // const { username, role } = JSON.parse(cookieUser.value);
-  
+  const cookieResult = await handleCookie();  
   return (
     <div>
-      <Navbar />
+      <Navbar cookie = {cookieResult} />
       <div className="d-flex justify-content-center align-items-center">
         <div id="todoContainer" className={styles.todoContainer}>
           <div className={styles.header}>

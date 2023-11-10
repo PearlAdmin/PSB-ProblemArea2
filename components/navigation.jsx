@@ -1,11 +1,20 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import './nav.styles.css'
+import { useRouter } from 'next/navigation';
 
-const Navbar = () => {
+const Navbar = (cookieResult) => {
     const [showMenu, setShowMenu] = useState(false);
+    const router = useRouter();
+
+    useEffect( () => {
+        console.log(cookieResult.cookie);
+        if(!cookieResult.cookie){
+            router.push('/login');
+        } 
+    })
     
     const toggleMenu = () => {
         setShowMenu(!showMenu);

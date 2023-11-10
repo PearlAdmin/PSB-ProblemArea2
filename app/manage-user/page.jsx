@@ -8,7 +8,7 @@ const getUsers = async ({searchParams}) => {
     try {
       const page = searchParams['page'] ?? '1';
     
-      const response = await fetch(`http://localhost:3000/api/manage-user?page=${page}`,{
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/manage-user?page=${page}`,{
         cache: 'no-store',
         method: 'GET'
       });
