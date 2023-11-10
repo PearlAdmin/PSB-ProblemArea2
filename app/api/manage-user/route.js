@@ -21,11 +21,10 @@ export async function GET(req){
         const per_page = '5';
 
         const start = (Number(page) - 1) * Number(per_page);
-        const end = start + Number(per_page);
 
         await dbConnect();
         const limit = await User.countDocuments();
-        const users = await User.find({}).skip(start).limit(end);
+        const users = await User.find({}).skip(start).limit(Number(per_page));
         
         return NextResponse.json({users, limit, per_page}, {status: 200});
     } catch {

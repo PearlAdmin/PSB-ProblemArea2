@@ -1,6 +1,5 @@
 "use client";
 import { useRef, useState } from 'react';
-import Head from 'next/head';
 import Navbar from "@/components/navigation"
 import Header from '@/components/create-record/header';
 import { Button } from 'react-bootstrap';
@@ -9,12 +8,6 @@ import useSWR from 'swr';
 import styles from '@/components/create-record/styles.module.css';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
-
-function getQuestion() {
-    const { data, isLoading, error } = useSWR('/api/forms', fetcher);
-
-    return {data, isLoading, error};
-}
 
 const CreateRecord = () => {
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
@@ -122,7 +115,7 @@ const CreateRecord = () => {
         setFormConfirmVisible(false);
     }
 
-    const {data, isLoading, error} = getQuestion();
+    const {data, isLoading, error} = useSWR('/api/forms', fetcher);
 
     if (isLoading) return (<div>Loading...</div>);
     

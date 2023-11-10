@@ -9,7 +9,7 @@ const PaginationControls = ({count, perpage, route}) => {
 
     const page = searchParams.get('page') ?? '1';
     const maxPage = Math.ceil(count / perpage);
-    route = route + '/'?? ''; 
+    route = route ?? ''; 
 
     return (
         <Pagination className="justify-content-center mt-2">

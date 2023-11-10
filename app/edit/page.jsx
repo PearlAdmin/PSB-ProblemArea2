@@ -11,16 +11,10 @@ import useSWR from 'swr';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-function getQuestion() {
-    const { data, isLoading, error } = useSWR('/api/forms', fetcher);
-    
-    return {data, isLoading, error};
-}
-
 const EditForm = () => {
     // Variables
     const tempID = useRef(1)
-    const {data, isLoading, error} = getQuestion()
+    const {data, isLoading, error} = useSWR('/api/forms', fetcher);
     const formRef = useRef([])
     const [boxes, setBoxes] = useState([]);
     const [isDeleteQuestionVisible, setDeleteQuestionVisible] = useState(false);
@@ -172,9 +166,10 @@ const EditForm = () => {
             console.log(formRef.current)
             data.questions.map((item, i) => {
                 if(item.inputType === 'header'){
-                    updatedBoxes = [...updatedBoxes, <Header id={item._id} header={item.question} deletable={item.deletable}  isReadOnly={false} changeHeader={handleChangesQuestion}/>]
+                    updatedBoxes = [...updatedBoxes, <Header key={i} id={item._id} header={item.question} deletable={item.deletable}  isReadOnly={false} changeHeader={handleChangesQuestion}/>]
                 } else {
                     updatedBoxes = [...updatedBoxes, <Question 
+                                                        key={i}
                                                         id={item._id} 
                                                         question={item.question} 
                                                         required={item.required}

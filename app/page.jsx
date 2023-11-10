@@ -1,10 +1,10 @@
 import Navbar from "@/components/navigation";
-// import CardIndiv from "@/components/view-all-individual-card";
+import CardIndiv from "@/components/view-all-individual-card";
 import { Button/*, Form, InputGroup*/ } from '@/components/bootstrap';
 import styles from './homepage.module.css';
 import PaginationControls from "@/components/pagination";
-import SortBy from "@/components/sort-search";
-import { cookies } from 'next/headers';
+// import SortBy from "@/components/sort-search";
+// import { cookies } from 'next/headers';
 
 const getRecords = async ({searchParams}) => {
   try {
@@ -29,9 +29,9 @@ const Home = async ({searchParams}) => {
 
   const data = await getRecords({searchParams});
 
-  const cookieStore = cookies()
-  const cookieUser = cookieStore.get('user')
-  const { username, role } = JSON.parse(cookieUser.value);
+  // const cookieStore = cookies()
+  // const cookieUser = cookieStore.get('user')
+  // const { username, role } = JSON.parse(cookieUser.value);
   
   return (
     <div>
@@ -52,7 +52,7 @@ const Home = async ({searchParams}) => {
           </div>
           {/* <SortBy items={data} /> */}
 
-          {/* {data.records.map((sample, i) => {
+          {data.records.map((sample, i) => {
             return (
               <CardIndiv
                 key={i}
@@ -64,62 +64,6 @@ const Home = async ({searchParams}) => {
               />
             )
           })}
-          <div className={`${styles.header} mb-3`}>
-  
-            <Form.Select
-              id="searchChild"
-              name="searchChild"
-              className={`custom-select ${styles.customHeight31}`}
-              style={{ width: '80px' }}
-              defaultValue={"SCN"}
-            >
-              <option value="SCN">SCN</option>
-              <option value="SC">SC</option>
-              <option value="Lastname">Lastname</option>
-              <option value="Firstname">Firstname</option>
-            </Form.Select>
-  
-            <InputGroup style={{marginRight: '5px'}}>
-              <Form.Control type="text" placeholder="Search..." id="search" name="search" />
-                <Button variant="secondary" size="sm">
-                  <i className={`${styles.i} bi bi-search`}></i>
-                </Button>
-            </InputGroup>
-  
-            <div className={`${styles.customHeight31}  align-items-center p-2`} style={{width: '90px'}}>Sort By:</div>
-  
-            <Form.Select
-              id="searchChild"
-              name="searchChild"
-              className={`custom-select ${styles.customHeight31}`}
-              style={{width: '200px'}}
-              defaultValue={"SCN"}
-            >
-              <option value="SCN">SCN</option>
-              <option value="SC">SC</option>
-              <option value="Lastname">Lastname</option>
-              <option value="Firstname">Firstname</option>
-            </Form.Select>
-          </div> */}
-
-          {/* Individual Child Records */}
-          {/* Sample input 1 */}
-          {/* <CardIndiv
-            lastName="Smith"
-            firstname="Alice"
-            scn="1234"
-            sc="0001"
-            date="October 18, 2023"
-          /> */}
-
-          {/* Sample input 2 */}
-          {/* <CardIndiv
-            lastName="Johnson"
-            firstname="Bob"
-            scn="5678"
-            sc="0010"
-            date="September 25, 2023"
-          /> */}
 
           {/* Pagination */}
           <PaginationControls count={data.limit} perpage={data.per_page} />

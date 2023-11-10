@@ -1,12 +1,13 @@
 "use client";
 import {InputGroup, Button, Form} from '@/components/bootstrap';
 import CardUser from './view-authorized-user-card';
+import { useSearchParams } from 'next/navigation';
 
 const UserList = (data) => {    
     const users = data.users;
-    // const router = useRouter();
-    // router.refresh();
-    console.log("USER LIST RELOADED!!!");
+    const searchParams = useSearchParams();
+    const page = searchParams.get('page') ?? '1';
+
     return (
         <div>
             <InputGroup>
@@ -29,6 +30,7 @@ const UserList = (data) => {
                             key={index}
                             username={users.username}
                             password={users.password}
+                            pageNum={page}
                         />
                     ))
                 ) : (
