@@ -1,37 +1,44 @@
 'use client'
-import {React, useState} from 'react';
+import {React, useState, useEffect} from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
-import { setUserCookie, signIn } from '@/app/login/page';
+import { signIn } from '@/app/login/page';
+import { useCookies } from 'react-cookie';
 
 const LogIn = () => {
+    const router = useRouter();
+    const [cookies, setCookie] = useCookies(['user']);
+ 
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const [credentials, setCredentials] = useState({
         username: '',
         password: '',
     });
 
-    const router = useRouter();
+    
     
     const onLogin = async (event) => {
         event.preventDefault();
 
         try {
             const response = await signIn(credentials);
-            console.log("test", response);
-            
-
+    
             if(!response.success){
                 throw new Error('Invalid credentials');
             }   
-            
-            // Gets data from the server call
-            console.log(response.username, " soup " , response.role);
-
             // Sets the cookies
-            setUserCookie(response.username, response.role)
+            const username = response.username;
+            const role = response.role;
+            const rememberMe = false;
+            const cookieValue = { username, role, rememberMe};
+
+            setCookie(
+                'user',
+                JSON.stringify(cookieValue),
+                {path: '/'}
+            )
             router.push('/');
         } catch (error) {
             console.log(error);
