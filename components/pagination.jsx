@@ -2,7 +2,6 @@
 
 import {useRouter, useSearchParams} from 'next/navigation';
 import { Pagination } from '@/components/bootstrap';
-import { basePath } from '@/next.config';
 
 const PaginationControls = ({count, perpage, route}) => {
     const router = useRouter();
@@ -11,7 +10,7 @@ const PaginationControls = ({count, perpage, route}) => {
     const page = searchParams.get('page') ?? '1';
     const maxPage = Math.ceil(count / perpage);
     route = route ?? ''; 
-    basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     return (
         <Pagination className="justify-content-center mt-2">
