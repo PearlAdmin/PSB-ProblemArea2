@@ -1,4 +1,3 @@
-'use server'
 import LogIn from "@/components/login/sign-in";
 
 export async function signIn(user) {
@@ -37,9 +36,9 @@ export async function signIn(user) {
 
 const App = () => {
     return (
-          <div>
-            <LogIn />
-          </div>
+        <div>
+          <LogIn />
+        </div>
     );
 };
 
