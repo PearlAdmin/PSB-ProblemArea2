@@ -5,11 +5,12 @@ import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/app/login/page';
-
+import { useCookies } from 'react-cookie';
 
 const LogIn = () => {
     const router = useRouter();
-
+    const [cookies, setCookie] = useCookies(['user']);
+ 
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const [credentials, setCredentials] = useState({
         username: '',
@@ -27,9 +28,17 @@ const LogIn = () => {
             if(!response.success){
                 throw new Error('Invalid credentials');
             }   
-        
             // Sets the cookies
-   
+            const username = response.username;
+            const role = response.role;
+            const rememberMe = false;
+            const cookieValue = { username, role, rememberMe};
+
+            setCookie(
+                'user',
+                JSON.stringify(cookieValue),
+                {path: '/'}
+            )
             router.push('/');
         } catch (error) {
             console.log(error);

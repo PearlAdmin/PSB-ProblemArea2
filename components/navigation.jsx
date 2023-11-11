@@ -115,6 +115,14 @@ const Navbar = () => {
                             </li>
                         <li 
                             className="navbar-menu-option"
+                            onClick={() => router.push('/')}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                router.push('/');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
                             >
                                 Deleted Records
                             </li>
