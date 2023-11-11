@@ -4,24 +4,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
-import { handleCookie, setUserCookie, signIn } from '@/app/login/page';
-
-
+import { signIn } from '@/app/login/page';
 
 
 const LogIn = () => {
     const router = useRouter();
-    useEffect( () => {
-        //asynchronous function to request cookie handling from the server, 
-        const validateCookie = async () => {
-            const response = await handleCookie();
-            if(response){
-                router.push('/');
-            }
-        } 
-        // run cookie validation
-        validateCookie();
-    });
 
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const [credentials, setCredentials] = useState({
@@ -42,7 +29,7 @@ const LogIn = () => {
             }   
         
             // Sets the cookies
-            setUserCookie(response.username, response.role)
+   
             router.push('/');
         } catch (error) {
             console.log(error);

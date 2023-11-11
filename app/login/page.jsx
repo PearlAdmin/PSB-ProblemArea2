@@ -1,6 +1,5 @@
 'use server'
 import LogIn from "@/components/login/sign-in";
-import {cookies} from 'next/headers';
 
 export async function signIn(user) {
   const username = user.username;
@@ -36,38 +35,11 @@ export async function signIn(user) {
   }
 }
 
-
-export async function setUserCookie(username, role){
-    if(!cookies().has('user')){
-      cookies().set({
-        name: 'user',
-        value: JSON.stringify({
-          username: username, 
-          role: role,
-        }),
-        path: '/',
-      });
-    }
-;}
-
-export async function handleCookie(){
-  if(!cookies().has('user')){
-    return false;
-  } else{
-    //TODO: check if user.username exists in DB
-    //returns true if user.username is still a valid user
-    return true;
-  }
-}
-export async function handleLogout(){
-  cookies().delete('user');
-}
-
 const App = () => {
     return (
-        <div>
-          <LogIn />
-        </div>
+          <div>
+            <LogIn />
+          </div>
     );
 };
 

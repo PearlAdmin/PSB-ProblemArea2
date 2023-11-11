@@ -5,31 +5,11 @@ import Image from 'next/image';
 import './nav.styles.css'
 import { useRouter } from 'next/navigation';
 
-const Navbar = ({handleCookie, handleLogout}) => {
+const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const router = useRouter();
 
-    // UNDER CONSTRUCTION DO NOT DELETE!!
-    // const cookie = document.cookie;
-    // console.log(cookie)
-    // useEffect(() => {
-    //     console.log('SOUP');
-    //     const checkCookie = async () => {
-    //         try {
-    //             const result = await handleCookie();
-    //             console.log(result);
-    //             if (!result) {
-    //                 router.push('/login');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error checking cookie:', error);
-    //         }
-    //     };
-    
-    //     checkCookie();
-    // }, [handleCookie, router]);
-    
-    
+
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };

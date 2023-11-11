@@ -3,7 +3,6 @@ import CardIndiv from "@/components/view-all-individual-card";
 import { Button/*, Form, InputGroup*/ } from '@/components/bootstrap';
 import styles from './homepage.module.css';
 import PaginationControls from "@/components/pagination";
-import { handleCookie, handleLogout } from "./login/page";
 // import SortBy from "@/components/sort-search";
 
 const getRecords = async ({searchParams}) => {
@@ -32,7 +31,7 @@ const Home = async ({searchParams}) => {
   const data = await getRecords({searchParams});  
   return (
     <div>
-      <Navbar handleCookie = {handleCookie} handleLogout = {handleLogout} />
+      <Navbar />
       <div className="d-flex justify-content-center align-items-center">
         <div id="todoContainer" className={styles.todoContainer}>
           <div className={styles.header}>
