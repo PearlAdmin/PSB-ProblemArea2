@@ -9,12 +9,14 @@ const Navbar = (cookieResult) => {
     const [showMenu, setShowMenu] = useState(false);
     const router = useRouter();
 
-    useEffect( () => {
-        console.log(cookieResult.cookie);
-        if(!cookieResult.cookie){
-            router.push('/login');
-        } 
-    })
+    //Comented code is work in progress
+
+    // useEffect( () => {
+    //     console.log(cookieResult.cookie);
+    //     if(!cookieResult.cookie){
+    //         router.push('/login');
+    //     } 
+    // })
     
     const toggleMenu = () => {
         setShowMenu(!showMenu);
