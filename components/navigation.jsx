@@ -5,18 +5,30 @@ import Image from 'next/image';
 import './nav.styles.css'
 import { useRouter } from 'next/navigation';
 
-const Navbar = (cookieResult) => {
+const Navbar = ({handleCookie, handleLogout}) => {
     const [showMenu, setShowMenu] = useState(false);
     const router = useRouter();
 
-    //Comented code is work in progress
-
-    // useEffect( () => {
-    //     console.log(cookieResult.cookie);
-    //     if(!cookieResult.cookie){
-    //         router.push('/login');
-    //     } 
-    // })
+    // UNDER CONSTRUCTION DO NOT DELETE!!
+    // const cookie = document.cookie;
+    // console.log(cookie)
+    // useEffect(() => {
+    //     console.log('SOUP');
+    //     const checkCookie = async () => {
+    //         try {
+    //             const result = await handleCookie();
+    //             console.log(result);
+    //             if (!result) {
+    //                 router.push('/login');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking cookie:', error);
+    //         }
+    //     };
+    
+    //     checkCookie();
+    // }, [handleCookie, router]);
+    
     
     const toggleMenu = () => {
         setShowMenu(!showMenu);
@@ -56,13 +68,96 @@ const Navbar = (cookieResult) => {
 
                     <div className={`navbar-menu-container bg-light end-0 flex-column ${showMenu ? 'show-menu' : ''}`} id="navbar-menu">
                     <ul className="list-unstyled p-3">
-                        <li className="navbar-menu-option">Create Record</li>
-                        <li className="navbar-menu-option">View Records</li>
-                        <li className="navbar-menu-option">View Form</li>
-                        <li className="navbar-menu-option">Edit Form</li>
-                        <li className="navbar-menu-option">Edit Access</li>
-                        <li className="navbar-menu-option">Trash</li>
-                        <li className="navbar-menu-option red-text mb-auto">Log Out</li>
+                        <li
+                            className="navbar-menu-option"
+                            onClick={() => router.push('/create')}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                router.push('/create');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
+                        >
+                            Create Record
+                        </li>
+                        <li 
+                            className="navbar-menu-option"
+                            onClick={() => router.push('/')}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                router.push('/');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
+                            >
+                                View Records
+                            </li>
+                        <li 
+                            className="navbar-menu-option"
+                            onClick={() => router.push('/')}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                router.push('/');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
+                            >
+                                View Form
+                            </li>
+                        <li 
+                            className="navbar-menu-option"
+                            onClick={() => router.push('/edit')}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                router.push('/');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
+                            >
+                                Edit Form
+                            </li>
+                        <li 
+                            className="navbar-menu-option"
+                            onClick={() => router.push('/')}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                router.push('/');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
+                            >
+                                Edit Access
+                            </li>
+                        <li 
+                            className="navbar-menu-option"
+                            >
+                                Deleted Records
+                            </li>
+                        {/* TODO: render dropdown for manage-user if cookie.role == admin*/}
+
+                        <li 
+                            className="navbar-menu-option red-text mb-auto"
+                            onClick={() => {
+                                handleLogout();
+                                router.push('/login');
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    handleLogout();
+                                    router.push('/login');
+                                }
+                            }}
+                            tabIndex="0"
+                            style={{ cursor: 'pointer' }}
+                            >
+                            Log Out
+                        </li>
+                        
                     </ul>
                     </div>
                 </div>

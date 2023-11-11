@@ -59,6 +59,9 @@ export async function handleCookie(){
     return true;
   }
 }
+export async function handleLogout(){
+  cookies().delete('user');
+}
 
 const App = () => {
     return (
