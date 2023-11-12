@@ -1,0 +1,65 @@
+[
+    {
+        "question": "First Name: ",
+        "inputType": "text",
+        "number": 1,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "Middle Name: ",
+        "inputType": "text",
+        "number": 2,
+        "deletable": false,
+        "required": false
+    },
+    {
+        "question": "Last Name: ",
+        "inputType": "text",
+        "number": 3,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "SN: ",
+        "inputType": "number",
+        "number": 4,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "SCN: ",
+        "inputType": "number",
+        "number": 5,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "Birthday ",
+        "inputType": "date",
+        "number": 6,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "Address: ",
+        "inputType": "text",
+        "number": 7,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "Contact Number: ",
+        "inputType": "number",
+        "number": 8,
+        "deletable": false,
+        "required": true
+    },
+    {
+        "question": "Assigned Date: ",
+        "inputType": "date",
+        "number": 9,
+        "deletable": false,
+        "required": true
+    }
+]

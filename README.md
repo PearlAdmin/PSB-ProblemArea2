@@ -16,7 +16,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
@@ -35,34 +35,39 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-## Project Structure
-
-This defines the different directories and file of this project. 
-
-### package.json
-```package.json``` defines the dependencies needed to build the website. It contains the following dependencies:
-- node (server environment)
-- react (frontend framework)
-- react-dom (document object model for react)
-- autoprefixer
-- eslint (linter / error detection)
-- esling-config-next (configuration for next.js framework)
-- next (node framework)
-- tailwindcss (css frontend framework)
-- typescript (subset of javacript)
-
-### node modules
-```node_modules/``` directory contains the dependencies for the node environment.
-
-### components
-```components/``` directory contains the react components to load a page.
-
-### pages 
-```pages/``` directory contains the files that will be served to the client.
-```pages/_app.tsx``` file that wraps every single page.
-
-### public
-```public/``` directory contains the files (assets) needed to serve for all pages such as images and icons.
-
-### styles
-```styles/``` directory contains the files for frontend design.
+## Coding Standards
+- This guide serves as a fundamental resource, outlining the established guidelines to maintain uniformity and clarity within our codebase.
+- By adhering to these coding standards, you contribute significantly to our collaborative development efforts. Consistency in coding practices not only enhances readability but also streamlines the debugging and maintenance processes. We appreciate your attention to detail and commitment to upholding these standards, ensuring the creation of a robust and efficient Next.js React application.
+### app/
+- main directory for frontend pages and APIs
+- corresponds to the page routing
+#### api/
+- directory that stores the APIs
+#### create/
+- stores the page for creating new records
+#### edit/
+- stores the page for editing records
+#### login/
+- stores the page for user login
+#### manage-user
+- stores the page for managing the authorized users
+#### page.jsx
+- store the home page after log in
+### components/
+- directory for components 
+#### create-record/
+- stores the components for creating records
+#### login/
+- stores the components for login page
+#### manage-user/
+- stores the components for managing user
+#### navigation
+- component for the nav bar
+#### bootstrap
+- component for importing the bootstrap
+#### pagination
+- component for creating pagination feature
+#### sort-search
+- component for sorting and searching
+#### view-all-individual-card
+- component for viewing the individual information of records
