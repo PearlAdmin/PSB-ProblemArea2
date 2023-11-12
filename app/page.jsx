@@ -11,7 +11,7 @@ const getRecords = async ({searchParams}) => {
 
     const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?page=${page}`,{
       cache: 'no-store',
-      method: 'GET'
+      method: 'GET' 
     });
 
     if (!response.ok) {
@@ -65,7 +65,5 @@ const Home = async ({searchParams}) => {
     </div>
   );
 }
-
-export const dynamic = 'force-dynamic';
 
 export default Home;

@@ -32,7 +32,7 @@ export async function GET(req) {
     const per_page = '8';
 
     const start = (Number(page) - 1) * Number(per_page);
-    const end = start + Number(per_page);
+    const end = Number(per_page);
 
     await dbConnect();
     const records = await Record.find({}).skip(start).limit(end);

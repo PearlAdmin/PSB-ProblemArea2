@@ -42,6 +42,4 @@ const ManageUser = async ({searchParams}) => {
     );
 };
 
-export const dynamic = 'force-dynamic';
-
 export default ManageUser;
