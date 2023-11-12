@@ -18,10 +18,7 @@ const getRecords = async ({searchParams}) => {
       throw new Error('Failed to fetch records...');
     }
 
-    return new Promise((resolve) => 
-      setTimeout(() => {
-        resolve(response.json())
-      }, 1000));
+    return response.json();
   } catch (error) {
     console.log("Error loading topics: ", error);
   }

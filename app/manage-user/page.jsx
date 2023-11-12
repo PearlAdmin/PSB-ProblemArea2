@@ -17,12 +17,7 @@ const getUsers = async ({searchParams}) => {
         throw new Error('Failed to fetch authorized users records...');
       }
 
-      const res = response.json();
-
-      return new Promise((resolve) => 
-        setTimeout(() => {
-          resolve(res)
-        }, 1000));
+      return response.json();
     } catch (error) {
       console.log("Error loading authorized users: ", error);
     }
