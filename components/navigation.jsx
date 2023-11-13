@@ -89,7 +89,7 @@ const Navbar = () => {
                             </li>
                         <li 
                             className="navbar-menu-option"
-                            onClick={() => router.push('/')}
+                            onClick={() => router.push('/manage-user')}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                 router.push('/');
