@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 export async function cookiesMiddleware(request) {
-
+    if (request.nextUrl.pathname.endsWith('login')){
+        return NextResponse.next()
+    }
+    
     //check if cookie with name user exists
     let isCookie = request.cookies.has('user');
     const loginURL = process.env.NEXT_PUBLIC_API_BASE_URL + '/login';
-
+    console.log("hi");
     //if cookie does not exist redirect to login
     if(!isCookie && request.url !== loginURL){
         return NextResponse.redirect(loginURL);
@@ -51,7 +54,7 @@ export async function cookiesMiddleware(request) {
 }
 
 export const config = {
-    matcher: ['/login', '/', '/create', '/edit', '/record/:path*', '/manage-user', '/deleted', '/api/:path*']
+    matcher: ['/login', '/', '/create', '/edit', '/record/:path*', '/manage-user', '/deleted', '/api/:path*', ]
 }
 
 export default cookiesMiddleware;

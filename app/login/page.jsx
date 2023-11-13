@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import { Cookies, useCookies } from 'react-cookie';
+import useSWR from 'swr';
 
 const LogIn = () => {
     const router = useRouter();
@@ -18,23 +19,38 @@ const LogIn = () => {
 
     const onLogin = async (event) => {
         event.preventDefault();
-
+        
         try {
-            // Sets the cookies
-            const username = credentials.username;
-            const role = 'admin';
-            //TODO: handle remember me when clicked in form
-            const rememberMe = false;
-            const cookieValue = { username, role, rememberMe};
-
+            const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+'/api/login', {
+                cache: 'no-store',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: credentials.username,
+                    password: credentials.password,
+                }),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Invalid credentials');
+            }
+            const data = await response.json();
+            const username = data.user.username;
+            const role = data.user.role;
+            //TODO: remember me
+            const cookieValue = { username, role }
             setCookie(
                 'user',
                 JSON.stringify(cookieValue),
                 {path: '/'}
             )
-            router.push('/');
+
+            router.push('/')
         } catch (error) {
             console.log(error);
+            return { success: false, error: error.message };
         }
     }
 
