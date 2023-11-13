@@ -10,15 +10,6 @@ import { Cookies, useCookies } from 'react-cookie';
 const LogIn = () => {
     const router = useRouter();
     const [cookies, setCookie] = useCookies(['user']);
-    
-    useEffect( () => {  
-        const userCookie = new Cookies();
-        if(userCookie.get('user')){
-            //TODO: check if username is still a valid user
-            router.push('/');
-        }
-    }, [])
-
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const [credentials, setCredentials] = useState({
         username: '',
@@ -29,14 +20,9 @@ const LogIn = () => {
         event.preventDefault();
 
         try {
-            const response = await signIn(credentials);
-    
-            if(!response.success){
-                throw new Error('Invalid credentials');
-            }   
             // Sets the cookies
-            const username = response.username;
-            const role = response.role;
+            const username = credentials.username;
+            const role = 'admin';
             //TODO: handle remember me when clicked in form
             const rememberMe = false;
             const cookieValue = { username, role, rememberMe};

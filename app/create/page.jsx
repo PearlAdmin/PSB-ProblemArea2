@@ -142,12 +142,13 @@ const CreateRecord = () => {
     const declineSubmit = () => {
         setFormConfirmVisible(false);
     }
-
+    //cookie checker if exist  load dis  if not 
     const {data, isLoading, error} = useSWR('/api/forms', fetcher);
 
     if (isLoading) return (<div>Loading...</div>);
     
-    if (error) return (<div>{error.message}</div>);
+    //TODO: error page load component
+    if (error) return (<div>Error...</div>);
 
     return (
         <div>

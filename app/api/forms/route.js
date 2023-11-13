@@ -5,7 +5,6 @@ import {NextResponse} from "next/server";
 // CREATE A NEW QUESTION
 export async function POST(req) {
     const toInsert = await req.json()
-    console.log("toInsert: ",toInsert)
     if (Array.isArray(toInsert)){
         try {
             await dbConnect();
