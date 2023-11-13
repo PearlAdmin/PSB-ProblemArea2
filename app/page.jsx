@@ -1,34 +1,9 @@
 import Navbar from "@/components/navigation";
-import CardIndiv from "@/components/view-all-individual-card";
-import { Button/*, Form, InputGroup*/ } from '@/components/bootstrap';
+import { Button } from '@/components/bootstrap';
 import styles from './homepage.module.css';
-import PaginationControls from "@/components/pagination";
 import SortBy from "@/components/sort-search";
 
-// const getRecords = async ({searchParams}) => {
-//   try {
-//     const page = searchParams['page'] ?? '1';
-
-//     const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?page=${page}`,{
-//       cache: 'no-store',
-//       method: 'GET'
-//     });
-
-//     if (!response.ok) {
-//       throw new Error('Failed to fetch records...');
-//     }
-
-//     return new Promise((resolve) => 
-//       setTimeout(() => {
-//         resolve(response.json())
-//       }, 1000));
-//   } catch (error) {
-//     console.log("Error loading topics: ", error);
-//   }
-// }
-
 const Home = async () => {
-  // const data = await getRecords({searchParams});  
   return (
     <div>
       <Navbar />
@@ -47,33 +22,10 @@ const Home = async () => {
             </Button>
           </div>
           <SortBy />
-
-          {/* {data.records.map((sample, i) => {
-            return (
-              <CardIndiv
-                key={i}
-                // lastName={sample['Last Name: ']}
-                // firstname={sample['First Name: ']}
-                // scn={sample['SCN: ']}
-                // sn={sample['SN: ']}
-                // date={sample['Assigned Date: ']}
-                lastName={sample['Last Name: '].value}
-                firstname={sample['First Name: '].value}
-                scn={sample['SCN: '].value}
-                sn={sample['SN: '].value}
-                date={sample['Assigned Date: '].value}
-              />
-            )
-          })} */}
-
-          {/* Pagination */}
-          {/* <PaginationControls count={data.limit} perpage={data.per_page} /> */}
         </div>
       </div>
     </div>
   );
 }
-
-export const dynamic = 'force-dynamic';
 
 export default Home;

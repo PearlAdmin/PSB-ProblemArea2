@@ -14,7 +14,7 @@ export async function GET(req) {
     await dbConnect();
     // const records = await Record.find({}).skip(start).limit(end);
 
-     const searchText= url.searchParams.get('searchText') || "";
+    const searchText= url.searchParams.get('searchText') || "";
     const searchValue = url.searchParams.get('searchValue') || "";
     const selectedValue = url.searchParams.get('selectedValue') || "";
 
@@ -34,7 +34,6 @@ export async function GET(req) {
     }
 
     const limit = await Record.countDocuments();
-    console.log("page: ", page);
     return NextResponse.json({records, limit, per_page}, {status: 200});
   } catch (error) {
     return NextResponse.json({message: error.message}, {status: 500});
