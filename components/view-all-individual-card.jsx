@@ -2,8 +2,25 @@ import { Card } from 'react-bootstrap';
 import styles from '@/components/create-record/styles.module.css';
 import './home.cards.css'
 import Link from 'next/link';
+import { useState } from 'react';
+import Popup from './popup';
 
 const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) => {
+
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
+
+  const openDelete = () => {
+    setDeleteOpen(true);
+  }
+
+  const closeDelete = () => {
+    setDeleteOpen(false);
+  }
+
+  const deleteRecord = () => {
+    closeDelete();
+  }
+
   return (
       <div>
         <Card className="info d-flex flex-row align-items-center">
@@ -26,11 +43,11 @@ const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) 
           <div style={{ fontSize: '10px' }}><a>Last Updated: </a>{date}</div>
         </div>
         {!route ? (
-          <div className="p-2 d-flex flex-row">
-            <Link href={`/record/${scn}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <i className="bi bi-pencil-fill p-3" onClick={func1}></i>
-              <i className="bi bi-trash p-3" onClick={func2}></i>
+          <div className="p-2 d-flex flex-row align-items-center">
+            <Link href={`/record/${scn}`} style={{ textDecoration: "none", color: "inherit"} }>
+              <i className="bi bi-pencil-fill p-3 my-auto" onClick={func1}></i>
             </Link>
+            <i className="bi bi-trash p-3" onClick={openDelete}></i>
           </div>
         ) : (
           <div className="p-2 d-flex flex-row">
@@ -39,6 +56,7 @@ const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) 
           </div>
         )}
       </Card>
+      {isDeleteOpen && <Popup question={"Are you sure you want to delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteRecord} secondBtnFunc={closeDelete} isYesNoQuestion={true}/>}
     </div>
     );
   };
