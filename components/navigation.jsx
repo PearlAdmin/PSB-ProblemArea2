@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState,/* useEffect*/ } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import './nav.styles.css'
-import { useRouter } from 'next/navigation';
-import { Cookies } from 'react-cookie';
+// import { useRouter } from 'next/navigation';
+// import { Cookies } from 'react-cookie';
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);

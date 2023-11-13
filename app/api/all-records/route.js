@@ -23,11 +23,13 @@ export async function GET(req) {
     // Check if searchText is present
     if (searchText) {
       records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i') } })
+        .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
         .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
         .skip(start)
         .limit(end);
     } else {
       records = await Record.find()
+        .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
         .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
         .skip(start)
         .limit(end);
