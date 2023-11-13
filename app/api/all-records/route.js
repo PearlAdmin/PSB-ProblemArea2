@@ -6,7 +6,7 @@ export async function GET(req) {
   try {
     const url = new URL(req.url);
     const page = url.searchParams.get('page') ?? '1';
-    const per_page = '5';
+    const per_page = '8';
 
     const start = (Number(page) - 1) * Number(per_page);
     const end = Number(per_page);

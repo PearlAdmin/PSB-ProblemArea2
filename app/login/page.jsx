@@ -5,7 +5,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
-// import { signIn } from '@/app/login/page';
 import { Cookies, useCookies } from 'react-cookie';
 
 const LogIn = () => {

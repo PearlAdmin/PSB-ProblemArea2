@@ -1,42 +1,19 @@
 "use client";
-import { useState,/* useEffect*/ } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import './nav.styles.css'
-// import { useRouter } from 'next/navigation';
-// import { Cookies } from 'react-cookie';
+import './nav.styles.css';
+import { useRouter } from 'next/navigation';
+import { Cookies } from 'react-cookie';
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
-    // const cookies = new Cookies();
-    // const router = useRouter();
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
+    const router = useRouter();
+    const cookies = new Cookies();
 
-    // useEffect( () => {
-    //     const checkUserCookie = async () => {
-    //         if (!cookies.get('user')) {
-    //             router.push('/login');
-    //         } else {
-    //             try {
-    //                 const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + '/api/cookies', {
-    //                     cache: 'no-store',
-    //                     method: 'POST',
-    //                     body: JSON.stringify({username: cookies.get('user').username})
-    //                 });
-
-    //                 if(!response.ok){
-    //                     throw new Error('Please login!');
-    //                 }
-    //             } catch (error) {
-    //                 router.push('/login');
-    //             }
-    //         }
-    //     };
-    //     checkUserCookie();
-    // }, []);
-    
     return (
         <div style={{ marginBottom: '75px' }}>
             <nav className="navbar navbar-light bg-light fixed-top" id="navbar">
@@ -96,19 +73,6 @@ const Navbar = () => {
                             style={{ cursor: 'pointer' }}
                             >
                                 View Records
-                            </li>
-                        <li 
-                            className="navbar-menu-option"
-                            onClick={() => router.push('/')}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                router.push('/');
-                                }
-                            }}
-                            tabIndex="0"
-                            style={{ cursor: 'pointer' }}
-                            >
-                                View Form
                             </li>
                         <li 
                             className="navbar-menu-option"

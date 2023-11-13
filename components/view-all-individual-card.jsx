@@ -1,6 +1,7 @@
 import { Card } from 'react-bootstrap';
 import styles from '@/components/create-record/styles.module.css';
 import './home.cards.css'
+import Link from 'next/link';
 
 const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) => {
   return (
@@ -26,13 +27,15 @@ const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) 
         </div>
         {!route ? (
           <div className="p-2 d-flex flex-row">
-            <i className="bi bi-pencil-fill p-3" onClick={func1}></i>
-            <i className="bi bi-trash p-3" onClick={func2}></i>
+            <Link href={`/record/${scn}`} style={{ textDecoration: "none", color: "inherit" }}>
+              <i className="bi bi-pencil-fill p-3" onClick={func1}></i>
+              <i className="bi bi-trash p-3" onClick={func2}></i>
+            </Link>
           </div>
         ) : (
           <div className="p-2 d-flex flex-row">
-            <i className={`${styles.button} bi bi-bootstrap-reboot p-3`} onClick={func1}></i>
-            <i className={`${styles.button} bi bi-trash p-3`} onClick={func2}></i>
+              <i className={`${styles.button} bi bi-bootstrap-reboot p-3`} onClick={func1}></i>
+              <i className={`${styles.button} bi bi-trash p-3`} onClick={func2}></i>
           </div>
         )}
       </Card>

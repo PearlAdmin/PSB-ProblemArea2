@@ -2,6 +2,7 @@ import Navbar from "@/components/navigation";
 import { Button } from '@/components/bootstrap';
 import styles from './homepage.module.css';
 import SortBy from "@/components/sort-search";
+import Link from 'next/link';
 
 const Home = async () => {
   return (
@@ -18,7 +19,9 @@ const Home = async () => {
               className={`p-2 ${styles.customHeight31} d-flex align-items-center`}
               style={{ marginRight: "5px" }}
             >
+              <Link href="/create" style={{ textDecoration: "none", color: "inherit" }}>
               + Create Record
+              </Link>
             </Button>
           </div>
           <SortBy />
