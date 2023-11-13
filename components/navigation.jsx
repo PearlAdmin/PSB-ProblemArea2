@@ -1,6 +1,5 @@
 "use client";
 import { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import './nav.styles.css';
 import { useRouter } from 'next/navigation';
@@ -19,7 +18,7 @@ const Navbar = () => {
             <nav className="navbar navbar-light bg-light fixed-top" id="navbar">
                 <div className="container-fluid">
                 <div className="navbar-left">
-                    <Link className="navbar-brand h-100 w-auto d-flex align-items-center" href="/">
+                    <a className="navbar-brand h-100 w-auto d-flex align-items-center" href="/">
                     <Image
                         className="d-inline-block me-1 "
                         id="navbar-logo-img"
@@ -38,7 +37,7 @@ const Navbar = () => {
                         height={75}
                         width={350}
                     />
-                    </Link>
+                    </a>
                 </div>
 
                 <div className="navbar-right text-end d-flex align-items-center ms-auto">
