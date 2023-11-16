@@ -12,6 +12,7 @@ const LogIn = () => {
     const router = useRouter();
     const [cookies, setCookie] = useCookies(['user']);
     const [passwordVisible, setPasswordVisible] = useState(false); 
+    const [isRememberMe, setIsRememberMe] = useState(false);
     const [credentials, setCredentials] = useState({
         username: '',
         password: '',
@@ -41,12 +42,25 @@ const LogIn = () => {
             const role = data.user.role;
             //TODO: remember me
             const cookieValue = { username, role }
-            setCookie(
-                'user',
-                JSON.stringify(cookieValue),
-                {path: '/'}
-            )
 
+            if(isRememberMe){
+                const ageValue = 30 * 24 * 60 * 60;
+                setCookie(
+                    'user',
+                    JSON.stringify(cookieValue),
+                    {
+                        path: '/',
+                        maxAge: ageValue,
+                    }
+                )
+            } else {
+                setCookie(
+                    'user',
+                    JSON.stringify(cookieValue),
+                    { path: '/' }
+                )
+            }
+        
             router.push('/')
         } catch (error) {
             console.log(error);
@@ -129,6 +143,7 @@ const LogIn = () => {
                             id={`remember-me`}
                             label={`Remember Me`}
                             style={{ textAlign: 'left' }}
+                            onChange = { (event) => setIsRememberMe(true) }
                         />
                         {/* Login Button */}
                         <Button variant="primary" type="submit" id="submit">Login</Button>{' '}

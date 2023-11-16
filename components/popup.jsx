@@ -1,6 +1,6 @@
 import styles from '@/components/create-record/styles.module.css';
 
-const Popup = ({question, firstBtnLabel, secondBtnLabel, firstBtnFunc, secondBtnFunc, isYesNoQuestion}) => {
+const Popup = ({question, firstBtnLabel, secondBtnLabel, firstBtnFunc, secondBtnFunc, isYesNoQuestion, id}) => {
     
     return (
         <div className={`${styles.popupModal}`} id="form-confirm-container">

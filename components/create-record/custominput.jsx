@@ -1,7 +1,7 @@
 import Textbox from './textbox';
 import MC from './mc';
 import Checkbox from './checkbox';
-import Date from './date';
+import Dates from './date';
 /*
 props will have:
   props.config - an object that contains the ones included in 
@@ -27,7 +27,7 @@ const CustomInput = (props) => {
         return <MC type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
     //if input a date input
     case "date":
-        return <Date question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} />
+        return <Dates question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} />
   }
   // i dunno how we would do file ;-;
     };

@@ -1,8 +1,9 @@
 import styles from './styles.module.css';
 
 const MC  = ({type, question, options, required, setValues }) => {
+    
     return (
-        <div>
+        <div className='mb-3'>
             <div className={`${styles.formContainer} col mb-3`}>
                 <div className={`${styles.formTitleContainer}`}>
                     <label className={`${styles.formAnswer} ${styles.formTransparent} w-100 fw-bold d-flex me-4 ${!required ? 'flex-grow-1' : ''}`} htmlFor="question">

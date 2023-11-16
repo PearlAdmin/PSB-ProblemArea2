@@ -44,7 +44,7 @@ const UserList = () => {
                         />
                     ))
                 ) : (
-                    <p>No users found or data is still loading</p>
+                    <div>No users found or data is still loading</div>
                 )
             }
             <PaginationControls count={data.limit} perpage={data.per_page} route={'manage-user'}/>

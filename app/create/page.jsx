@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Navbar from "@/components/navigation"
 import Header from '@/components/create-record/header';
 import Popup from '@/components/popup';
@@ -145,6 +145,24 @@ const CreateRecord = () => {
     //cookie checker if exist  load dis  if not 
     const {data, isLoading, error} = useSWR('/api/forms', fetcher);
 
+    useEffect(() =>{
+        let initiateValues = values
+        if (data) {
+            data.questions.map((item, i) => {
+                if(item.inputType === 'header'){
+                    initiateValues[item.question] = {value: null, required: false, type: item.inputType}
+                } else if(item.inputType === 'checkbox'){
+                    initiateValues[item.question] = {value: [], options:item.choices, required: false, type: item.inputType}
+                } else if(item.inputType === 'radio'){
+                    initiateValues[item.question] = {value: '', options:item.choices, required: false, type: item.inputType}
+                } else {
+                    initiateValues[item.question] = {value: '', required: false, type: item.inputType}
+                }
+            })
+            setValues(initiateValues)
+        }
+    }, [data])
+
     if (isLoading) return (<div>Loading...</div>);
     
     //TODO: error page load component
@@ -154,12 +172,14 @@ const CreateRecord = () => {
         <div>
             <Navbar />
             <form className={`${styles.body} container-fluid my-3 px-5 pt-3`} onSubmit={submitForm}>
-                {/* For now lang div sa Header, since feel ko it should be part of the loop */}
-                <div className={`mb-3`}><Header header='Background Information' isReadOnly={true}/></div>
-
                 {data.questions.map((item, i) => {
                     if(item.inputType === 'header'){
-                        return (<Header key={i} header={item.question} isReadOnly={true} />);
+                        return (
+                            <>
+                                <Header key={i} header={item.question} isReadOnly={true} />
+                                <div className="mb-3"></div>
+                            </>
+                        );
                     } else {
                         return (<CustomInput key={i} config={item} setValues={handleInputChange} />);
                     }

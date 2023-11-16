@@ -20,7 +20,7 @@ export async function POST(req){
         return NextResponse.json({message: "Incorrect password!"}, {status: 401});
     }
 
-    console.log(user);
+    
     return NextResponse.json({
         message: "Login Successfully!",
         user: {

@@ -14,6 +14,14 @@ export async function POST(req){
             {status: 404},
         );
     }
+
+    if(data.role !== user.role){
+        return NextResponse.json(
+            {message: "You do not have access to that!"},
+            {status: 404},
+        )
+    }
+
     return NextResponse.json(
         {message: "Username found"},
         {status: 200}

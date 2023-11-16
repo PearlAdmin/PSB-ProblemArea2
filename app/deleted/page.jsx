@@ -7,51 +7,55 @@ import PaginationControls from "@/components/pagination";
 import { handleCookie } from "@/app/login/page";
 import Popup from "@/components/popup";
 import { useState, useEffect } from 'react';
+import useSWR from 'swr';
+import {  useSearchParams, useRouter } from 'next/navigation';
 
-const getRecords = async ({searchParams}) => {
-    try {
-      const page = searchParams['page'] ?? '1';
-  
-      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?page=${page}`,{
-        cache: 'no-store',
-        method: 'GET'
-      });
-  
-      if (!response.ok) {
-        throw new Error('Failed to fetch records...');
-      }
-  
-      return new Promise((resolve) => 
-        setTimeout(() => {
-          resolve(response.json())
-        }, 1000));
-    } catch (error) {
-      console.log("Error loading topics: ", error);
-    }
-  }
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Deleted = ({searchParams}) => {
     // const data = await getRecords({searchParams});
     // const cookieResult = await handleCookie(); 
 
     // Popup Visbility Variables
-    const [data, setData] = useState(null);
+    // const [records, setRecords] = useState(null);
     const [cookieResult, setCookie] = useState(null);
     const [isRecoverAllOpen, setRecoverAllOpen] = useState(false);
     const [isPermaDeleteAllOpen, setPermaDeleteAllOpen] = useState(false);
     const [isRecoverOpen, setRecoverOpen] = useState(false);
     const [isPermaDeleteOpen, setPermaDeleteOpen] = useState(false);
 
+    const [searchText, setSearchText] = useState('');
+    const [selectedValue, setSelectedValue] = useState('SCN: ');
+    const [searchValue, setsearchValue] = useState('SCN: ');
+    const url = useSearchParams();
+    const page = url.get('page') ?? '1';
+    const router = useRouter();
+    const basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    const[id, setId] = useState('')
+
+    const handleSearchChange = (e) => {
+        const searchText = e.target.value;
+        setSearchText(searchText);
+        router.push(basePath + `/?page=1`);
+    };
+
+    const handleSortChange = (e) => {
+        const selectedValue = e.target.value;
+        setSelectedValue(selectedValue);
+        router.push(basePath + `/?page=1`);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const records = await getRecords({ searchParams });
-            setData(records);
-          } catch (error) {
-            console.error('Error fetching records:', error);
-            // Handle error as needed
-          }
-        };
+    //     const fetchData = async () => {
+    //       try {
+    //         const records = await getRecords({ searchParams });
+    //         setData(records);
+    //       } catch (error) {
+    //         console.error('Error fetching records:', error);
+    //         // Handle error as needed
+    //       }
+    //     };
     
         const fetchCookie = async () => {
           try {
@@ -64,7 +68,7 @@ const Deleted = ({searchParams}) => {
           }
         };
 
-        fetchData();
+    //     fetchData();
         fetchCookie();
     }, [searchParams]);
 
@@ -79,48 +83,158 @@ const Deleted = ({searchParams}) => {
         setPermaDeleteAllOpen(true);
     }
 
-    const recoverAll = (e) => {
+    const recoverAll = async(e) => {
         e.preventDefault();
+        // backend stuff
+        try {
+          const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?recover=true`, {
+          method: 'PATCH',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({isdeleted: false}),
+          });
+  
+          if (response.ok) {
+            // Handle the successful response here
+            console.log('PATCH request was successful');
+          } else {
+          // Handle errors or non-2xx responses
+              const data = await response.json()
+              console.error('PATCH request failed');
+          }
+      } catch (error) {
+          console.error('An error occurred:', error);
+      };
+      closeModal(e);
+    }
+
+    const deleteAll = async(e) => {
+        e.preventDefault();
+        try {
+          const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          });
+  
+          if (response.ok) {
+            // Handle the successful response here
+            console.log('PATCH request was successful');
+          } else {
+          // Handle errors or non-2xx responses
+              const data = await response.json()
+              console.error('PATCH request failed');
+          }
+      } catch (error) {
+          console.error('An error occurred:', error);
+      };
         closeModal(e);
         // backend stuff
     }
 
-    const deleteAll = (e) => {
+    const openRecover = (e, id) => {
         e.preventDefault();
-        closeModal(e);
-        // backend stuff
-    }
-
-    const openRecover = (e) => {
-        e.preventDefault();
+        setId(id)
         setRecoverOpen(true);
     }
 
-    const openPermaDelete = (e) => {
+    const openPermaDelete = (e, id) => {
         e.preventDefault();
+        setId(id)
         setPermaDeleteOpen(true);
     }
 
-    const recoverRecord = (e) => {
+    const recoverRecord = async(e, id) => {
         e.preventDefault();
         closeModal(e);
         // backend stuff
+        try {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}&recover=true`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({isdeleted: false}),
+            });
+    
+            if (response.ok) {
+              // Handle the successful response here
+              console.log('PATCH request was successful');
+            } else {
+            // Handle errors or non-2xx responses
+                const data = await response.json()
+                console.error('PATCH request failed');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        };
     }
 
-    const permaDeleteRecord = (e) => {
+    // const handleDelete = async (e) => {
+    //   const response = await fetch('/api/manage-user', {
+    //     method: 'DELETE',
+    //     body: JSON.stringify({username: username}),
+    //     headers:{
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
+  
+    //   if(response.ok){
+    //     window.location.reload();
+    //     alert("User has been deleted!");
+    //   }else{
+    //     alert("Could not delete user!");
+    //   }
+    // }
+
+    const permaDeleteRecord = async(e, id) => {
         e.preventDefault();
+        console.log("ID IN REQ", id);
+        try {
+          const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({id: id})
+          });
+
+          if(response.ok){
+            window.location.reload();
+            alert("User has been deleted!");
+          }else{
+            alert("Could not delete user!");
+          }
+      } catch (error) {
+          console.error('An error occurred:', error);
+      };
         closeModal(e);
         // backend stuff
     }
 
     const closeModal = (e) => {
         e.preventDefault();
+        setId('')
         setRecoverAllOpen(false);
         setPermaDeleteAllOpen(false);
         setRecoverOpen(false);
         setPermaDeleteOpen(false);
     }
+
+    
+
+    const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&searchText=${searchText}&searchValue=${searchValue}&selectedValue=${selectedValue}&deleted=true`, fetcher);
+
+    if (isLoading) return (<div>Loading...</div>);
+    
+    if (error) {
+        router.push('/');
+    };
      
+    const items = data;
+
     return (
       <div>
         <Navbar cookie = {cookieResult} />
@@ -166,16 +280,19 @@ const Deleted = ({searchParams}) => {
             })} */}
 
             {/* Sample Post */}
+            {items.records.map((item, index) => (
             <CardIndiv
-                  lastName={"Yu"}
-                  firstname={"Marco"}
-                  scn={"121"}
-                  sc={"122"}
-                  date={"12/03/2002"}
-                  route={"deleted"}
-                  func1={openRecover}
-                  func2={openPermaDelete}
-            />
+                key={index}
+                id={item._id}
+                lastName={item['Last Name: '].value}
+                firstname={item['First Name: '].value}
+                scn={item['SCN: '].value}
+                sn={item['SN: '].value}
+                date={item['Assigned Date: '].value}
+                route={"deleted"}
+                func1={(e)=>openRecover(e, item._id)}
+                func2={(e)=>openPermaDelete(e, item._id)}
+            />))}
   
             {/* Pagination */}
             <PaginationControls count={data?.limit} perpage={data?.per_page} route={"deleted"}/>
@@ -183,8 +300,8 @@ const Deleted = ({searchParams}) => {
         </div>
         {isRecoverAllOpen && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
         {isPermaDeleteAllOpen && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isRecoverOpen && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverRecord} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isPermaDeleteOpen && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={permaDeleteRecord} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isRecoverOpen && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>recoverRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isPermaDeleteOpen && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>permaDeleteRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
       </div>
     );
   }

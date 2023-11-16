@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-const Date = ({ question, required, setValues }) => {
+const Dates = ({ question, required, setValues }) => {
     return (
         <div>
             <div className={`${styles.formContainer} col mb-3`}>
@@ -23,4 +23,4 @@ const Date = ({ question, required, setValues }) => {
     );
 };
 
-export default Date;
+export default Dates;

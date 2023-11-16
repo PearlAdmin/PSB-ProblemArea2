@@ -1,20 +1,19 @@
 'use client'
 import { FC } from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Head from 'next/head'
 import { Card } from 'react-bootstrap';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
-const Date = ({ question, answer, required }) => {
+const Dates = ({ id, question, answer, required }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswer, setEditableAnswer] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
+    const errorMsg = useRef('');
 
     const handleEditClick = () => {
-        if(isEditing) {
-            setIsEditing(false);
-        } else {
+        if(!isEditing) {
             setIsEditing(true);
         }
     }
@@ -28,15 +27,47 @@ const Date = ({ question, answer, required }) => {
         setEditableAnswer(event.target.value);
     }
 
-    const acceptSubmit = () => {
+    const acceptSubmit = async () => {
         // Save your data if needed
-        setFormConfirmVisible(false);
-        setIsEditing(false);
-        setEditableAnswer(editableAnswer);
+        setFormConfirmVisible(false); 
+        
+        errorMsg.current = ''
+        const field = document.getElementById(id);
+        const isValid = field.validity.valid;
+        if (isValid){
+            try {
+                const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({[question]: {value:editableAnswer, required:required, type:"date"}}),
+                });
+        
+                if (response.ok) {
+                // Handle the successful response here
+                console.log('PATCH request was successful');
+                } else {
+                // Handle errors or non-2xx responses
+                    const data = await response.json()
+                    errorMsg.current = data.message
+                    console.error('PATCH request failed: ', errorMsg.current);
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+            };
+
+            if(errorMsg.current === ''){
+                setIsEditing(false);
+                setEditableAnswer(editableAnswer);
+            }
+        }
     }
     
     const declineSubmit = () => {
         setFormConfirmVisible(false);
+        setEditableAnswer(answer)
+        setIsEditing(false);
     }
     return (
         <div>
@@ -53,7 +84,7 @@ const Date = ({ question, answer, required }) => {
                     <input
                         className={`${styles.formAnswer} ${styles.formChoice} w-100`}
                         type="date"
-                        id="answer"
+                        id={id}
                         required={true}
                         value={editableAnswer}
                         onChange={handleAnswerChange}
@@ -78,4 +109,4 @@ const Date = ({ question, answer, required }) => {
     );
 };
 
-export default Date;
+export default Dates;

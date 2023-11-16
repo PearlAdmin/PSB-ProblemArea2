@@ -1,11 +1,16 @@
+"use client";
 import { Card } from 'react-bootstrap';
 import styles from '@/components/create-record/styles.module.css';
 import './home.cards.css'
 import Link from 'next/link';
 import { useState } from 'react';
 import Popup from './popup';
+import { useCookies } from 'react-cookie';
+import useSWR from 'swr';
 
-const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) => {
+const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2 }) => {
+  const [cookies] = useCookies(['user']);
+  const user = cookies.user;
 
   const [isDeleteOpen, setDeleteOpen] = useState(false);
 
@@ -17,9 +22,31 @@ const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) 
     setDeleteOpen(false);
   }
 
-  const deleteRecord = () => {
+  const deleteRecord = async () => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({isdeleted: true, expireAfterSeconds: 157680000 }),
+        });
+
+        if (response.ok) {
+          // Handle the successful response here
+          console.log('PATCH request was successful');
+        } else {
+        // Handle errors or non-2xx responses
+            const data = await response.json()
+            console.error('PATCH request failed');
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    };
+    // const {data, isLoading, error} = useSWR(`/api/records?id=${id}`, fetcher, {isdeleted: true});
     closeDelete();
   }
+
 
   return (
       <div>
@@ -44,16 +71,18 @@ const CardIndiv = ({ lastName, firstname, scn, sn, date, route, func1, func2 }) 
         </div>
         {!route ? (
           <div className="p-2 d-flex flex-row align-items-center">
-            <Link href={`/record/${scn}`} style={{ textDecoration: "none", color: "inherit"} }>
+            <Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
               <i className="bi bi-pencil-fill p-3 my-auto" onClick={func1}></i>
             </Link>
-            <i className="bi bi-trash p-3" onClick={openDelete}></i>
+            { user && user.role === "admin" && (
+              <i className="bi bi-trash p-3" onClick={openDelete}></i>
+            )}
           </div>
         ) : (
-          <div className="p-2 d-flex flex-row">
-              <i className={`${styles.button} bi bi-bootstrap-reboot p-3`} onClick={func1}></i>
-              <i className={`${styles.button} bi bi-trash p-3`} onClick={func2}></i>
-          </div>
+            <div className="p-2 d-flex flex-row">
+                <i className={`${styles.button} bi bi-bootstrap-reboot p-3`} onClick={func1}></i>
+                 <i className={`${styles.button} bi bi-trash p-3`} onClick={func2}></i>
+            </div>
         )}
       </Card>
       {isDeleteOpen && <Popup question={"Are you sure you want to delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteRecord} secondBtnFunc={closeDelete} isYesNoQuestion={true}/>}

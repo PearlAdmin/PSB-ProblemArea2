@@ -108,6 +108,22 @@
 .popupModalBoxTop {
     font-size: 0.75em;
 }
+.historyContainer {
+    font-size: 0.60em;
+    padding: 0.75em;
+}
+.historyTitleContainer {
+    display: flex;
+}
+.historyDate {
+    max-width: 25%;
+    margin-left: auto;
+}
+
+.historyOthersContainer {
+    font-size: 0.75em;
+    font-weight: lighter;
+}
 .confirmBtn {
     border: 3px solid black;
     font-size: 0.75em;

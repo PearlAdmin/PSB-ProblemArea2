@@ -1,20 +1,19 @@
 'use client'
-import { FC, useState } from 'react';
+import { FC, useState, useRef } from 'react';
 import Head from 'next/head';
 import { Card } from 'react-bootstrap';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
-const MC = ({ question, options, answer, required }) => {
+const MC = ({ id, question, options, answer, required }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswer, setEditableAnswer] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
+    const errorMsg = useRef('')
 
 
     const handleEditClick = () => {
-        if(isEditing) {
-            setIsEditing(false);
-        } else {
+        if(!isEditing) {
             setIsEditing(true);
         }
     }
@@ -28,15 +27,47 @@ const MC = ({ question, options, answer, required }) => {
         setEditableAnswer(event.target.value);
     }
 
-    const acceptSubmit = () => {
+    const acceptSubmit = async () => {
         // Save your data if needed
         setFormConfirmVisible(false);
-        setIsEditing(false);
-        setEditableAnswer(editableAnswer);
+
+        errorMsg.current = ''
+        const field = document.getElementById(id);
+        const isValid = field.validity.valid;
+        if (isValid){
+            try {
+                const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({[question]: {value:editableAnswer, options:options, required:required, type:"radio"}}),
+                });
+        
+                if (response.ok) {
+                // Handle the successful response here
+                console.log('PATCH request was successful');
+                } else {
+                // Handle errors or non-2xx responses
+                    const data = await response.json()
+                    errorMsg.current = data.message
+                    console.error('PATCH request failed: ', errorMsg.current);
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+            };
+
+            if(errorMsg.current === ''){
+                setIsEditing(false);
+                setEditableAnswer(editableAnswer);
+            }
+        }
     }
     
     const declineSubmit = () => {
         setFormConfirmVisible(false);
+        setEditableAnswer(answer)
+        setIsEditing(false);
     }
 
     return (
@@ -58,6 +89,7 @@ const MC = ({ question, options, answer, required }) => {
                     <input
                         className={`${styles.input} me-2`}
                         type="radio" // You can use "checkbox" for multiple selection
+                        id={id}
                         name="answerOptions"
                         value={option}
                         checked={editableAnswer === option}

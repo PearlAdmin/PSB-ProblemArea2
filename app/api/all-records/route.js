@@ -12,30 +12,31 @@ export async function GET(req) {
     const end = Number(per_page);
 
     await dbConnect();
-    // const records = await Record.find({}).skip(start).limit(end);
 
     const searchText= url.searchParams.get('searchText') || "";
     const searchValue = url.searchParams.get('searchValue') || "";
     const selectedValue = url.searchParams.get('selectedValue') || "";
+    let isdeleted = false;
+    if (url.searchParams.get('deleted')) isdeleted = true;
 
     let records = "";
 
     // Check if searchText is present
     if (searchText) {
-      records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i') } })
+      records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted })
         .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
         .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
         .skip(start)
         .limit(end);
     } else {
-      records = await Record.find()
+      records = await Record.find({isdeleted : isdeleted})
         .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
         .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
         .skip(start)
         .limit(end);
     }
-
-    const limit = await Record.countDocuments();
+    
+    const limit = await Record.find({isdeleted : isdeleted}).countDocuments();
     return NextResponse.json({records, limit, per_page}, {status: 200});
   } catch (error) {
     return NextResponse.json({message: error.message}, {status: 500});
