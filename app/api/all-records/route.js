@@ -36,7 +36,13 @@ export async function GET(req) {
         .limit(end);
     }
     
-    const limit = await Record.find({isdeleted : isdeleted}).countDocuments();
+    let limit;
+    if (searchText){
+      limit = records.length;
+    } else {
+      limit = await Record.find({isdeleted : isdeleted}).countDocuments()
+    }
+    
     return NextResponse.json({records, limit, per_page}, {status: 200});
   } catch (error) {
     return NextResponse.json({message: error.message}, {status: 500});

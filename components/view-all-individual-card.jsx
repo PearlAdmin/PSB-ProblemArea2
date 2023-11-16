@@ -45,6 +45,7 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
     };
     // const {data, isLoading, error} = useSWR(`/api/records?id=${id}`, fetcher, {isdeleted: true});
     closeDelete();
+    window.location.reload();
   }
 
 
