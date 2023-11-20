@@ -10,6 +10,7 @@ export async function cookiesMiddleware(request) {
     //check if cookie with name user exists
     let isCookie = request.cookies.has('user');
     const loginURL = process.env.NEXT_PUBLIC_API_BASE_URL + '/login';
+    console.log("LOGIN URL", loginURL)
     console.log("IN MID", request.nextUrl.pathname)
     
     //if cookie does not exist redirect to login
