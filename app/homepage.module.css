@@ -1,0 +1,25 @@
+.todoContainer {
+    display: flex;
+    flex-direction: column;
+    width: 80rem;
+    background-color: #c5e2ea;
+    border-radius: 5px;
+    padding: 1rem;  
+    margin: 2rem;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+}
+
+.customHeight31 {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.i:hover{
+    opacity: 50%;
+}

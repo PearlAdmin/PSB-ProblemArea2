@@ -1,0 +1,115 @@
+.navbar-menu-container {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1030;
+    width: 20%;
+    position: fixed;
+    top: 75px;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+.show-menu {
+    opacity: 1;
+    visibility: visible;
+}
+.navbar-menu-option {
+    font-size: 15px;
+    margin-bottom: 2em;
+    font-weight: bold;
+    text-align: left;
+}
+.red-text {
+    color: #cd3a3a;
+}
+.navbar-menu-option:hover {
+    opacity: 50%;
+}
+#navbar {
+    height: 75px;
+}
+#navbar-menu-btn {
+    border: 0;
+    background-color: transparent;
+}
+#navbar-menu-open {
+    width: 25%;
+}
+
+/* error styles */
+.error{
+    height: 100vh;
+    background-size: 400%;
+    background: #c5e2ea;
+}
+#error-page{
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    right: 15%;
+    bottom: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
+}
+#error-page .content{
+    max-width: 600px;
+    text-align: center;
+}
+.content h2.header {
+    font-size: 18vw;
+    line-height: 1em;
+    position: relative;
+    background: -webkit-repeating-linear-gradient(-45deg, #71b7e6, #69a6ce, #b98acc, #ee8176, #b98acc, #69a6ce, #9b59b6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 400% 400%;
+    animation: animate 10s ease-in-out infinite;
+}
+@keyframes animate {
+    0%{
+        background-position: 0 0;
+    }
+    25%{
+        background-position: 100% 0;
+    }
+    50%{
+        background-position: 100% 100%;
+    }
+    75%{
+        background-position: 0% 100%;
+    }
+    100%{
+        background-position: 0% 0%;
+    }
+}
+.content h4{
+font-size: 1.5em;
+margin-bottom: 20px;
+text-transform: uppercase;
+color: #000;
+font-size: 2em;
+max-width: 600px;
+position: relative;
+}
+.content .btns{
+margin: 25px 0;
+display: inline-flex;
+}
+.content .btns a{
+display: inline-block;
+margin: 0 10px;
+text-decoration: none;
+border: 2px solid #69a6ce;
+color: #69a6ce;
+font-weight: 500;
+padding: 10px 25px;
+border-radius: 25px;
+text-transform: uppercase;
+transition: all 0.3s ease;
+}
+.content .btns a:hover{
+background: #69a6ce;
+color: #fff;
+}

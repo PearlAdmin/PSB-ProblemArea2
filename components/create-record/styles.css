@@ -1,0 +1,29 @@
+.form-container-shadow {
+    padding: 0;
+    background-color: #0872a1;
+    border-radius: 36px;
+    margin: 10px 25px;
+}
+.form-container-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: #c5e2ea;
+    padding: 10px 12px;  
+    border-radius: 30px;
+}
+.form-header {
+    text-decoration: underline;
+}
+.form-container {
+    background-color: #c5e2ea;
+    padding: 10px 20px;  
+    margin: 10px 25px;
+    border-radius: 36px;
+}
+.form-title-required {
+    color: #cd3a3a;
+}
+.form-title {
+    font-weight: bold;
+    font-size: 20px;
+}
