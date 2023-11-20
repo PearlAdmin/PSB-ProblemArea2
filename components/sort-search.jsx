@@ -49,7 +49,7 @@ function SortBy() {
     const url = useSearchParams();
     const page = url.get('page') ?? '1';
     const router = useRouter();
-    const basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
     const handleSearchChange = (e) => {
         const searchText = e.target.value;

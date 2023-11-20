@@ -29,7 +29,7 @@ const Deleted = ({searchParams}) => {
     const url = useSearchParams();
     const page = url.get('page') ?? '1';
     const router = useRouter();
-    const basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
     const[id, setId] = useState('')
 
@@ -60,7 +60,7 @@ const Deleted = ({searchParams}) => {
         e.preventDefault();
         // backend stuff
         try {
-          const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?recover=true`, {
+          const response = await fetch(basePath+`/api/records?recover=true`, {
           method: 'PATCH',
           headers: {
               'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const Deleted = ({searchParams}) => {
     const deleteAll = async(e) => {
         e.preventDefault();
         try {
-          const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records`, {
+          const response = await fetch(basePath+`/api/records`, {
           method: 'DELETE',
           headers: {
               'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const Deleted = ({searchParams}) => {
         closeModal(e);
         // backend stuff
         try {
-            const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}&recover=true`, {
+            const response = await fetch(basePath+`/api/records?id=${id}&recover=true`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ const Deleted = ({searchParams}) => {
         e.preventDefault();
         console.log("ID IN REQ", id);
         try {
-          const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records`, {
+          const response = await fetch(basePath+`/api/records`, {
           method: 'DELETE',
           headers: {
               'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ const PaginationControls = ({count, perpage, route}) => {
     const page = searchParams.get('page') ?? '1';
     const maxPage = Math.ceil(count / perpage);
     route = route ?? ''; 
-    const basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
     return (
         <Pagination className="justify-content-center mt-2">
