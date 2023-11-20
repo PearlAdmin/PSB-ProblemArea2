@@ -1,10 +1,9 @@
 "use client";
 import Navbar from "@/components/navigation";
 import CardIndiv from "@/components/view-all-individual-card";
-import { Button/*, Form, InputGroup*/ } from '@/components/bootstrap';
+import { Button } from '@/components/bootstrap';
 import styles from '@/app/homepage.module.css';
 import PaginationControls from "@/components/pagination";
-import { handleCookie } from "@/app/login/page";
 import Popup from "@/components/popup";
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
@@ -45,32 +44,6 @@ const Deleted = ({searchParams}) => {
         setSelectedValue(selectedValue);
         router.push(basePath + `/?page=1`);
     };
-
-    useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const records = await getRecords({ searchParams });
-    //         setData(records);
-    //       } catch (error) {
-    //         console.error('Error fetching records:', error);
-    //         // Handle error as needed
-    //       }
-    //     };
-    
-        const fetchCookie = async () => {
-          try {
-            const cookieResult = await handleCookie();
-            setCookie(cookieResult);
-            // Do something with the cookie result if needed
-          } catch (error) {
-            console.error('Error handling cookie:', error);
-            // Handle error as needed
-          }
-        };
-
-    //     fetchData();
-        fetchCookie();
-    }, [searchParams]);
 
     // Popup Functions
     const openRecoverAll = (e) => {
