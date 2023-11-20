@@ -42,7 +42,7 @@ const Checkbox = ({ id, question, options, answer, required }) => {
         const isValid = field.validity.valid;
         if (isValid){
             try {
-                const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}`, {
+                const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+`/api/records?id=${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

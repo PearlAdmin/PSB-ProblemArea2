@@ -9,7 +9,7 @@ export async function cookiesMiddleware(request) {
 
     //check if cookie with name user exists
     let isCookie = request.cookies.has('user');
-    const loginURL = process.env.NEXT_PUBLIC_API_BASE_URL + '/login';
+    const loginURL = process.env.NEXT_PUBLIC_VERCEL_URL + '/login';
     console.log("IN MID", request.nextUrl.pathname);
     
     //if cookie does not exist redirect to login
@@ -24,7 +24,7 @@ export async function cookiesMiddleware(request) {
         const cookieValue = JSON.parse(cookie.value);
         console.log(cookieValue);
         try {
-            const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+'/api/cookies', {
+            const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+'/api/cookies', {
                 // cache: 'no-store',
                 next: {
                     revalidate: 5
@@ -47,7 +47,7 @@ export async function cookiesMiddleware(request) {
             //Prevent the user from accessing Login URL if they are already logged in
             console.log("IF REQ == LOGIN", )
             if(request.url === loginURL){
-                return NextResponse.redirect(process.env.NEXT_PUBLIC_API_BASE_URL + '/')
+                return NextResponse.redirect(process.env.NEXT_PUBLIC_VERCEL_URL + '/')
             }
 
             // const adminPage = ['/manage-user', '/deleted'];
@@ -64,7 +64,7 @@ export async function cookiesMiddleware(request) {
                 return NextResponse.next();
             } else if (cookieValue.role !== 'admin' && adminPages.includes(pageURL)){
                 
-                return NextResponse.redirect(process.env.NEXT_PUBLIC_API_BASE_URL + '/forbidden')
+                return NextResponse.redirect(process.env.NEXT_PUBLIC_VERCEL_URL + '/forbidden')
             }
 
             

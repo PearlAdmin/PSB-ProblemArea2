@@ -22,7 +22,7 @@ const LogIn = () => {
         event.preventDefault();
         
         try {
-            const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+'/api/login', {
+            const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+'/api/login', {
                 cache: 'no-store',
                 method: 'POST',
                 headers: {

@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 const Session = () => {
     const cookies = new Cookies();
     const router = useRouter();
-    const basePath = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
     useEffect( () => {
         const checkUserCookie = async () => {
@@ -15,7 +15,7 @@ const Session = () => {
                 router.push(basePath + '/login');
             } else {
                 try {
-                    const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + '/api/cookies', {
+                    const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL + '/api/cookies', {
                         cache: 'no-store',
                         method: 'POST',
                         body: JSON.stringify({username: cookies.get('user').username})

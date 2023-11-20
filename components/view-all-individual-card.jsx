@@ -24,7 +24,7 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
 
   const deleteRecord = async () => {
     try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+`/api/records?id=${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
