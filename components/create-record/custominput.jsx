@@ -29,6 +29,5 @@ const CustomInput = (props) => {
     case "date":
         return <Dates question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} />
   }
-  // i dunno how we would do file ;-;
-    };
+};
 export default CustomInput;

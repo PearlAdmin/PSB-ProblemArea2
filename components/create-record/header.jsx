@@ -1,5 +1,16 @@
 import styles from './styles.module.css';
 
+/**
+ * Header component for rendering a section header.
+ * @component
+ * @param {Object} props - The properties of the Header component.
+ * TODO: check if this is correct
+ * @param {string} props.id - The unique identifier for the header.
+ * @param {string} props.header - The text content of the header.
+ * @param {boolean} props.isReadOnly - Indicates whether the header is in read-only mode.
+ * @param {Function} props.changeHeader - A function to handle changes to the header.
+ * @returns {JSX.Element} JSX.Element representing the Header component.
+ */
 const Header = ({ id, header, isReadOnly, changeHeader }) => {
     return (
         <div className={`${styles.formContainerShadow} col pt-2`}>

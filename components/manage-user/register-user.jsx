@@ -2,21 +2,52 @@
 import { useState } from "react";
 import {InputGroup, Button, Form} from '@/components/bootstrap';
 
-
+/**
+ * React component for managing authorized users.
+ * @component
+ * @returns {JSX.Element} JSX.Element representing the Register component.
+ */
 const Register = () => {
+    /**
+     * State to manage the visibility of the password.
+     * @type {boolean}
+     */
     const [showPassword, setShowPassword] = useState(false);
+
+    /**
+     * State to manage the visibility of the password confirmation.
+     * @type {boolean}
+     */
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
 
+    /**
+     * Function to toggle the visibility of the password.
+     * @function
+     */
     const togglePassword = () => {
         setShowPassword(!showPassword);
     };
 
+    /**
+     * Function to toggle the visibility of the password confirmation.
+     * @function
+     */
     const togglePasswordConfirmation = () => {
         setShowPasswordConfirmation(!showPasswordConfirmation);
     };
 
+    /**
+     * State to store user registration data.
+     * @type {Object}
+     */
     const[data, setData] = useState({});
-    
+
+    /**
+     * Handles the form submission for user registration.
+     * @async
+     * @function
+     * @param {Event} e - The form submission event.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch('/api/manage-user',{

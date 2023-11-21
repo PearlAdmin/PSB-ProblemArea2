@@ -1,5 +1,16 @@
 import styles from './styles.module.css';
 
+/**
+ * Checkbox component for rendering a question with multiple choice options.
+ * @component
+ * @param {Object} props - The properties of the Checkbox component.
+ * @param {string} props.question - The text of the question.
+ * @param {string[]} props.options - An array of options for the checkbox.
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {Function} props.setValues - A function to handle the onChange event and update values. 
+ * @returns {JSX.Element} JSX.Element representing the Checkbox component.
+ */
+
 const Checkbox = ({ question, options, required, setValues }) => {
     return (
         <div>

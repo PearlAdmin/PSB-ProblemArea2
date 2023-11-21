@@ -1,5 +1,17 @@
 import mongoose, {Schema} from "mongoose";
 
+/**
+ * Mongoose schema for representing a form question.
+ * @typedef {Object} Question
+ * @property {string} question - The question being asked.
+ * @property {string} inputType - The type of input for the question. The input could be 
+ *                                'text', 'alphanumeric', 'number', 'radio', 'checkbox', 'file', 'date', or 'header'.
+ * @property {number} number - A unique number identifier for the question, used in ordering the questions. 
+ * @property {boolean} deletable - Indicates whether the question is deletable. Defaults to true.
+ * @property {boolean} required - Indicates whether the question is required. Defaults to false.
+ * @property {string[]} choices - An array of choices for the question. Applicable only for 'radio' and 'checkbox' input types.
+ */
+
 const questionSchema = new Schema({
     question: {
         type: String,
@@ -31,6 +43,10 @@ const questionSchema = new Schema({
     }
 });
 
+/**
+ * Mongoose model representing a survey question.
+ * @type {mongoose.Model<Question>}
+ */
 const Question = mongoose.models.Question || mongoose.model('Question', questionSchema);
 
 export default Question;

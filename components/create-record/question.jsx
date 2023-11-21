@@ -2,6 +2,23 @@ import { useState } from 'react';
 import MCeditable from '@/components/create-record/mc_editable';
 import styles from './styles.module.css';
 
+/**
+ * Question component for rendering a dynamic form question.
+ * @component
+ * @param {Object} props - The properties of the Question component.
+ * @param {string} props.id - The unique identifier for the question.
+ * @param {string} props.question - The text of the question.
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {boolean} props.deletable - Indicates whether the question can be deleted.
+ * @param {string} props.dbtype - The type of the question stored in the database.
+ * @param {string[]} props.choices - An array of choices for multiple-choice questions.
+ * @param {Function} props.changeQuestion - A function to handle changes to the question text.
+ * @param {Function} props.changeType - A function to handle changes to the question type.
+ * @param {Function} props.changeChoices - A function to handle changes to the question choices.
+ * @param {Function} props.changeRequired - A function to handle changes to the question's required status.
+ * @returns {JSX.Element} JSX.Element representing the Question component.
+ */
+
 const Question = ({ id, question, required, deletable, dbtype, choices, changeQuestion, changeType, changeChoices, changeRequired }) => {
     let defaultType = "text"
     if(dbtype) defaultType = dbtype
@@ -10,6 +27,13 @@ const Question = ({ id, question, required, deletable, dbtype, choices, changeQu
     const [type, setType] = useState(defaultType);
     // const [required, setRequired] = useState(true);
 
+    /**
+     * Handles changes to the question type and triggers the corresponding callback.
+     * @constant {Function}
+     * @param {string[]} choices - The choices for multiple-choice questions.
+     * @param {Event} e - The change event for the question type dropdown.
+     * @returns {void}
+     */
     const handleTypeChange = (choices, e) => {
         setType(e.target.value);
         // console.log('TARGET', e.target.value);

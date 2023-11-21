@@ -1,5 +1,16 @@
 import styles from './styles.module.css';
 
+/**
+ * MC component for rendering a multiple-choice input.
+ * @component
+ * @param {Object} props - The properties of the MC component.
+ * @param {string} props.type - The type of input (e.g., 'checkbox', 'radio').
+ * @param {string} props.question - The text of the question.
+ * @param {string[]} props.options - An array of options for the multiple-choice input.
+ * @param {boolean} props.required - Indicates whether the input is required.
+ * @param {Function} props.setValues - A function to handle changes to the input values.
+ * @returns {JSX.Element} JSX.Element representing the MC component.
+ */
 const MC  = ({type, question, options, required, setValues }) => {
     return (
         <div className='mb-3'>
