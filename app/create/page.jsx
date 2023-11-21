@@ -3,10 +3,12 @@ import { useRef, useState, useEffect } from 'react';
 import Navbar from "@/components/navigation"
 import Header from '@/components/create-record/header';
 import Popup from '@/components/popup';
-import { Alert, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import CustomInput from '@/components/create-record/custominput';
 import useSWR from 'swr';
 import styles from '@/components/create-record/styles.module.css';
+import { useCookies } from 'react-cookie';
+import { useRouter } from 'next/navigation';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -14,6 +16,9 @@ const CreateRecord = () => {
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
     const [values, setValues] = useState({});
     const errorMsg = useRef('')
+    const [cookies, setCookie] = useCookies(['user']);
+    const currentUser = cookies.user.username;
+    const router = useRouter();
 
     const handleInputChange = (e, options = null) => {
         const { name, value, type, checked, required, pattern } = e.target;
@@ -117,12 +122,14 @@ const CreateRecord = () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(values),
+              body: JSON.stringify({...values, 'createdBy': currentUser}),
             });
       
             if (response.ok) {
               // Handle the successful response here
               console.log('POST request was successful');
+              alert('Record created successfully');
+              router.push('/');
             } else {
               // Handle errors or non-2xx responses
                 const data = await response.json()
@@ -131,7 +138,6 @@ const CreateRecord = () => {
             }
           } catch (error) {
             console.error('An error occurred:', error);
-            
         };
 
         validateSN('SN: ')

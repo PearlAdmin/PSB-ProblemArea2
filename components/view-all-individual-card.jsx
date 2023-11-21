@@ -68,7 +68,7 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
             <div style={{ fontSize: '10px' }}><a>SCN#</a>{scn}</div>
             <div style={{ fontSize: '10px', marginLeft: '20px' }}><a>SN#</a>{sn}</div>
           </div>
-          <div style={{ fontSize: '10px' }}><a>Last Updated: </a>{date}</div>
+          <div style={{ fontSize: '10px' }}><a>Assigned Date: </a>{date}</div>
         </div>
         {!route ? (
           <div className="p-2 d-flex flex-row align-items-center">

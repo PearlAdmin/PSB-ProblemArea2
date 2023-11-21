@@ -1,6 +1,7 @@
 import dbConnect from "@/libs/db";
 import {NextResponse} from "next/server";
 import Record from "@/models/records";
+import Log from "@/models/logs";
 
 export async function POST(req) {
   try {
@@ -18,8 +19,24 @@ export async function POST(req) {
     }
 
     data.isdeleted = false
+    const createdBy = data.createdBy;
+    delete data.createdBy;
 
     await Record.create(data);
+
+    const createdData = await Record.findOne({'SCN: ': data['SCN: ']});
+    const id = createdData._id;
+    
+    const log = {
+      recordId: id,
+      action: 'created',
+      editedBy: createdBy,
+      timestamp: Date.now()
+    }
+
+    // DONT DELETE THIS CONSOLE LOG
+    console.log("CREATED \n", log);
+    await Log.create(log);
 
     return NextResponse.json({message: "Record created successfully"}, {status: 201});
   } catch (error) {

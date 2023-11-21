@@ -29,11 +29,19 @@ export async function GET(req) {
         .skip(start)
         .limit(end);
     } else {
-      records = await Record.find({isdeleted : isdeleted})
+      if (selectedValue == "Assigned Date:"){
+        records = await Record.find({isdeleted : isdeleted})
+        .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+        .sort({ [selectedValue + " "]: -1 }) // 1 for ascending order, -1 for descending order 
+        .skip(start)
+        .limit(end);
+      }else{
+        records = await Record.find({isdeleted : isdeleted})
         .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
         .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
         .skip(start)
         .limit(end);
+      }
     }
     
     let limit;

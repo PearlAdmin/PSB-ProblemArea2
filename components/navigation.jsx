@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import {PDFDownloadLink} from '@react-pdf/renderer';
 
-const Navbar = ({PDF, filename}) => {
+const Navbar = ({PDF, filename, recordId, showLog, isLogVisible}) => {
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = () => {
         setShowMenu(!showMenu);
@@ -58,13 +58,18 @@ const Navbar = ({PDF, filename}) => {
 
                     <div className="navbar-right text-end d-flex align-items-center ms-auto">
                         {
-                            PDF ? (
+                            recordId && showLog && (
+                                <button className='btn btn-dark me-5 my-auto' onClick={showLog}>{!isLogVisible ? 'Show':'Hide'} Edit Logs</button>
+                            )
+                        }
+                        {
+                            PDF && (
                                 <PDFDownloadLink document={PDF} fileName={filename}>
                                     {({ blob, url, loading, error }) =>
                                         loading ? <p className='me-5 my-auto'>Loading document...</p> : <button className='btn btn-dark me-5 my-auto'>Download PDF</button>
                                     }
                                 </PDFDownloadLink>
-                            ) : null
+                            )
                         }
                         <div className="nav-right col-md text-end d-flex align-items-center h-100">
                         <button className="navbar-menu-btn navbar-toggler-icon" id="navbar-menu-btn" onClick={toggleMenu}></button>

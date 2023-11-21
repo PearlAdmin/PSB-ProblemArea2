@@ -70,7 +70,7 @@ function SortBy() {
                     id="searchChild"
                     name="searchChild"
                     className={`custom-select ${styles.customHeight31}`}
-                    style={{ width: '90px' }}
+                    style={{ width: '150px' }}
                     value={searchValue}
                     onChange={(e) => setsearchValue(e.target.value)} 
                 >
@@ -78,6 +78,7 @@ function SortBy() {
                     <option value="SN: ">SN</option>
                     <option value="Last Name: ">Lastname</option>
                     <option value="First Name: ">Firstname</option>
+                    <option value="Assigned Date: ">Assigned Date</option>
                 </Form.Select>
 
                 <Form.Control
@@ -87,7 +88,7 @@ function SortBy() {
                     name="search"
                     value={searchText}
                     onChange={handleSearchChange}
-                    style={{ maxWidth: '900px' }}
+                    style={{ maxWidth: '800px' }}
                 />
 
                 <div className={`${styles.customHeight31} align-items-center p-2`} style={{ width: '90px' }}>Sort By:</div>
@@ -104,6 +105,7 @@ function SortBy() {
                     <option value="SN: ">SN</option>
                     <option value="Last Name: ">Lastname</option>
                     <option value="First Name: ">Firstname</option>
+                    <option value="Assigned Date: ">Assigned Date</option>
                 </Form.Select>
             </div>
 

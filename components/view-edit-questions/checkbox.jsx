@@ -86,7 +86,6 @@ const Checkbox = ({ id, question, options, answer, required }) => {
                             {required && <div className={`${styles.formTitleRequired}`}>*</div>}
                         </label>
                         {(!required && <div><i className={`form-title bi bi-pencil-square me-3 edit-icon ${styles.button}`} onClick={handleEditClick}></i></div>)}
-                        {(!required && <div><i className={`form-title bi bi-clock-history ${styles.button}`}></i></div>)}
                     </div>
                     {isEditing ? (
                     <div>
