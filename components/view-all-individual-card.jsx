@@ -72,6 +72,9 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
         </div>
         {!route ? (
           <div className="p-2 d-flex flex-row align-items-center">
+            <Link href={`/view/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
+              <i className="bi bi-download p-3"></i>
+            </Link>
             <Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
               <i className="bi bi-pencil-fill p-3 my-auto" onClick={func1}></i>
             </Link>
