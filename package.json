@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.14",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",
