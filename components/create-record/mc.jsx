@@ -1,7 +1,6 @@
 import styles from './styles.module.css';
 
 const MC  = ({type, question, options, required, setValues }) => {
-    
     return (
         <div className='mb-3'>
             <div className={`${styles.formContainer} col mb-3`}>

@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import Navbar from "@/components/navigation"
 import Header from '@/components/create-record/header';
 import Popup from '@/components/popup';
-import { Button } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 import CustomInput from '@/components/create-record/custominput';
 import useSWR from 'swr';
 import styles from '@/components/create-record/styles.module.css';
@@ -83,6 +83,7 @@ const CreateRecord = () => {
       
         if (errorMsg.current == "SN should be unique") {
           input.setCustomValidity(errorMsg.current);
+          alert(errorMsg.current);
         } else {
           input.setCustomValidity("");
         }
@@ -97,6 +98,7 @@ const CreateRecord = () => {
       
         if (errorMsg.current == "SCN should be unique") {
           input.setCustomValidity(errorMsg.current);
+          alert(errorMsg.current);
         } else {
           input.setCustomValidity("");
         }
@@ -195,4 +197,5 @@ const CreateRecord = () => {
         </div>
     );
 };
+
 export default CreateRecord;

@@ -8,9 +8,15 @@ const Question = ({ id, question, required, deletable, dbtype, choices, changeQu
     let displayOnly = false
     if(!deletable) displayOnly = true
     const [type, setType] = useState(defaultType);
+    // const [required, setRequired] = useState(true);
 
-    const handleTypeChange = (choices, e)=>{
-        setType(e.target.value)
+    const handleTypeChange = (choices, e) => {
+        setType(e.target.value);
+        // console.log('TARGET', e.target.value);
+        // console.log(e.target.value === 'checkbox')
+        // if(e.target.value === 'checkbox') {
+        //     setRequired(false);
+        // }
         changeType(choices, e)
     }
 
@@ -35,10 +41,10 @@ const Question = ({ id, question, required, deletable, dbtype, choices, changeQu
                 {type === "checkbox" && (<MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
                 {type === "date" && (<input className={`${styles.input} ${styles.formAnswer} w-100`} type="date" disabled required={required}></input>)}
             </div>
-            <div className={`form-check form-switch my-2 d-flex`}>
+            {type !== 'checkbox' && <div className={`form-check form-switch my-2 d-flex`}>
                 <input className={`${styles.input} form-check-input ms-auto me-2`} type="checkbox" id={id} defaultChecked={required} onChange={changeRequired} disabled={displayOnly}></input>
                 <label className={`form-check-label fw-normal`}>Required</label>
-            </div>
+            </div>}
         </div>
     );
 };

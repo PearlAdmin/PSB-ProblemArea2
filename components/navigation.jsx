@@ -4,8 +4,9 @@ import Image from 'next/image';
 import './nav.styles.css';
 import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
+import {PDFDownloadLink} from '@react-pdf/renderer';
 
-const Navbar = () => {
+const Navbar = ({PDF, filename}) => {
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = () => {
         setShowMenu(!showMenu);
@@ -56,6 +57,15 @@ const Navbar = () => {
                     </div>
 
                     <div className="navbar-right text-end d-flex align-items-center ms-auto">
+                        {
+                            PDF ? (
+                                <PDFDownloadLink document={PDF} fileName={filename}>
+                                    {({ blob, url, loading, error }) =>
+                                        loading ? <p className='me-5 my-auto'>Loading document...</p> : <button className='btn btn-dark me-5 my-auto'>Download PDF</button>
+                                    }
+                                </PDFDownloadLink>
+                            ) : null
+                        }
                         <div className="nav-right col-md text-end d-flex align-items-center h-100">
                         <button className="navbar-menu-btn navbar-toggler-icon" id="navbar-menu-btn" onClick={toggleMenu}></button>
                         </div>
