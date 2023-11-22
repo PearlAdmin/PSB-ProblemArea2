@@ -5,7 +5,7 @@ import { Button } from '@/components/bootstrap';
 import styles from '@/app/homepage.module.css';
 import PaginationControls from "@/components/pagination";
 import Popup from "@/components/popup";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import {  useSearchParams, useRouter } from 'next/navigation';
 
@@ -76,6 +76,8 @@ const Deleted = ({searchParams}) => {
               const data = await response.json()
               console.error('PATCH request failed');
           }
+          alert("All records have been recovered!");
+          window.location.reload();
       } catch (error) {
           console.error('An error occurred:', error);
       };
@@ -145,23 +147,6 @@ const Deleted = ({searchParams}) => {
         };
     }
 
-    // const handleDelete = async (e) => {
-    //   const response = await fetch('/api/manage-user', {
-    //     method: 'DELETE',
-    //     body: JSON.stringify({username: username}),
-    //     headers:{
-    //       'Content-Type': 'application/json'
-    //     }
-    //   });
-  
-    //   if(response.ok){
-    //     window.location.reload();
-    //     alert("User has been deleted!");
-    //   }else{
-    //     alert("Could not delete user!");
-    //   }
-    // }
-
     //TODO: FIGURE THIS OUT
     const permaDeleteRecord = async(e, id) => {
         e.preventDefault();
@@ -177,9 +162,9 @@ const Deleted = ({searchParams}) => {
 
           if(response.ok){
             window.location.reload();
-            alert("User has been deleted!");
+            alert("Record has been permanently deleted!");
           }else{
-            alert("Could not delete user!");
+            alert("Could not delete record!");
           }
       } catch (error) {
           console.error('An error occurred:', error);
@@ -196,9 +181,7 @@ const Deleted = ({searchParams}) => {
         setRecoverOpen(false);
         setPermaDeleteOpen(false);
     }
-
     
-
     const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&searchText=${searchText}&searchValue=${searchValue}&selectedValue=${selectedValue}&deleted=true`, fetcher);
 
     if (isLoading) return (<div>Loading...</div>);
@@ -235,26 +218,9 @@ const Deleted = ({searchParams}) => {
                 Permanently Delete All
               </Button>
             </div>
-            {/* <SortBy items={data} /> */}
-  
-            {/* {data.records.map((sample, i) => {
-              return (
-                <CardIndiv
-                  key={i}
-                  lastName={sample['Last Name: ']}
-                  firstname={sample['First Name: ']}
-                  scn={sample['SCN: ']}
-                  sc={sample['SN: ']}
-                  date={sample['Assigned Date: ']}
-                  route={"deleted"}
-                  func1={openRecover}
-                  func2={openPermaDelete}
-                />
-              )
-            })} */}
 
             {/* Sample Post */}
-            {items.records.map((item, index) => (
+            {items.records.length > 0 ? (items.records.map((item, index) => (
             <CardIndiv
                 key={index}
                 id={item._id}
@@ -266,16 +232,18 @@ const Deleted = ({searchParams}) => {
                 route={"deleted"}
                 func1={(e)=>openRecover(e, item._id)}
                 func2={(e)=>openPermaDelete(e, item._id)}
-            />))}
+            />))) : (
+              <p>No Deleted Records...</p>
+            )}
   
             {/* Pagination */}
             <PaginationControls count={data?.limit} perpage={data?.per_page} route={"deleted"}/>
           </div>
         </div>
-        {isRecoverAllOpen && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isPermaDeleteAllOpen && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isRecoverOpen && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>recoverRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isPermaDeleteOpen && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>permaDeleteRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isRecoverAllOpen && items.record && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isPermaDeleteAllOpen && items.record && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isRecoverOpen && items.record && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>recoverRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isPermaDeleteOpen && items.record && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>permaDeleteRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
       </div>
     );
   }

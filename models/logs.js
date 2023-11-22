@@ -25,6 +25,11 @@ const logSchema = new Schema({
     edits: {
         type: [editSchema],
         required: true
+    },
+    isdeleted: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

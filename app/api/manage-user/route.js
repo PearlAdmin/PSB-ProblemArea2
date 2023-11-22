@@ -2,7 +2,6 @@ import dbConnect from "@/libs/db";
 import User from "@/models/users";
 import { NextResponse } from "next/server";
 
-
 // CREATE NEW USER
 export async function POST(req){
     const {username, password} = await req.json();

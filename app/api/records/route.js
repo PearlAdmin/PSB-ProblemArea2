@@ -9,12 +9,13 @@ export async function POST(req) {
 
     // Insert the data into the database
     await dbConnect();
-    const doubleSCN = await Record.findOne({'SCN: ': data['SCN: ']})
+    const doubleSCN = await Record.findOne({'SCN: ': data['SCN: ']});
     
     //Chck if SCN has duplicates in the data. 
     if(doubleSCN) {
       return NextResponse.json({message: 'SCN should be unique'}, {status: 500});
     }
+
     //set isdeleted and expirationDate to record
     data.isdeleted = false
     const createdBy = data.createdBy;
@@ -34,7 +35,8 @@ export async function POST(req) {
         editedBy: createdBy,
         action: 'created',
         timestamp: Date.now()
-      }]
+      }],
+      isdeleted: false
     }
 
     // DONT DELETE THIS CONSOLE LOG
@@ -56,9 +58,10 @@ export async function GET(req) {
       const id = url.searchParams.get('id')
 
       await dbConnect();
-      const record = await Record.findOne({_id: id})
+      const record = await Record.findOne({_id: id});
+      const log = await Log.findOne({recordId: id});
       
-      return NextResponse.json({record}, {status: 200});
+      return NextResponse.json({record, log}, {status: 200});
     } else {
       const page = url.searchParams.get('page') ?? '1';
       const per_page = '8';
@@ -104,15 +107,17 @@ export async function PATCH(req){
         data.expirationDate = new Date(data.expirationDate)
       } 
       
-
       const record = await Record.findByIdAndUpdate(id, data, {
         new: true,
         runValidators: true,
       });
 
-      await record.save();
+      const log = await Log.findOneAndUpdate({recordId: id}, { $set: { isdeleted: data.isdeleted } }, {new:true});
 
-      if (!record) {
+      await record.save();
+      await log.save();
+
+      if (!record || !log) {
         return NextResponse.json({message: "record not found"}, {status: 400});
       }
       return NextResponse.json({record}, {status: 200});
@@ -143,8 +148,9 @@ export async function DELETE(req){
     console.log("ID", id);
     if(id){
       const record = await Record.findByIdAndDelete(id);
+      const log = await Log.findOneAndDelete({recordId: id});
 
-      if (!record) {
+      if (!record || !log) {
         return NextResponse.json({message: "record not found"}, {status: 400});
       }
 
@@ -152,6 +158,7 @@ export async function DELETE(req){
     }
       
     const records = await Record.find({isdeleted: true}).deleteMany({});
+    const logs = await Log.find({isdeleted: true}).deleteMany({});
 
     if (!records) {
       return NextResponse.json({message: "All records are not deleted"}, {status: 400});

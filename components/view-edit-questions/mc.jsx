@@ -1,11 +1,9 @@
 'use client'
-import { FC, useState, useRef } from 'react';
-import Head from 'next/head';
-import { Card } from 'react-bootstrap';
+import { useState, useRef } from 'react';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
-const MC = ({ id, question, options, answer, required }) => {
+const MC = ({ id, question, options, answer, required, order, didEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswer, setEditableAnswer] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
@@ -41,12 +39,13 @@ const MC = ({ id, question, options, answer, required }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({[question]: {value:editableAnswer, options:options, required:required, type:"radio"}}),
+                body: JSON.stringify({[question]: {value:editableAnswer, options:options, required:required, type:"radio", order:order}}),
                 });
         
                 if (response.ok) {
                 // Handle the successful response here
                 console.log('PATCH request was successful');
+                didEdit(true);
                 } else {
                 // Handle errors or non-2xx responses
                     const data = await response.json()

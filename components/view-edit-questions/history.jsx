@@ -2,7 +2,7 @@ import styles from '@/components/create-record/styles.module.css';
 import { Card } from 'react-bootstrap';
 import PaginationControls from '../pagination';
 
-const History = ({question, answers, closeModal}) => {
+const History = ({answers}) => {
     return (
         <div className={`${styles.popupModal}`} id="form-confirm-container">
             <div className={`${styles.popupModalBoxContainer}`}>

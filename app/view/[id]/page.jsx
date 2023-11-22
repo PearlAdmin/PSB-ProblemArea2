@@ -1,5 +1,5 @@
 "use client";
-import {Page, Image, Text, View, Document, PDFDownloadLink, StyleSheet, PDFViewer, Font } from '@react-pdf/renderer';
+import {Page, Image, Text, View, Document, StyleSheet, PDFViewer, Font } from '@react-pdf/renderer';
 import useSWR from 'swr';
 import Navbar from "@/components/navigation";
 
@@ -149,11 +149,13 @@ const ViewRecord = ({params}) => {
     const {data, isLoading, error} = useSWR(`/api/records?id=${params.id}`, fetcher);
     if (isLoading) return (<div>Loading...</div>);
     if (error) return (<div>Error...</div>);
+    
     const record = data.record;
+    if (!record) return (<div>Not Found...</div>);
     const filename = record['First Name: '].value + '_' + record['Last Name: '].value + '-' + record['SN: '].value + '-' + record['SCN: '].value + '.pdf';
-    const toSort = Object.entries(record);
-    const dataArr = toSort.sort((a, b) => a[1].order - b[1].order);
-    console.log(dataArr);
+    const filteredKeys = Object.keys(record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
+    const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
+    const dataArr = filteredEntries.sort(([, a], [, b]) => a.order - b.order);
     return (
         <>
             <Navbar PDF={<MyDocument record={dataArr}/>} filename={filename}/>

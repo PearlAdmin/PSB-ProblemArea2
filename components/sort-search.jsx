@@ -6,7 +6,6 @@ import styles from '@/app/homepage.module.css';
 import PaginationControls from "@/components/pagination";
 import useSWR from 'swr';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Popup from './popup';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -25,7 +24,7 @@ function DisplaySorted({page, searchText, selectedValue, searchValue}){
 
     return(
         <div>
-            {items.records.map((item, i) => (
+            {items.records.length > 0 ? (items.records.map((item, i) => (
                     <CardIndiv
                         key={i}
                         id={item._id}
@@ -35,7 +34,9 @@ function DisplaySorted({page, searchText, selectedValue, searchValue}){
                         sn={item['SN: '].value}
                         date={item['Assigned Date: '].value}
                     /> 
-            ))}
+            ))) : (
+                <p>No Records to Display yet...</p>
+            )}
             
             <PaginationControls count={items.limit} perpage={items.per_page} />
         </div>

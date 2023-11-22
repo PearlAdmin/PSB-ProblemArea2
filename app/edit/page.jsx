@@ -1,10 +1,8 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
-import Head from 'next/head';
 import Navbar from "@/components/navigation"
 import Question from '@/components/create-record/question';
 import Header from '@/components/create-record/header';
-import { Button } from 'react-bootstrap';
 import styles from '@/components/create-record/styles.module.css';
 import useSWR from 'swr';
 import Popup from '@/components/popup';
