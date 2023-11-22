@@ -162,6 +162,7 @@ const Deleted = ({searchParams}) => {
     //   }
     // }
 
+    //TODO: FIGURE THIS OUT
     const permaDeleteRecord = async(e, id) => {
         e.preventDefault();
         console.log("ID IN REQ", id);
