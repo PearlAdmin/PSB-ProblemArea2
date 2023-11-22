@@ -29,7 +29,7 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({isdeleted: true, expireAfterSeconds: 157680000 }),
+        body: JSON.stringify({isdeleted: true, expirationDate: new Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000)}),
         });
 
         if (response.ok) {

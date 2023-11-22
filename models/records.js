@@ -6,7 +6,9 @@ import mongoose, { Schema } from "mongoose";
  * @property {*} - This schema has no strict structure and allows any properties.
  */
 
-const noStrictSchema = new Schema({}, {strict: false});
+const noStrictSchema = new Schema(
+  { }, { strict: false }
+);
 
 /**
  * Mongoose model representing a sponsored record with no strict structure.

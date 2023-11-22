@@ -37,13 +37,14 @@ const CreateRecord = () => {
         //                   required: bool, 
         //                   type: string},
         //          }
-
+        
         if (type === "checkbox") {
             if (!updatedValues[name]){
                 // updatedValues[name] = [ value ];
-                updatedValues[name] = {value: [value], options: options, required: required, type: type, order: values[name].order};
+                updatedValues[name] = {value: [value], options: options, required: required, type: type};
             } else {
                 if (checked) {
+                    console.log("in checked")
                     // If the checkbox is checked, add the value to the array
                     // updatedValues[name] = [...updatedValues[name], value];
                     updatedValues[name].value = [...updatedValues[name].value, value];
