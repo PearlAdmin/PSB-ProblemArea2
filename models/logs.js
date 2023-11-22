@@ -1,10 +1,6 @@
 import mongoose, {Schema} from "mongoose";
 
-const logSchema = new Schema({
-    recordId: {
-        type: String,
-        required: true
-    },
+const editSchema = new Schema({
     editedBy: {
         type: String,
         required: true
@@ -17,6 +13,17 @@ const logSchema = new Schema({
     },
     timestamp: {
         type: Number,
+        required: true
+    }
+});
+
+const logSchema = new Schema({
+    recordId: {
+        type: String,
+        required: true
+    },
+    edits: {
+        type: [editSchema],
         required: true
     }
 });

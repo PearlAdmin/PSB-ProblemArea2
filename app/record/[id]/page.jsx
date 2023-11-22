@@ -17,8 +17,8 @@ const Record = ({params}) => {
   
     //TODO: error page load component
     if (error) return (<div>Error...</div>);
-    const dataArr = Object.entries(data.record);
-    console.log(data);
+    const toSort = Object.entries(data.record);
+    const dataArr = toSort.sort((a, b) => a[1].order - b[1].order);
 
     const showLogs = () => {
         setLogVisible(!isLogVisible);

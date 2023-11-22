@@ -151,8 +151,8 @@ const ViewRecord = ({params}) => {
     if (error) return (<div>Error...</div>);
     const record = data.record;
     const filename = record['First Name: '].value + '_' + record['Last Name: '].value + '-' + record['SN: '].value + '-' + record['SCN: '].value + '.pdf';
-    const dataArr = Object.entries(record);
-
+    const toSort = Object.entries(record);
+    const dataArr = toSort.sort((a, b) => a[1].order - b[1].order);
     console.log(dataArr);
     return (
         <>

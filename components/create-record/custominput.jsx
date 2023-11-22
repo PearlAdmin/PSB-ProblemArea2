@@ -14,20 +14,20 @@ const CustomInput = (props) => {
   switch (props.config.inputType){
     //if input a text input
     case "number":
-      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[0-9]+'} />
+      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[0-9]+'}/>
     case "alphanumeric":
-      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9]+'} />
+      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9]+'}/>
     case "text":
-      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} />
+      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues}/>
     //if input a radio choice
     case "radio":
       return <MC type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>
     //if input a checkbox choice
     case "checkbox":
-        return <MC type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
+        return <MC type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}  />
     //if input a date input
     case "date":
-        return <Dates question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} />
+        return <Dates question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues}/>
   }
 };
 export default CustomInput;

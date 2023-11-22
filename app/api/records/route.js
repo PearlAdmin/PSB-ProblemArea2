@@ -21,7 +21,7 @@ export async function POST(req) {
     data.isdeleted = false
     const createdBy = data.createdBy;
     delete data.createdBy;
-
+    console.log("CREATED \n", data);
     await Record.create(data);
 
     const createdData = await Record.findOne({'SCN: ': data['SCN: ']});
@@ -29,9 +29,11 @@ export async function POST(req) {
     
     const log = {
       recordId: id,
-      action: 'created',
-      editedBy: createdBy,
-      timestamp: Date.now()
+      edits: [{
+        editedBy: createdBy,
+        action: 'created',
+        timestamp: Date.now()
+      }]
     }
 
     // DONT DELETE THIS CONSOLE LOG
@@ -53,8 +55,8 @@ export async function GET(req) {
       const id = url.searchParams.get('id')
 
       await dbConnect();
-      const record = await Record.findOne({_id: id})
-      console.log("IN DB", record);
+      const record = await Record.findOne({_id: id});
+      
       return NextResponse.json({record}, {status: 200});
     } else {
       const page = url.searchParams.get('page') ?? '1';
@@ -131,18 +133,7 @@ export async function PATCH(req){
 }
 
 export async function DELETE(req){
-  try {
-    // console.log(req);
-    // const {username} = await req.json();
-    // await dbConnect();
-
-    // const user = await User.findOneAndDelete({username: username});
-
-    // if(!user){
-    //     return NextResponse.json({message: "User not deleted"}, {status: 404});
-    // }
-    // return NextResponse.json({message: "User deleted successfully"}, {status: 200});
-    
+  try {    
     const {id} = await req.json();
 
     await dbConnect();

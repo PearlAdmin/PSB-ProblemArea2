@@ -23,11 +23,29 @@ export async function GET(req){
         const start = (Number(page) - 1) * Number(per_page);
 
         await dbConnect();
-        const limit = await User.countDocuments();
-        const users = await User.find({}).skip(start).limit(Number(per_page));
         
+        const searchText= url.searchParams.get('searchText') || "";
+
+        let limit;
+        let users = "";
+
+
+        if (searchText) {
+            users = await User.find({ 'username': { $regex: new RegExp(searchText, 'i') } })
+                .collation({ locale: 'en', strength: 2 })
+                .sort({ 'username': 1 })
+                .skip(start).limit(Number(per_page));
+            limit = await User.find({ 'username': { $regex: new RegExp(searchText, 'i') } }).countDocuments();
+        } else {
+            users = await User.find({})
+                .sort({ 'username': 1 })
+                .skip(start).limit(Number(per_page));
+            limit = await User.countDocuments();
+        }
+        // const users = await User.find({}).skip(start).limit(Number(per_page));
+
         return NextResponse.json({users, limit, per_page}, {status: 200});
-    } catch {
+    } catch (error){
         return NextResponse.json({message: error.message}, {status: 500});
     }
 }

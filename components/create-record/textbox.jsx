@@ -5,14 +5,13 @@ import styles from './styles.module.css';
  * @component
  * @param {Object} props - The properties of the Textbox component.
  * @param {string} props.question - The text of the question associated with the textbox.
- * TODO: why is type being passed?
  * @param {string} props.type - The type of the input (always 'text' for a textbox).
  * @param {boolean} props.required - Indicates whether the textbox is a required field.
  * @param {Function} props.setValues - A function to handle changes to the textbox value.
  * @param {string} props.validation - A regular expression pattern for input validation.
  * @returns {JSX.Element} JSX.Element representing the Textbox component.
  */
-const Textbox = ({ question, type, required, setValues, validation }) => {
+const Textbox = ({ question, required, setValues, validation, order}) => {
     return (
         <div>
             <div className={`${styles.formContainer} col mb-3`}>

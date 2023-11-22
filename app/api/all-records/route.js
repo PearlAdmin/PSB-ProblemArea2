@@ -46,9 +46,9 @@ export async function GET(req) {
     
     let limit;
     if (searchText){
-      limit = records.length;
+      limit = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted }).countDocuments();
     } else {
-      limit = await Record.find({isdeleted : isdeleted}).countDocuments()
+      limit = await Record.find({isdeleted : isdeleted}).countDocuments();
     }
     
     return NextResponse.json({records, limit, per_page}, {status: 200});

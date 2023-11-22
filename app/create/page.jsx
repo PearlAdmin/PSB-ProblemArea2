@@ -23,7 +23,7 @@ const CreateRecord = () => {
     const handleInputChange = (e, options = null) => {
         const { name, value, type, checked, required, pattern } = e.target;
 
-        console.log("id: ", e.target.id)
+        console.log("id: ", e.target.id);
         e.target.setCustomValidity('')
     
         // Use a copy of the current values object
@@ -41,7 +41,7 @@ const CreateRecord = () => {
         if (type === "checkbox") {
             if (!updatedValues[name]){
                 // updatedValues[name] = [ value ];
-                updatedValues[name] = {value: [value], options: options, required: required, type: type};
+                updatedValues[name] = {value: [value], options: options, required: required, type: type, order: values[name].order};
             } else {
                 if (checked) {
                     // If the checkbox is checked, add the value to the array
@@ -53,7 +53,7 @@ const CreateRecord = () => {
                 }
             }
         } else if (type === "radio") {
-            updatedValues[name] = {value: value, options: options, required: required, type: type};
+            updatedValues[name] = {value: value, options: options, required: required, type: type, order: values[name].order};
         } else {
             // For non-checkbox inputs, update the value directly
             // updatedValues[name] = value;
@@ -68,7 +68,7 @@ const CreateRecord = () => {
                         dbType = "text"; break;
                 }
             }
-            updatedValues[name] = {value: value, required: required, type: dbType};
+            updatedValues[name] = {value: value, required: required, type: dbType, order: values[name].order};
         }
     
         // Update the state with the modified values
@@ -158,13 +158,13 @@ const CreateRecord = () => {
         if (data) {
             data.questions.map((item, i) => {
                 if(item.inputType === 'header'){
-                    initiateValues[item.question] = {value: null, required: false, type: item.inputType}
+                    initiateValues[item.question] = {value: null, required: false, type: item.inputType, order: item.number}
                 } else if(item.inputType === 'checkbox'){
-                    initiateValues[item.question] = {value: [], options:item.choices, required: false, type: item.inputType}
+                    initiateValues[item.question] = {value: [], options:item.choices, required: false, type: item.inputType, order: item.number}
                 } else if(item.inputType === 'radio'){
-                    initiateValues[item.question] = {value: '', options:item.choices, required: false, type: item.inputType}
+                    initiateValues[item.question] = {value: '', options:item.choices, required: false, type: item.inputType, order: item.number}
                 } else {
-                    initiateValues[item.question] = {value: '', required: false, type: item.inputType}
+                    initiateValues[item.question] = {value: '', required: false, type: item.inputType, order: item.number}
                 }
             })
             setValues(initiateValues)
@@ -189,7 +189,7 @@ const CreateRecord = () => {
                             </>
                         );
                     } else {
-                        return (<CustomInput key={i} config={item} setValues={handleInputChange} />);
+                        return (<CustomInput key={i} config={item} setValues={handleInputChange} order={i}/>);
                     }
                 })}
 

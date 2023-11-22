@@ -21,7 +21,7 @@ const History = ({question, answers, closeModal}) => {
                                     <div>Edited by: <b>Kyle</b></div>
                                 </div>
                             </Card>
-                            <PaginationControls count={1} perpage={3} />
+                            <PaginationControls count={1} perpage={3}/>
                         </div>
                     </div>
                 </div>

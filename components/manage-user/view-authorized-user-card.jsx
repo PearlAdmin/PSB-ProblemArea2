@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
 
-const CardUser = ({ username: initialUsername, password: initialPassword, pageNum}) => {
+const CardUser = ({ username: initialUsername, password: initialPassword, searchText, pageNum}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState(initialUsername);
   const [password, setPassword] = useState(initialPassword);
@@ -90,9 +90,16 @@ const CardUser = ({ username: initialUsername, password: initialPassword, pageNu
   }
 
   const [state, setState] = useState(pageNum);
+  const [search, setSearch] = useState(searchText);
 
   if (state !== pageNum) {
     setState(pageNum);
+    setUsername(initialUsername);
+    setPassword(initialPassword);
+  }
+
+  if (search !== searchText) {
+    setSearch(searchText);
     setUsername(initialUsername);
     setPassword(initialPassword);
   }

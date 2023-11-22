@@ -11,7 +11,7 @@ import styles from './styles.module.css';
  * @param {Function} props.setValues - A function to handle changes to the input values.
  * @returns {JSX.Element} JSX.Element representing the MC component.
  */
-const MC  = ({type, question, options, required, setValues }) => {
+const MC  = ({type, question, options, required, setValues, order }) => {
     return (
         <div className='mb-3'>
             <div className={`${styles.formContainer} col mb-3`}>

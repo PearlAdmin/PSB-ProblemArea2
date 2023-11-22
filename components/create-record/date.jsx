@@ -9,7 +9,7 @@ import styles from './styles.module.css';
  * @param {Function} props.setValues - A function to handle the onChange event and update values.
  * @returns {JSX.Element} JSX.Element representing the Dates component.
  */
-const Dates = ({ question, required, setValues }) => {
+const Dates = ({ question, required, setValues, order }) => {
     return (
         <div>
             <div className={`${styles.formContainer} col mb-3`}>
