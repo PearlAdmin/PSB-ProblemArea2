@@ -24,7 +24,7 @@ const CustomInput = (props) => {
       return <MC type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>
     //if input a checkbox choice
     case "checkbox":
-        return <MC type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
+        return <Checkbox type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
     //if input a date input
     case "date":
         return <Dates question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} />

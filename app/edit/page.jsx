@@ -39,8 +39,8 @@ const EditForm = () => {
             const newQues = <Question 
                                 id={newQuesID} 
                                 question={`Sample Question`} 
-                                required={true}
-                                deletable={true}
+                                required={false} //change this to false to match db default
+                                deletable={true} 
                                 dbtype={"text"} 
                                 choices={null} 
                                 changeQuestion={handleChangesQuestion} 
@@ -49,8 +49,7 @@ const EditForm = () => {
                                 changeRequired={handleChangesRequired} 
                             />
             setBoxes([...boxes, newQues]);
-
-            formRef.current = [...formRef.current, {_id:newQuesID, question:"Sample Question", inputType:"text", deletable:true, required:true}]
+            formRef.current = [...formRef.current, {_id:newQuesID, question:"Sample Question", inputType:"text", deletable:true, required:false}]
             tempID.current = tempID.current + 1
         }
     }
@@ -212,7 +211,7 @@ const EditForm = () => {
         
         question.inputType = e.target.value
         if(question.inputType === "checkbox" || question.inputType === "radio"){
-            //add choices property (incomplete logic)
+            question.required = false;
             if(choices){
                 question.choices = choices
             } else {
