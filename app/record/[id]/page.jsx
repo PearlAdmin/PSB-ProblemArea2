@@ -57,6 +57,7 @@ const Record = ({params}) => {
 
     if (!data.record || !data.log) return (<Error/>);
     
+    //hmmged
     const filteredKeys = Object.keys(data.record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
     const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
     const dataArr = filteredEntries.sort(([, a], [, b]) => a.order - b.order);
@@ -66,12 +67,14 @@ const Record = ({params}) => {
     }
     
     const logs = data.log.edits;
-
+    //TODO: LOGIC FOR VERSION
     return (
         <div>
             <Navbar recordId={params.id} showLog={showLogs} isLogVisible={isLogVisible}/>
             <div className={`${styles.body} container-fluid my-3 px-5 pt-3`}>
                 <div className="flex-row justify-content-center align-items-center">
+
+                    {/* map items in dataArr to CustomView */}
                     {dataArr.map((item, i) => {
                         if(item[1].type) {
                             return <CustomView key={i} id={data.record._id} question={item[0]} answer={item[1].value} options={item[1].options} required={item[1].required} type={item[1].type} order={item[1].order} didEdit={setDidEdit}/>

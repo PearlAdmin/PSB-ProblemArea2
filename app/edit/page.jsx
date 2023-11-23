@@ -126,7 +126,6 @@ const EditForm = () => {
     // Opens Save Changes Success
     const openSaveSuccess = async (e) => {
         e.preventDefault();
-
         try {
             const response = await fetch('/api/forms', {
               method: 'POST',

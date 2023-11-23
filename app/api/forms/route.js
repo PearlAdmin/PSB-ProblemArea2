@@ -15,7 +15,9 @@ export async function POST(req) {
                 delete item._id
                 item.number = i + 1
                 delete item.__v
+                item.version = item.version + 1
             })
+            
             await Question.create(toInsert);
             return NextResponse.json({message: "Question created successfully"}, {status: 201});
         } catch (error) {

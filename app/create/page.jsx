@@ -16,9 +16,9 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const CreateRecord = () => {
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState({}); //TODO: what is values
     const errorMsg = useRef('')
-    const [cookies, setCookie] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     
     const router = useRouter();
 
@@ -31,10 +31,11 @@ const CreateRecord = () => {
         // Use a copy of the current values object
         let updatedValues = values;
         
+        //TODO: why is order not included here?
         if (type === "checkbox") {
             if (!updatedValues[name]){
                 // updatedValues[name] = [ value ];
-                updatedValues[name] = {value: [value], options: options, required: required, type: type};
+                updatedValues[name] = {value: [value], options: options, required: required, type: type, version: values[name].version};
             } else {
                 if (checked) {
                     console.log("in checked")
@@ -47,7 +48,7 @@ const CreateRecord = () => {
                 }
             }
         } else if (type === "radio") {
-            updatedValues[name] = {value: value, options: options, required: required, type: type, order: values[name].order};
+            updatedValues[name] = {value: value, options: options, required: required, type: type, order: values[name].order, version: values[name].version};
         } else {
             // For non-checkbox inputs, update the value directly
             // updatedValues[name] = value;
@@ -62,7 +63,7 @@ const CreateRecord = () => {
                         dbType = "text"; break;
                 }
             }
-            updatedValues[name] = {value: value, required: required, type: dbType, order: values[name].order};
+            updatedValues[name] = {value: value, required: required, type: dbType, order: values[name].order, version: values[name].version};
         }
     
         // Update the state with the modified values
@@ -110,6 +111,7 @@ const CreateRecord = () => {
         // Save your data if needed
         errorMsg.current = ''
 
+        //TODO: look into what values is
         try {
             const response = await fetch('/api/records', {
               method: 'POST',
@@ -152,13 +154,13 @@ const CreateRecord = () => {
         if (data) {
             data.questions.map((item, i) => {
                 if(item.inputType === 'header'){
-                    initiateValues[item.question] = {value: null, required: false, type: item.inputType, order: item.number}
+                    initiateValues[item.question] = {value: null, required: false, type: item.inputType, order: item.number, version: item.version}
                 } else if(item.inputType === 'checkbox'){
-                    initiateValues[item.question] = {value: [], options:item.choices, required: false, type: item.inputType, order: item.number}
+                    initiateValues[item.question] = {value: [], options:item.choices, required: false, type: item.inputType, order: item.number, version: item.version}
                 } else if(item.inputType === 'radio'){
-                    initiateValues[item.question] = {value: '', options:item.choices, required: false, type: item.inputType, order: item.number}
+                    initiateValues[item.question] = {value: '', options:item.choices, required: false, type: item.inputType, order: item.number, version: item.version}
                 } else {
-                    initiateValues[item.question] = {value: '', required: false, type: item.inputType, order: item.number}
+                    initiateValues[item.question] = {value: '', required: false, type: item.inputType, order: item.number, version: item.version}
                 }
             })
             setValues(initiateValues)

@@ -19,8 +19,7 @@ export async function POST(req) {
     //set isdeleted and expirationDate to record
     data.isdeleted = false
     const createdBy = data.createdBy;
-    delete data.createdBy;
-    console.log("CREATED \n", data);    
+    delete data.createdBy;    
     data.expirationDate = new Date('9999-12-31T23:59:59.999Z');
 
     //create record

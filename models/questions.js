@@ -3,6 +3,7 @@ import mongoose, {Schema} from "mongoose";
 /**
  * Mongoose schema for representing a form question.
  * @typedef {Object} Question
+ * @property {number} version - indicates the version number of the questions
  * @property {string} question - The question being asked.
  * @property {string} inputType - The type of input for the question. The input could be 
  *                                'text', 'alphanumeric', 'number', 'radio', 'checkbox', 'file', 'date', or 'header'.
@@ -13,6 +14,10 @@ import mongoose, {Schema} from "mongoose";
  */
 
 const questionSchema = new Schema({
+    version: {
+        type: Number, 
+        default: 1
+    },
     question: {
         type: String,
         required: true
