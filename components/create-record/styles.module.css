@@ -116,7 +116,7 @@
     display: flex;
 }
 .historyDate {
-    max-width: 30%;
+    max-width: 25%;
     margin-left: auto;
 }
 
@@ -174,4 +174,39 @@
 .addOptBtn:hover {
     cursor: pointer;
     opacity: 50%;
+}
+.errorCodeContainer {
+    font-size: 2em;
+    margin-block: 1em;
+}
+.errorMessageContainer {
+    margin-bottom: 2em;
+}
+.bigText {
+    font-size: 4.5em;
+    line-height: 1em;
+    position: relative;
+    background: -webkit-repeating-linear-gradient(-45deg, #e67171, #ce699c, #b98acc, #ee8176, #e71717, #9b59b6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-size: 400% 400%;
+    animation: animate 10s ease-in-out infinite;
+}
+@keyframes animate {
+    0%{
+        background-position: 0 0;
+    }
+    25%{
+        background-position: 100% 0;
+    }
+    50%{
+        background-position: 100% 100%;
+    }
+    75%{
+        background-position: 0% 100%;
+    }
+    100%{
+        background-position: 0% 0%;
+    }
 }

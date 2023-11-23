@@ -73,8 +73,6 @@ export async function cookiesMiddleware(request) {
             if(request.url === loginURL){
                 return NextResponse.redirect(process.env.NEXT_PUBLIC_VERCEL_URL + '/')
             }
-
-
             
 
             /**
@@ -104,7 +102,7 @@ export async function cookiesMiddleware(request) {
             return NextResponse.next();
         } catch (error) {
             console.log(error);
-            return { success: false, error: error.message };
+            return NextResponse.redirect(process.env.NEXT_PUBLIC_VERCEL_URL + '/not-found');
         }
     } 
 }

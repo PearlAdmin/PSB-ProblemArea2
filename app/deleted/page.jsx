@@ -8,6 +8,8 @@ import Popup from "@/components/popup";
 import { useState } from 'react';
 import useSWR from 'swr';
 import {  useSearchParams, useRouter } from 'next/navigation';
+import Loading from '@/components/loading';
+import Error from "@/app/not-found";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -185,10 +187,10 @@ const Deleted = () => {
     
     const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&searchText=${searchText}&searchValue=${searchValue}&selectedValue=${selectedValue}&deleted=true`, fetcher);
 
-    if (isLoading) return (<div>Loading...</div>);
+    if (isLoading) return (<Loading/>);
     
     if (error) {
-        router.push('/');
+        return (<Error/>);
     };
      
     const items = data;

@@ -6,6 +6,8 @@ import CustomView from '@/components/view-edit-questions/customview';
 import styles from '@/components/create-record/styles.module.css';
 import History from '@/components/view-edit-questions/history';
 import { useCookies } from 'react-cookie';
+import Loading from '@/components/loading';
+import Error from '@/app/not-found';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -49,11 +51,11 @@ const Record = ({params}) => {
         setLogCreated(true);
     }
 
-    if (isLoading) return (<div>Loading...</div>);
+    if (isLoading) return (<Loading/>);
   
-    if (error) return (<div>Error...</div>);
+    if (error) return (<Error/>);
 
-    if (!data.record || !data.log) return (<div>Not Found...</div>);
+    if (!data.record || !data.log) return (<Error/>);
     
     const filteredKeys = Object.keys(data.record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
     const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
@@ -64,8 +66,6 @@ const Record = ({params}) => {
     }
     
     const logs = data.log.edits;
-
-    console.log('logs', logs);
 
     return (
         <div>

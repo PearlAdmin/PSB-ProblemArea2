@@ -6,6 +6,7 @@ import Header from '@/components/create-record/header';
 import styles from '@/components/create-record/styles.module.css';
 import useSWR from 'swr';
 import Popup from '@/components/popup';
+import Loading from '@/components/loading';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -255,7 +256,8 @@ const EditForm = () => {
         console.log("formRef.current: ",formRef.current)
     }
     
-    if (isLoading) return (<div>Loading...</div>);
+    if (isLoading) return (<Loading/>);
+
     if (error) return (<div>{error.message}</div>);
 
     return (

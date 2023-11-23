@@ -2,6 +2,9 @@
 import {Page, Image, Text, View, Document, StyleSheet, PDFViewer, Font } from '@react-pdf/renderer';
 import useSWR from 'swr';
 import Navbar from "@/components/navigation";
+import Loading from '@/components/loading';
+import { useRouter } from 'next/navigation';
+import Error from '@/app/not-found'
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -147,14 +150,14 @@ const MyDocument = ({record}) => {
 
 const ViewRecord = ({params}) => {
     const {data, isLoading, error} = useSWR(`/api/records?id=${params.id}`, fetcher);
-    if (isLoading) return (<div>Loading...</div>);
-    if (error) return (<div>Error...</div>);
+    if (isLoading) return (<Loading/>);
+    if (error) return (<Error/>);
     
     const record = data.record;
-    if (!record) return (<div>Not Found...</div>);
+    if (!record) return (<Error/>);
     const filename = record['First Name: '].value + '_' + record['Last Name: '].value + '-' + record['SN: '].value + '-' + record['SCN: '].value + '.pdf';
     const filteredKeys = Object.keys(record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
-    const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
+    const filteredEntries = filteredKeys.map(key =>d [key, data.record[key]]);
     const dataArr = filteredEntries.sort(([, a], [, b]) => a.order - b.order);
     return (
         <>

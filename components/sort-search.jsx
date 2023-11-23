@@ -6,6 +6,7 @@ import styles from '@/app/homepage.module.css';
 import PaginationControls from "@/components/pagination";
 import useSWR from 'swr';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Loading from './loading';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -14,10 +15,10 @@ function DisplaySorted({page, searchText, selectedValue, searchValue}){
 
     const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&searchText=${searchText}&searchValue=${searchValue}&selectedValue=${selectedValue}`, fetcher);
 
-    if (isLoading) return (<div>Loading...</div>);
+    if (isLoading) return (<Loading/>);
     
     if (error) {
-        router.push('/');
+        router.push('/not-found');
     };
 
     const items = data;
@@ -25,15 +26,15 @@ function DisplaySorted({page, searchText, selectedValue, searchValue}){
     return(
         <div>
             {items.records.length > 0 ? (items.records.map((item, i) => (
-                    <CardIndiv
-                        key={i}
-                        id={item._id}
-                        lastName={item['Last Name: '].value}
-                        firstname={item['First Name: '].value}
-                        scn={item['SCN: '].value}
-                        sn={item['SN: '].value}
-                        date={item['Assigned Date: '].value}
-                    /> 
+                <CardIndiv
+                    key={i}
+                    id={item._id}
+                    lastName={item['Last Name: '].value}
+                    firstname={item['First Name: '].value}
+                    scn={item['SCN: '].value}
+                    sn={item['SN: '].value}
+                    date={item['Assigned Date: '].value}
+                /> 
             ))) : (
                 <p>No Records to Display yet...</p>
             )}

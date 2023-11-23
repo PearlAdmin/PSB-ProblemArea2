@@ -9,6 +9,8 @@ import useSWR from 'swr';
 import styles from '@/components/create-record/styles.module.css';
 import { useCookies } from 'react-cookie';
 import { useRouter } from 'next/navigation';
+import Error from '@/app/not-found';
+import Loading from '@/components/loading';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -17,8 +19,10 @@ const CreateRecord = () => {
     const [values, setValues] = useState({});
     const errorMsg = useRef('')
     const [cookies, setCookie] = useCookies(['user']);
-    const currentUser = cookies.user.username;
+    
     const router = useRouter();
+
+    const currentUser = cookies.user.username;
 
     const handleInputChange = (e, options = null) => {
         const { name, value, type, checked, required, pattern } = e.target;
@@ -28,15 +32,6 @@ const CreateRecord = () => {
     
         // Use a copy of the current values object
         let updatedValues = values;
-    
-        // values = {prop1: {value: any, 
-        //                   required: bool, 
-        //                   type: string},
-        //           prop2: {value: [any], 
-        //                   options: [any]
-        //                   required: bool, 
-        //                   type: string},
-        //          }
         
         if (type === "checkbox") {
             if (!updatedValues[name]){
@@ -172,10 +167,9 @@ const CreateRecord = () => {
         }
     }, [data])
 
-    if (isLoading) return (<div>Loading...</div>);
+    if (isLoading) return (<Loading/>);
     
-    //TODO: error page load component
-    if (error) return (<div>Error...</div>);
+    if (error) return (<Error/>);
 
     return (
         <div>

@@ -5,6 +5,8 @@ import CardUser from './view-authorized-user-card';
 import PaginationControls from "@/components/pagination";
 import useSWR from 'swr';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Loading from '@/components/loading';
+import Error from '@/app/not-found';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -14,9 +16,9 @@ function DisplaySorted({page, searchText}){
     const router = useRouter();
     const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
-    if (isLoading) return (<div>Loading...</div>);
+    if (isLoading) return (<Loading/>);
 
-    if (error) return (<div>Error...</div>);
+    if (error) return (<Error/>);
 
     // const users = data.users;
     if (currSearch != searchText){
