@@ -3,23 +3,54 @@ import { useState, useRef } from 'react';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
+/**
+ * Checkbox component for rendering a checkbox question in a form.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.id - The unique identifier for the checkbox question.
+ * @param {string} props.question - The question text.
+ * @param {string[]} props.options - The available options for the checkbox.
+ * @param {string[]} props.answer - The selected answer(s). 
+ * TODO: look into required
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {number} props.order - The order of the question in the form.
+ * @param {Function} props.didEdit - Callback function indicating whether the question was edited.
+ * @returns {React.Element} - The Checkbox component JSX.
+ */
 const Checkbox = ({ id, question, options, answer, required, order, didEdit}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswers, setEditableAnswers] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
     const errorMsg = useRef('')
 
+    /**
+     * Handles the click event when the user wants to edit the checkbox question.
+     *
+     * @function
+     */
     const handleEditClick = () => {
         if(!isEditing) {
             setIsEditing(true);
         }
     }
-
+    /**
+     * Handles the click event when the user wants to save the edited checkbox question.
+     *
+     * @function
+     * @param {Event} e - The event object.
+     */
     const handleSaveClick = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
     }
 
+    /**
+     * Handles the change event when the user selects or deselects an answer option.
+     *
+     * @function
+     * @param {Event} event - The event object.
+     */
     const handleAnswerChange = (event) => {
         const option = event.target.value;
         if (event.target.checked) {
@@ -31,6 +62,12 @@ const Checkbox = ({ id, question, options, answer, required, order, didEdit}) =>
         }
     }
 
+    /**
+     * Handles acceptance of the form submission.
+     *
+     * @async
+     * @function
+     */
     const acceptSubmit = async () => {
         // Save your data if needed
         setFormConfirmVisible(false);
@@ -64,11 +101,15 @@ const Checkbox = ({ id, question, options, answer, required, order, didEdit}) =>
 
             if(errorMsg.current === ''){
                 setIsEditing(false);
-                // setEditableAnswers(editableAnswers);
             }
         }
     }
     
+    /**
+     * Handles the rejection of the form submission.
+     *
+     * @function
+     */
     const declineSubmit = () => {
         setFormConfirmVisible(false);
         setEditableAnswers(answer)

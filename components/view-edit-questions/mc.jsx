@@ -3,28 +3,64 @@ import { useState, useRef } from 'react';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
+/**
+ * Multiple choice component for displaying multiple-choice questions.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.id - The unique identifier for the question.
+ * @param {string} props.question - The text of the multiple-choice question.
+ * @param {Array} props.options - An array of options for the multiple-choice question.
+ * @param {string} props.answer - The current answer for the question.
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {number} props.order - The order of the question in the form.
+ * @param {Function} props.didEdit - Callback function triggered when the question is edited.
+ * @returns {React.Element} - The multiple choice component JSX.
+ */
 const MC = ({ id, question, options, answer, required, order, didEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswer, setEditableAnswer] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
     const errorMsg = useRef('')
 
-
+    /**
+     * Handles the click event when the user wants to edit the question.
+     *
+     * @function
+     */
     const handleEditClick = () => {
         if(!isEditing) {
             setIsEditing(true);
         }
     }
 
+    /**
+     * Handles the click event when the user wants to save the edits.
+     *
+     * @function
+     * @param {Event} e - The click event.
+     */
     const handleSaveClick = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
     }
 
+    /**
+     * Handles the change event when the user selects an answer.
+     *
+     * @function
+     * @param {Event} event - The change event.
+     */
     const handleAnswerChange = (event) => {
         setEditableAnswer(event.target.value);
     }
 
+    /**
+     * Handles the click event when the user confirms the submission.
+     *
+     * @async
+     * @function
+     */
     const acceptSubmit = async () => {
         // Save your data if needed
         setFormConfirmVisible(false);
@@ -62,7 +98,12 @@ const MC = ({ id, question, options, answer, required, order, didEdit }) => {
             }
         }
     }
-    
+    /**
+     * 
+     * Handles the click event when the user declines the submission.
+     *
+     * @function
+     */
     const declineSubmit = () => {
         setFormConfirmVisible(false);
         setEditableAnswer(answer)

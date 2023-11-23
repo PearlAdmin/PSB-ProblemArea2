@@ -4,6 +4,21 @@ import MC from '@/components/view-edit-questions/mc';
 import Checkbox from '@/components/view-edit-questions/checkbox';
 import Header from '@/components/create-record/header';
 
+/**
+ * CustomView component for rendering different question types in a view/edit form.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.id - The unique identifier for the question.
+ * @param {string} props.question - The question text.
+ * @param {string|string[]} props.answer - The answer to the question.
+ * @param {string[]} props.options - The available options for the question (for multiple-choice questions).
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {string} props.type - The type of the question.
+ * @param {number} props.order - The order of the question in the form.
+ * @param {Function} props.didEdit - Callback function indicating whether the question was edited.
+ * @returns {React.Element} - The CustomView component JSX.
+ */
 const CustomView = ({id, question, answer, options, required, type, order, didEdit}) => {
   switch (type){
     case "number":

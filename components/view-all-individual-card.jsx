@@ -6,8 +6,24 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Popup from './popup';
 import { useCookies } from 'react-cookie';
-import useSWR from 'swr';
 
+/**
+ * CardIndiv component representing an individual record card.
+ *
+ * @component
+ * @param {Object} props - The properties of the CardIndiv component.
+ * @param {string} props.id - The unique identifier for the record.
+ * @param {string} props.lastName - The last name of the individual.
+ * @param {string} props.firstname - The first name of the individual.
+ * @param {string} props.scn - The SCN (Serial Control Number) of the individual.
+ * @param {string} props.sn - The SN (Serial Number) of the individual.
+ * @param {string} props.date - The assigned date for the record.
+ * @param {string} props.route - The route or path associated with the record (optional).
+ * @param {Function} props.func1 - The function to be executed on a specific action (optional).
+ * @param {Function} props.func2 - The second function to be executed on a specific action (optional).
+ * @returns {JSX.Element} JSX Element representing the CardIndiv component.
+ */
+//TODO: check if func1 and 2 are documented correct
 const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2 }) => {
   const [cookies] = useCookies(['user']);
   const user = cookies.user;
@@ -37,13 +53,11 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
           console.log('PATCH request was successful');
         } else {
         // Handle errors or non-2xx responses
-            const data = await response.json()
             console.error('PATCH request failed');
         }
     } catch (error) {
         console.error('An error occurred:', error);
     };
-    // const {data, isLoading, error} = useSWR(`/api/records?id=${id}`, fetcher, {isdeleted: true});
     closeDelete();
     window.location.reload();
   }

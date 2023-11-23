@@ -6,13 +6,24 @@ import { useRouter } from 'next/navigation';
 import { useCookies } from 'react-cookie';
 import {PDFDownloadLink} from '@react-pdf/renderer';
 
+/**
+ * Navigation bar component for the application.
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {Object} props.PDF - PDF document content to enable the 'Download PDF' button.
+ * @param {string} props.filename - The name to be used when downloading the PDF.
+ * @param {string} props.recordId - The ID of the record for which to show edit logs.
+ * @param {function} props.showLog - Function to toggle the visibility of edit logs.
+ * @param {boolean} props.isLogVisible - Flag indicating whether edit logs are currently visible.
+ * @returns {JSX.Element} JSX element representing the navigation bar.
+ */
 const Navbar = ({PDF, filename, recordId, showLog, isLogVisible}) => {
     const [showMenu, setShowMenu] = useState(false);
     const toggleMenu = () => {
         setShowMenu(!showMenu);
     };
     const router = useRouter();
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [cookies, removeCookie] = useCookies(['user']);
 
     const user = cookies.user;
 

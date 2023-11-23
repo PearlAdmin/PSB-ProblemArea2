@@ -3,6 +3,12 @@ import { useRouter } from 'next/navigation';
 import { Cookies } from 'react-cookie';
 import { useEffect } from 'react';
 
+/**
+ * Session component for checking user authentication and redirecting to the login page if necessary.
+ * @component
+ * @returns {null} Null component, as it doesn't render anything.
+ */
+//TODO: Check if this is still being used. 
 const Session = () => {
     const cookies = new Cookies();
     const router = useRouter();
