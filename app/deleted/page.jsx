@@ -56,7 +56,6 @@ const Deleted = () => {
 
     const recoverAll = async(e) => {
         e.preventDefault();
-        // backend stuff
         try {
           const response = await fetch(basePath+`/api/records?recover=true`, {
           method: 'PATCH',
@@ -91,20 +90,24 @@ const Deleted = () => {
           headers: {
               'Content-Type': 'application/json',
           },
+          body: JSON.stringify({id: "ALL"})
           });
   
           if (response.ok) {
             // Handle the successful response here
-            console.log('PATCH request was successful');
+            console.log('DELETE request was successful');
             alert("All records have been permanently deleted!");
               window.location.reload();
           } else {
           // Handle errors or non-2xx responses
               const data = await response.json()
-              console.error('PATCH request failed');
+              console.error('DELETE request failed');
+              console.log(data);
+              alert("Could not delete all records!");
           }
       } catch (error) {
           console.error('An error occurred:', error);
+          alert(error);
       };
         closeModal(e);
         // backend stuff

@@ -144,9 +144,11 @@ export async function DELETE(req){
     const {id} = await req.json();
 
     await dbConnect();
-    
-    console.log("ID", id);
-    if(id){
+
+    console.log("DELETE ID", id);
+
+    if(id && id != 'ALL'){
+      console.log("DELETE ID", id);
       const record = await Record.findByIdAndDelete(id);
       const log = await Log.findOneAndDelete({recordId: id});
 
@@ -159,8 +161,8 @@ export async function DELETE(req){
       
     const records = await Record.find({isdeleted: true}).deleteMany({});
     const logs = await Log.find({isdeleted: true}).deleteMany({});
-
-    if (!records) {
+    
+    if (!records || !logs) {
       return NextResponse.json({message: "All records are not deleted"}, {status: 400});
     }
     return NextResponse.json({message: "All records deleted"}, {status: 200});
