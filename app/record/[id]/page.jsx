@@ -77,7 +77,7 @@ const Record = ({params}) => {
                             return <CustomView key={i} id={data.record._id} question={item[0]} answer={item[1].value} options={item[1].options} required={item[1].required} type={item[1].type} order={item[1].order} didEdit={setDidEdit}/>
                         }
                     })}
-                    {isLogVisible && (<History/>)}
+                    {isLogVisible && (<History logs={logs}/>)}
                 </div>
             </div>
         </div>

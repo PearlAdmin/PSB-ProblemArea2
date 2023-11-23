@@ -11,12 +11,8 @@ import {  useSearchParams, useRouter } from 'next/navigation';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const Deleted = ({searchParams}) => {
-    // const data = await getRecords({searchParams});
-    // const cookieResult = await handleCookie(); 
+const Deleted = () => {
 
-    // Popup Visbility Variables
-    // const [records, setRecords] = useState(null);
     const [cookieResult, setCookie] = useState(null);
     const [isRecoverAllOpen, setRecoverAllOpen] = useState(false);
     const [isPermaDeleteAllOpen, setPermaDeleteAllOpen] = useState(false);
@@ -71,13 +67,14 @@ const Deleted = ({searchParams}) => {
           if (response.ok) {
             // Handle the successful response here
             console.log('PATCH request was successful');
+            alert("All records have been recovered!");
+            window.location.reload();
           } else {
           // Handle errors or non-2xx responses
               const data = await response.json()
               console.error('PATCH request failed');
           }
-          alert("All records have been recovered!");
-          window.location.reload();
+          
       } catch (error) {
           console.error('An error occurred:', error);
       };
@@ -97,6 +94,8 @@ const Deleted = ({searchParams}) => {
           if (response.ok) {
             // Handle the successful response here
             console.log('PATCH request was successful');
+            alert("All records have been permanently deleted!");
+              window.location.reload();
           } else {
           // Handle errors or non-2xx responses
               const data = await response.json()
@@ -137,6 +136,8 @@ const Deleted = ({searchParams}) => {
             if (response.ok) {
               // Handle the successful response here
               console.log('PATCH request was successful');
+              alert("Record has been recovered!");
+              window.location.reload();
             } else {
             // Handle errors or non-2xx responses
                 const data = await response.json()
@@ -240,10 +241,10 @@ const Deleted = ({searchParams}) => {
             <PaginationControls count={data?.limit} perpage={data?.per_page} route={"deleted"}/>
           </div>
         </div>
-        {isRecoverAllOpen && items.record && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isPermaDeleteAllOpen && items.record && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isRecoverOpen && items.record && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>recoverRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isPermaDeleteOpen && items.record && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>permaDeleteRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isRecoverAllOpen && items.records.length > 0 && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isPermaDeleteAllOpen && items.records.length > 0 && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isRecoverOpen && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>recoverRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+        {isPermaDeleteOpen && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>permaDeleteRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
       </div>
     );
   }
