@@ -3,6 +3,16 @@
 import {useRouter, useSearchParams} from 'next/navigation';
 import { Pagination } from '@/components/bootstrap';
 
+/**
+ * Pagination controls component for navigating between pages.
+ *
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {number} props.count - The total number of items.
+ * @param {number} props.perpage - The number of items per page.
+ * @param {string} props.route - The route for pagination links.
+ * @returns {JSX.Element} JSX element representing the pagination controls.
+ */
 const PaginationControls = ({count, perpage, route}) => {
     const router = useRouter();
     const searchParams = useSearchParams();

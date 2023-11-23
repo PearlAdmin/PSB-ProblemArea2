@@ -2,6 +2,18 @@
 import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
 
+
+/**
+ * CardUser component for displaying user information in a card format.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.username - The initial username of the user.
+ * @param {string} props.password - The initial password of the user.
+ * @param {string} props.searchText - The search text for filtering users.
+ * @param {number} props.pageNum - The page number for pagination.
+ * @returns {JSX.Element} - The CardUser component JSX.
+ */
 const CardUser = ({ username: initialUsername, password: initialPassword, searchText, pageNum}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState(initialUsername);
@@ -10,24 +22,43 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
   const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
   const [isFormDeleteVisible, setFormDeleteVisible] = useState(false);
 
+  
+
   const[data, setData] = useState({
     lookup: initialUsername,
     username: initialUsername,
     password: initialPassword,
   });
 
+    /**
+   * Toggles the visibility of the user's password.
+   * @function
+   */
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
   
+    /**
+   * Toggles the editing mode for the user information.
+   * @function
+   */
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
+    /**
+   * Displays the confirmation of the form.
+   * @function
+   */
   const showFormConfirm = () => {
     setFormConfirmVisible(true);
   };
-  
+
+
+    /**
+   * Handles the submission of the user information form.
+   * @function
+   */
   const acceptSubmit = () => {
     // Save your data if needed
     setFormConfirmVisible(false);
@@ -35,6 +66,10 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
     handleSubmit();
   };
 
+  /**
+   * Declines the submission of the user information form.
+   * @function
+   */
   const declineSubmit = () => {
     setFormConfirmVisible(false);
     setUsername(initialUsername);
@@ -42,21 +77,40 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
     setIsEditing(false);
   };  
 
+    /**
+   * Displays the confirmation form for deleting a user.
+   * @function
+   */
   const showDeleteUser = () => {
     setFormDeleteVisible(true);
   };
 
+    /**
+   * Handles the submission of the user deletion form.
+   * @function
+   */
   const acceptSubmitDel = () => {
     // Save your data if needed
     setFormDeleteVisible(false);
     handleDelete();
   };
 
+  /**
+   * Declines the submission of the user deletion form.
+   * @function
+   */
   const declineSubmitDel = () => {
     setFormDeleteVisible(false);
   };
-  
+
+  /**
+   * Handles the submission of the user information for editing.
+   * @async
+   * @function
+   * @param {Event} e - The event object.
+   */
   const handleSubmit = async (e) => {
+    //send put request to the api with a JSON body attached. 
     const response = await fetch('/api/manage-user', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -64,6 +118,7 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
         'Content-Type': 'application/json'
       }
     });
+    //handle response from api
     if(response.ok){
       window.location.reload();
       alert("User has been edited!");
@@ -71,8 +126,14 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
       alert("Error: User was not edited");
     }
   }
-
+    /**
+   * Handles the submission of the user deletion.
+   * @async
+   * @function
+   * @param {Event} e - The event object.
+   */
   const handleDelete = async (e) => {
+    //send delete request to the api with a JSON body attached. 
     const response = await fetch('/api/manage-user', {
       method: 'DELETE',
       body: JSON.stringify({username: username}),
@@ -80,7 +141,7 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
         'Content-Type': 'application/json'
       }
     });
-
+    //handle response from api.
     if(response.ok){
       window.location.reload();
       alert("User has been deleted!");
@@ -89,6 +150,7 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
     }
   }
 
+  //The following code bellow is used for pagination.
   const [state, setState] = useState(pageNum);
   const [search, setSearch] = useState(searchText);
 

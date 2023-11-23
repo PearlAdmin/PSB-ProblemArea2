@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+//TODO: check if this is being used
 const HandleWindowUnload = () => {
   useEffect(() => {
     const handleUnload = () => {

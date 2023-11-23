@@ -3,12 +3,33 @@ import { useState, useRef } from 'react';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
+/**
+ * Textbox component for displaying a textbox input.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.id - The unique identifier for the textbox.
+ * @param {string} props.question - The text of the textbox question.
+ * @param {string} props.answer - The current answer for the question.
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {string} props.type - The type of the html input type.
+ * @param {string} props.validation - The validation pattern for the textbox input.
+ * @param {number} props.order - The order of the question in the form.
+ * @param {Function} props.didEdit - Callback function triggered when the question is edited.
+ * @returns {React.Element} - The Textbox component JSX.
+ */
 const Textbox = ({ id, question, answer, required, type, validation, order, didEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswer, setEditableAnswer] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
     const errorMsg = useRef('')
 
+    /**
+     * Validates the input for SCN (Sponsor Child Number).
+     *
+     * @function
+     * @param {string} inputID - The identifier of the input element.
+     */
     function validateSCN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
@@ -23,6 +44,12 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
         input.reportValidity();
     }
 
+    /**
+     * Validates the input for SN (Sponsor Number).
+     *
+     * @function
+     * @param {string} inputID - The identifier of the input element.
+     */
     function validateSN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
@@ -36,22 +63,45 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
       
         input.reportValidity();
     }
-
+    
+    /**
+     * Handles the click event when the user wants to edit the question.
+     *
+     * @function
+     */
     const handleEditClick = () => {
         if(!isEditing) {
             setIsEditing(true);
         }
     }
 
+    /**
+     * Handles the click event when the user wants to save the edits.
+     *
+     * @function
+     * @param {Event} e - The click event.
+     */
     const handleSaveClick = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
     }
 
+    /**
+     * Handles the change event when the user types into the textbox.
+     *
+     * @function
+     * @param {Event} event - The change event.
+     */
     const handleAnswerChange = (event) => {
         setEditableAnswer(event.target.value);
     }
-
+    
+    /**
+     * Handles the click event when the user confirms the submission.
+     *
+     * @async
+     * @function
+     */
     const acceptSubmit = async () => {
         // Save your data if needed
         setFormConfirmVisible(false);
@@ -92,7 +142,11 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
             }
         }
     }
-    
+    /**
+     * Handles the click event when the user declines the submission.
+     *
+     * @function
+     */
     const declineSubmit = () => {
         setFormConfirmVisible(false);
         setEditableAnswer(answer);

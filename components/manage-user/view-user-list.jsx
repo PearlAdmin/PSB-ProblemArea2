@@ -8,8 +8,25 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Loading from '@/components/loading';
 import Error from '@/app/not-found';
 
+
+/**
+ * SWR function for fetching data from a given URL.
+ *
+ * @function
+ * @param {string} url - The URL to fetch data from.
+ * @returns {Promise} - A promise that resolves to the fetched data.
+ */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+/**
+ * React component responsible for displaying a sorted list of users and pagination controls.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.page - The current page number.
+ * @param {string} props.searchText - The search text for filtering users.
+ * @returns {React.Element} - The DisplaySorted component JSX.
+ */
 function DisplaySorted({page, searchText}){
     const [currSearch, setcurrSearch] = useState(searchText);
     const {data, isLoading, error} = useSWR(`/api/manage-user?page=${page}&searchText=${searchText}`, fetcher);
@@ -45,6 +62,12 @@ function DisplaySorted({page, searchText}){
     );
 }
 
+/**
+ * React component for displaying a list of users with search and pagination functionality.
+ *
+ * @function
+ * @returns {React.Element} - The UserList component JSX.
+ */
 function UserList() {
     const [searchText, setSearchText] = useState('');
     

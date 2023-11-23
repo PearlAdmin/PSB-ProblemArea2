@@ -2,7 +2,16 @@ import styles from '@/components/create-record/styles.module.css';
 import { Card } from 'react-bootstrap';
 import PaginationControls from '../pagination';
 
+/**
+ * History component for displaying edit history logs.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.logs - An array of edit history logs.
+ * @returns {React.Element} - The History component JSX.
+ */
 const History = ({logs}) => {
+    //Array representing month names in abbreviated form. 
     const monthString = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
     return (

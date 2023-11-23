@@ -3,27 +3,62 @@ import { useState, useRef } from 'react';
 import styles from '@/components/create-record/styles.module.css';
 import Popup from '../popup';
 
+/**
+ * Dates component for rendering a date input question in a view/edit form.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.id - The unique identifier for the date input question.
+ * @param {string} props.question - The question text.
+ * @param {string} props.answer - The answer to the question.
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {number} props.order - The order of the question in the form.
+ * @param {Function} props.didEdit - Callback function indicating whether the question was edited.
+ * @returns {React.Element} - The Dates component JSX.
+ */
 const Dates = ({ id, question, answer, required, order, didEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableAnswer, setEditableAnswer] = useState(answer);
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
     const errorMsg = useRef('');
 
+    /**
+     * Handles the click event when the user wants to edit the date input question.
+     *
+     * @function
+     */
     const handleEditClick = () => {
         if(!isEditing) {
             setIsEditing(true);
         }
     }
-
+    /**
+     * Handles the click event when the user wants to save the edited date input question.
+     *
+     * @function
+     * @param {Event} e - The event object.
+     */
     const handleSaveClick = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
     }
 
+    /**
+     * Handles the change event when the user selects a date for the question.
+     *
+     * @function
+     * @param {Event} event - The event object.
+     */
     const handleAnswerChange = (event) => {
         setEditableAnswer(event.target.value);
     }
 
+    /**
+     * Handles acceptance of the form submission.
+     *
+     * @async
+     * @function
+     */
     const acceptSubmit = async () => {
         // Save your data if needed
         setFormConfirmVisible(false); 
@@ -62,6 +97,11 @@ const Dates = ({ id, question, answer, required, order, didEdit }) => {
         }
     }
     
+    /**
+     * Handles the rejection of the form submission.
+     *
+     * @function
+     */
     const declineSubmit = () => {
         setFormConfirmVisible(false);
         setEditableAnswer(answer)
