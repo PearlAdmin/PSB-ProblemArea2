@@ -53,7 +53,7 @@ const Dates = ({ id, question, answer, required, order, didEdit }) => {
         setEditableAnswer(event.target.value);
     }
 
-    /**
+     /**
      * Handles acceptance of the form submission.
      *
      * @async
@@ -97,11 +97,6 @@ const Dates = ({ id, question, answer, required, order, didEdit }) => {
         }
     }
     
-    /**
-     * Handles the rejection of the form submission.
-     *
-     * @function
-     */
     const declineSubmit = () => {
         setFormConfirmVisible(false);
         setEditableAnswer(answer)

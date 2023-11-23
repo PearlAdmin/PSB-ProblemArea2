@@ -2,6 +2,7 @@ import dbConnect from "@/libs/db";
 import {NextResponse} from "next/server";
 import Record from "@/models/records";
 import Log from "@/models/logs";
+import Question from "@/models/questions";
 
 export async function POST(req) {
   try {
@@ -41,7 +42,6 @@ export async function POST(req) {
     // DONT DELETE THIS CONSOLE LOG
     console.log("CREATED \n", log);
     await Log.create(log);
-
     return NextResponse.json({message: "Record created successfully"}, {status: 201});
   } catch (error) {
     return NextResponse.json({message: error.message}, {status: 500});
@@ -57,8 +57,64 @@ export async function GET(req) {
       const id = url.searchParams.get('id')
 
       await dbConnect();
-      const record = await Record.findOne({_id: id});
+      let record = await Record.findOne({_id: id});
       const log = await Log.findOne({recordId: id});
+      const samp_q = await Question.findOne({});
+      //version in the form
+      const F_version = samp_q.version;
+      //version in the record
+      const R_version = record['First Name: '].version;
+
+      if (F_version == R_version){
+        return NextResponse.json({record, log}, {status: 200});
+      }
+      
+      const formQuestions = await Question.find({});
+      console.log("sopas")
+      const new_record = {};
+
+      formQuestions.map((item) => {
+        // check if same questions
+        if(Object.keys(record).includes(item.question)){
+          //check if same type
+          if (record[item.question].type == item.inputType){
+            if (record[item.question].type == 'radio' || record[item.question].type == 'checkbox'){
+              //check if options are the same
+              console.log(item.choices)
+              console.log(record[item.question].options)
+              if (JSON.stringify(record[item.question].options) === JSON.stringify(item.choices)){
+                //main checks did not change
+                new_record[item.question] = record[item.question]
+                new_record[item.question].order = item.number
+              }else{
+                new_record[item.question] = record[item.question]
+                new_record[item.question].choices = item.choices
+              }
+            } else {
+              new_record[item.question] = record[item.question]
+              new_record[item.question].order = item.number
+            }
+          } else {
+            // handle change type 
+            const newQuestion = {value: '', required: item.required, type: item.inputType, order: item.number}
+            if (item.inputType == 'radio' || item.inputType == 'checkbox'){
+              newQuestion['options'] = item.choices;
+            }
+            new_record[item.question] = newQuestion;
+          }
+        } else {
+           // create new 
+           const newQuestion = {value: '', required: item.required, type: item.inputType, order: item.number}
+           if (item.inputType == 'radio' || item.inputType == 'checkbox'){
+            newQuestion['options'] = item.choices;
+           }
+           new_record[item.question] = newQuestion;
+        } 
+      });
+      new_record['_id'] = id;
+      new_record['isdeleted'] = record.isdeleted;
+      new_record['expirationDate'] = record.expirationDate;
+      record = new_record;
       
       return NextResponse.json({record, log}, {status: 200});
     } else {

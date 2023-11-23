@@ -50,16 +50,19 @@ const Record = ({params}) => {
         createLog(params.id, cookies.user.username);
         setLogCreated(true);
     }
-
+    
     if (isLoading) return (<Loading/>);
   
     if (error) return (<Error/>);
-
-    if (!data.record || !data.log) return (<Error/>);
     
-    //hmmged
+    // console.log(data.record);
+    if (!data.record || !data.log) return (<Error/>);
+
+    console.log(data);
+    
     const filteredKeys = Object.keys(data.record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
     const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
+    //sort by the field order
     const dataArr = filteredEntries.sort(([, a], [, b]) => a.order - b.order);
 
     const showLogs = () => {
@@ -67,7 +70,6 @@ const Record = ({params}) => {
     }
     
     const logs = data.log.edits;
-    //TODO: LOGIC FOR VERSION
     return (
         <div>
             <Navbar recordId={params.id} showLog={showLogs} isLogVisible={isLogVisible}/>
