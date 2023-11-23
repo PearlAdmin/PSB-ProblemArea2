@@ -3,7 +3,6 @@ import {Page, Image, Text, View, Document, StyleSheet, PDFViewer, Font } from '@
 import useSWR from 'swr';
 import Navbar from "@/components/navigation";
 import Loading from '@/components/loading';
-import { useRouter } from 'next/navigation';
 import Error from '@/app/not-found'
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -117,6 +116,7 @@ const MyDocument = ({record}) => {
     const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
     console.log(basePath + '/public/logo.png');
     const image = basePath + '/public/logo.png';
+    console.log(record);
     return (
         <Document>
           <Page size="A4">
@@ -129,6 +129,7 @@ const MyDocument = ({record}) => {
             </View>
             <View style={styles.body}>
                 {record.map((item, i) => {
+                  console.log(item);
                   if (item[0] !== '_id' && item[0] !== '__v' && item[0] !== 'isdeleted' && item[1].type !== 'header') {
                     return (
                       <View key={i} style={{ width: '33.33%', marginBottom: '20px'}}>
@@ -157,13 +158,14 @@ const ViewRecord = ({params}) => {
     if (!record) return (<Error/>);
     const filename = record['First Name: '].value + '_' + record['Last Name: '].value + '-' + record['SN: '].value + '-' + record['SCN: '].value + '.pdf';
     const filteredKeys = Object.keys(record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
-    const filteredEntries = filteredKeys.map(key =>d [key, data.record[key]]);
+    const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
     const dataArr = filteredEntries.sort(([, a], [, b]) => a.order - b.order);
+    console.log(filteredKeys);
     return (
         <>
             <Navbar PDF={<MyDocument record={dataArr}/>} filename={filename}/>
             <PDFViewer style={{width:'100%', height: '88vh'}} showToolbar={false}>
-                <MyDocument record={dataArr} />
+                <MyDocument record={dataArr}/>
             </PDFViewer>
         </>
     )
