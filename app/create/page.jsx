@@ -22,8 +22,6 @@ const CreateRecord = () => {
     
     const router = useRouter();
 
-    const currentUser = cookies.user.username;
-
     const handleInputChange = (e, options = null) => {
         const { name, value, type, checked, required, pattern } = e.target;
 
@@ -118,7 +116,7 @@ const CreateRecord = () => {
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({...values, 'createdBy': currentUser}),
+              body: JSON.stringify({...values, 'createdBy': cookies.user.username}),
             });
       
             if (response.ok) {
