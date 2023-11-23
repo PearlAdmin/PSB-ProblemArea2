@@ -36,6 +36,6 @@ const History = ({logs}) => {
             </div>
         </div>
     );
-
 }
+
 export default History;
