@@ -8,10 +8,10 @@ const ManageUser = async () => {
         <div>
             <Navbar />
             <div className="d-flex justify-content-center text-align-center">
-                <div className="col p-3" style={{ backgroundColor: '#C5E2EA', margin: '10px', borderRadius: '10px' }}>
+                <div className="col p-3 m-md-2" style={{ backgroundColor: '#C5E2EA', borderRadius: '10px' }}>
                     <UserList/>
                 </div>
-                <div className="col p-3" style={{ backgroundColor: '#C5E2EA', margin: '10px', borderRadius: '10px' }}>
+                <div className="col p-3 m-md-2" style={{ backgroundColor: '#C5E2EA', borderRadius: '10px' }}>
                     <Register />
                 </div>
             </div>

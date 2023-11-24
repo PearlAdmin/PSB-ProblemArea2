@@ -18,20 +18,20 @@ const History = (params) => {
     return (
         <div className={`${styles.popupModal}`} id="form-confirm-container">
             <div className={`${styles.popupModalBoxContainer}`}>
-                <div className={`${styles.popupModalBoxShadow} pe-2 pb-2 col-md-6`}>
-                    <div className={`${styles.popupModalBox} p-4`}>
-                        <div class="row">
-                            <div className='m-0 p-0'><i className={`m-0 p-0 ms-auto bi bi-x fs-6 ${styles.button}`} onClick={showLogs}></i></div>
-                            <div className={`${styles.popupModalBoxTop} text-start`}>Edit History</div>
+                <div className={`${styles.popupModalBoxShadow} col-12 col-md-6 pe-2 pb-2`}>
+                    <div className={`${styles.popupModalBox} px-4 pt-3 pb-4`}>
+                        <div className={`${styles.popupModalBoxTop} d-flex text-start`}>
+                            Edit History
+                            <i className={`${styles.button} ms-auto bi bi-x`} onClick={showLogs}></i>
                         </div>
-                        <div className={`histories-container text-start pt-2`}>
+                        <div className={`${styles.historyContainer} text-start my-2 border-0`}>
                             {logs.map((log, i) => {
                                 const action = log.action.charAt(0).toUpperCase() + log.action.slice(1);
                                 const date = new Date(log.timestamp);
                                 const stringDate = monthString[date.getMonth()] + ' ' + date.getDate() + ', ' +  date.getFullYear();
                                 const time = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
                                 return (
-                                    <Card className={`${styles.historyContainer}`}>
+                                    <Card className={`${styles.historyContainer} p-2`}>
                                         <div className={`${styles.historyOthersContainer}`}>
                                             <div>Timestamp: <b>{stringDate} {time}</b></div>
                                             <div>{action} by: <b>{log.editedBy}</b></div>
@@ -39,7 +39,7 @@ const History = (params) => {
                                     </Card>
                                 )
                             })}
-                            <PaginationControls count={1} perpage={3}/>
+                            {/* <PaginationControls count={1} perpage={3}/> */}
                         </div>
                     </div>
                 </div>

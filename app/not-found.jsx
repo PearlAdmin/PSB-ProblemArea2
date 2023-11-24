@@ -23,8 +23,8 @@ const Error = ({ errorCode, errorMessage }) => {
                     }
                 </div>
                 <a className={`d-flex text-decoration-none justify-content-center`} href='/'>
-                    <div className={`${styles.actionBtn} ${styles.bgBlue} ${styles.button} text-center text-white`}>
-                        Reload Page
+                    <div className={`${styles.actionBtn} ${styles.bgBlue} ${styles.button} text-center text-white w-50`}>
+                        Return Home
                     </div>
                 </a>
             </div>

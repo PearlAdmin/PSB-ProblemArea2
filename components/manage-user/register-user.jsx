@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import {InputGroup, Button, Form} from '@/components/bootstrap';
+import styles from '@/components/create-record/styles.module.css';
 
 /**
  * React component for managing authorized users.
@@ -130,7 +131,7 @@ const Register = () => {
 
                         {/* Submit Button */}
                         <div className="input-group">
-                            <Button variant="primary" type="submit" id="submit" style={{ width: '100%' }}>Create Account</Button>{' '}
+                            <Button className={`${styles.button} ${styles.bgBlue} fw-bold w-100`} variant="primary" type="submit" id="submit">Create Account</Button>{' '}
                         </div>
                     </div>
                 </Form>

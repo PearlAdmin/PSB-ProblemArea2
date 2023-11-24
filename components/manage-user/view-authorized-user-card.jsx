@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
+import Popup from '../popup';
 
 
 /**
@@ -233,46 +234,8 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
           </div>
         </div>
       </Card>
-      {isFormConfirmVisible && (
-        <div id="form-confirm-container" style={{ display: 'block' }}>
-          <div className="popup-modal" id="form-confirm-container">
-            <div className="popup-modal-box-container d-flex align-items-center justify-content-center h-100 w-100">
-              <div className="popup-modal-box-shadow w-50 pe-2 pb-2">
-                <div className="popup-modal-box">
-                  <div className="popup-modal-box-top top-100 text-end">
-                    <button className="close-btn pe-4" onClick={declineSubmit}>&times;</button>
-                  </div>
-                  <div className="popup-modal-box-mid text-start ps-4">Are you sure you want to save edits?</div>
-                  <div className="popup-modal-box-low text-start py-4 ps-4">
-                    <button className="confirm-btn yes-btn" onClick={acceptSubmit}>Yes</button>
-                    <button className="confirm-btn no-btn" onClick={declineSubmit}>No</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {isFormDeleteVisible && (
-        <div id="form-confirm-container" style={{ display: 'block' }}>
-          <div className="popup-modal" id="form-confirm-container">
-            <div className="popup-modal-box-container d-flex align-items-center justify-content-center h-100 w-100">
-              <div className="popup-modal-box-shadow w-50 pe-2 pb-2">
-                <div className="popup-modal-box">
-                  <div className="popup-modal-box-top top-100 text-end">
-                    <button className="close-btn pe-4" onClick={declineSubmitDel}>&times;</button>
-                  </div>
-                  <div className="popup-modal-box-mid text-start ps-4">Are you sure you want to delete user record?</div>
-                  <div className="popup-modal-box-low text-start py-4 ps-4">
-                    <button className="confirm-btn yes-btn" onClick={acceptSubmitDel}>Yes</button>
-                    <button className="confirm-btn no-btn" onClick={declineSubmitDel}>No</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {isFormConfirmVisible && <Popup question={"Are you sure you want to save edits?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={acceptSubmit} secondBtnFunc={declineSubmit} isYesNoQuestion={true}/>}
+      {isFormDeleteVisible && <Popup question={"Are you sure you want to delete user record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={acceptSubmitDel} secondBtnFunc={declineSubmitDel} isYesNoQuestion={true}/>}
     </div>
   );
 };

@@ -202,27 +202,29 @@ const Deleted = () => {
       <div>
         <Navbar cookie = {cookieResult} />
         <div className="d-flex justify-content-center align-items-center">
-          <div id="todoContainer" className={styles.todoContainer}>
-            <div className={styles.header}>
-              <h3 style={{ fontWeight: "bolder" }} className="p-2 flex-grow-1">
-                Deleted Records
-              </h3>
-              <Button
-                variant="outline-dark"
-                className={`p-2 ${styles.customHeight31} d-flex align-items-center`}
-                style={{ marginRight: "5px" }}
-                onClick={openRecoverAll}
-              >
-                Recover All
-              </Button>
-              <Button
-                variant="outline-dark"
-                className={`p-2 ${styles.customHeight31} d-flex align-items-center`}
-                style={{ marginRight: "5px" }}
-                onClick={openDeleteAll}
-              >
-                Permanently Delete All
-              </Button>
+          <div id="todoContainer" className={`${styles.todoContainer} d-flex justify-content-center m-2 m-md-4`}>
+            <div className={`${styles.header} p-2 pe-0 align-items-center d-flex justify-content-between flex-row`}>
+              <div>
+                <h3 style={{ fontWeight: "bolder" }}>
+                  Deleted Records
+                </h3>
+              </div>
+              <div className="d-flex ms-auto">
+                <Button
+                  variant="outline-dark"
+                  className={`me-2`}
+                  onClick={openRecoverAll}
+                >
+                  Recover All
+                </Button>
+                <Button
+                  variant="outline-dark"
+                  className={`me-0`}
+                  onClick={openDeleteAll}
+                >
+                  Permanently Delete All
+                </Button>
+              </div>
             </div>
 
             {/* Sample Post */}

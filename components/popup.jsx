@@ -19,7 +19,7 @@ const Popup = ({question, firstBtnLabel, secondBtnLabel, firstBtnFunc, secondBtn
     return (
         <div className={`${styles.popupModal}`} id="form-confirm-container">
             <div className={`${styles.popupModalBoxContainer}`}>
-                <div className={`${styles.popupModalBoxShadow} pe-2 pb-2 col-md-6`}>
+                <div className={`${styles.popupModalBoxShadow} col-md-6 pe-2 pb-2`}>
                     <div className={`${styles.popupModalBox} p-4`}>
                         <div className={`${styles.popupModalBoxTop} text-start`}>{question}</div>
                         <div className={`popup-modal text-start pt-3`}>

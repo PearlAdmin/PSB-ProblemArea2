@@ -75,11 +75,18 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
           )}
         </div>
         <div className="p-2 flex-grow-1 truncate">
-          <div style={{ fontWeight: 'bold' }}>
-            <Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
-              <a>{lastName}</a><a>{", "}</a><a>{firstname}</a>
-            </Link>
-          </div>
+          {!route ? (
+            <div style={{ fontWeight: 'bold' }}>
+              <Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
+                <a>{lastName}</a><a>{", "}</a><a>{firstname}</a>
+              </Link>
+            </div>
+          ) : (
+            <div style={{ fontWeight: 'bold' }}>
+                <a>{lastName}</a><a>{", "}</a><a>{firstname}</a>
+            </div>
+          )}
+
           <div style={{ display: 'flex' }}>
             <div style={{ fontSize: '10px'}}><a>SCN#</a>
               <div className='d-none d-md-inline'>{scn}</div>

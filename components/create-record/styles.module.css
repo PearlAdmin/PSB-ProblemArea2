@@ -107,8 +107,10 @@
     font-size: 0.75em;
 }
 .historyContainer {
-    font-size: 0.60em;
-    padding: 0.75em;
+    font-size: 0.8em;
+    max-height: 50vh; /* Set a maximum height for the container */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    border: 1px solid #ccc; /* Optional: Add a border for visual clarity */
 }
 .historyTitleContainer {
     display: flex;
