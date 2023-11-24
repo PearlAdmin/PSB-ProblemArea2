@@ -262,7 +262,7 @@ const EditForm = () => {
     return (
         <div>
             <Navbar />
-            <form className={`${styles.body} container-fluid my-3 px-5 pt-3`}>
+            <form className={`${styles.body} container-fluid my-3 px-4 pt-3`}>
                 {/* Array generating the headers/questions */}
                 {boxes.map((box) =>
                     <div key={box.props.id} className={"row mb-3"}>
@@ -279,10 +279,10 @@ const EditForm = () => {
 
             
                 {/* Buttons to Add Headers, Questions, etc. */}
-                <div className={`${styles.actionBtnsContainer} row my-3`} id="action-btns-container">
-                    <button className={`${styles.button} ${styles.actionBtn} mx-auto`} id="add-header-btn" onClick={addHeader}>Add Header</button>
-                    <button className={`${styles.button} ${styles.actionBtn} mx-auto`} id="add-ques-btn" onClick={addQuestion}>Add Question</button>
-                    <button className={`${styles.button} ${styles.actionBtn} ${styles.bgBlue} text-white mx-auto`} onClick={openSaveChanges}>Save Changes</button>
+                <div className={`${styles.actionBtnsContainer} row mt-4`} id="action-btns-container">
+                    <button className={`${styles.button} ${styles.actionBtn} col-md-3 mx-auto mb-3 mb-md-none`} id="add-header-btn" onClick={addHeader}>Add Header</button>
+                    <button className={`${styles.button} ${styles.actionBtn} col-md-3 mx-auto mb-3 mb-md-none`} id="add-ques-btn" onClick={addQuestion}>Add Question</button>
+                    <button className={`${styles.button} ${styles.actionBtn} ${styles.bgBlue} col-md-3 text-white mx-auto mb-3`} onClick={openSaveChanges}>Save Changes</button>
                 </div>
             </form>
 

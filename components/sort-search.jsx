@@ -96,7 +96,7 @@
                         id="searchChild"
                         name="searchChild"
                         className={`custom-select ${styles.customHeight31}`}
-                        style={{ width: '150px' }}
+                        style={{ maxWidth: '150px' }}
                         value={searchValue}
                         onChange={(e) => setsearchValue(e.target.value)} 
                     >
@@ -123,7 +123,7 @@
                         id="sortBy"
                         name="sortBy"
                         className={`custom-select ${styles.customHeight31}`}
-                        style={{ width: '200px' }}
+                        style={{ maxWidth: '200px' }}
                         value={selectedValue}
                         onChange={handleSortChange}
                     >

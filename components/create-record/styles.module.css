@@ -5,7 +5,7 @@
 .body {
     font-family: 'Pathway Extreme', sans-serif;
     margin-inline: auto;
-    width: 740px;
+    max-width: 740px;
 }
 .p {
     margin: 0;
@@ -48,15 +48,14 @@
     color: #cd3a3a;
 }
 .actionBtnsContainer {
-    width: 95%;
+    width: 100%;
 }
 .actionBtn {
-    border-radius: 36px;
+    border-radius: 9px;
     font-size: 0.8em;
     padding: 0.5em 0;
     border: 0;
     font-weight: bold;
-    width: 25%;
 }
 .formChoice {
     height: 100%;
@@ -91,10 +90,9 @@
     width: 100%;
 }
 .popupModalBoxShadow {
-    width: 50%;
     padding: 0;
     background-color: #0872a1;
-    border-radius: 36px;
+    border-radius: 18px;
     position: absolute;
     text-align: center;
 }
@@ -102,7 +100,7 @@
     font-size: 1.75em;
     font-weight: bold;
     background-color: #c5e2ea;
-    border-radius: 36px;
+    border-radius: 18px;
     height: 100%;
 }
 .popupModalBoxTop {
@@ -129,7 +127,7 @@
     font-size: 0.75em;
     font-weight: bold;
     min-width: 25%;
-    border-radius: 36px;
+    border-radius: 18px;
     padding-block: 0.25em;
 }
 .yesBtn {

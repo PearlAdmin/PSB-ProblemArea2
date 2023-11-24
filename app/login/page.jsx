@@ -7,12 +7,14 @@ import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import { Cookies, useCookies } from 'react-cookie';
 import useSWR from 'swr';
+import 'components/nav.styles.css';
 
 const LogIn = () => {
     const router = useRouter();
     const [cookies, setCookie] = useCookies(['user']);
     const [passwordVisible, setPasswordVisible] = useState(false); 
     const [isRememberMe, setIsRememberMe] = useState(false);
+    const [showIncorrect, setIncorrect] = useState(false);
     const [credentials, setCredentials] = useState({
         username: '',
         password: '',
@@ -35,6 +37,7 @@ const LogIn = () => {
             });
             
             if (!response.ok) {
+                setIncorrect(true);
                 throw new Error('Invalid credentials');
             }
             const data = await response.json();
@@ -99,12 +102,18 @@ const LogIn = () => {
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
                 <div className="container" style={{ maxWidth: '600px', padding: '5%', textAlign: 'center' }}>
                     {/* Logo + Name */}
-                    <Stack gap={2} className="col-md-5 mx-auto" style={{ alignItems: 'center' }}>
+                    <Stack gap={2} className="col mx-auto" style={{ alignItems: 'center' }}>
                         <Image src="/logo.png" alt="Pearl S Buck Logo" width={150} height={150} draggable='false' /> 
-                        <Image src="/name.png" alt="Pearl S Buck Name" width={350} height={50} draggable='false' />
+                        <span className={`logo-name mb-3 fs-4`}>
+                                Pearl S. Buck<span className='logo-name-light'> Foundation Philippines Inc.</span>
+                        </span>
                     </Stack>
                     {/* Login Form */}
                     <Form onSubmit={onLogin}>
+                        {/* Display if Login is Incorrect */}
+                        {showIncorrect && (
+                            <div style={{marginBottom: '1.25em', color:'red'}}>Incorrect Username or Password</div>
+                        )}
                         {/* Username */}
                         <InputGroup>
                             <Form.Control className="mb-3" 

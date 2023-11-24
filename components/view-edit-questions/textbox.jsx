@@ -72,6 +72,8 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
     const handleEditClick = () => {
         if(!isEditing) {
             setIsEditing(true);
+        } else {
+            setIsEditing(false);
         }
     }
 
@@ -160,7 +162,7 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
                         {question}
                         {required && <div className={`${styles.formTitleRequired}`}>*</div>}
                     </label>
-                    <div><i className={`form-title bi bi-pencil-square me-3 edit-icon ${styles.button}`} onClick={handleEditClick}></i></div>
+                    <div><i className={`form-title bi bi-pencil-square edit-icon ${styles.button}`} onClick={handleEditClick}></i></div>
                 </div>
                 {isEditing ? (
                     <input
@@ -182,7 +184,7 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
                     />
                 )}
                 {isEditing && (
-                    <button className={`mt-3 btn btn-primary save ${styles.button} ${styles.actionBtn} ${styles.bgBlue}`} onClick={handleSaveClick} style={{ marginTop: '5px' }}>
+                    <button className={`mt-3 px-4 btn btn-primary save ${styles.button} ${styles.actionBtn} ${styles.bgBlue}`} onClick={handleSaveClick} style={{ marginTop: '5px' }}>
                         Save
                     </button>
                 )}

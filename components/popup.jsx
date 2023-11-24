@@ -19,10 +19,10 @@ const Popup = ({question, firstBtnLabel, secondBtnLabel, firstBtnFunc, secondBtn
     return (
         <div className={`${styles.popupModal}`} id="form-confirm-container">
             <div className={`${styles.popupModalBoxContainer}`}>
-                <div className={`${styles.popupModalBoxShadow} pe-2 pb-2`}>
-                    <div className={`${styles.popupModalBox}`}>
-                        <div className={`${styles.popupModalBoxTop} text-start pt-4 ps-4`}>{question}</div>
-                        <div className={`popup-modal text-start py-4 ps-4`}>
+                <div className={`${styles.popupModalBoxShadow} pe-2 pb-2 col-md-6`}>
+                    <div className={`${styles.popupModalBox} p-4`}>
+                        <div className={`${styles.popupModalBoxTop} text-start`}>{question}</div>
+                        <div className={`popup-modal text-start pt-3`}>
                             <button className={`${styles.button} ${styles.confirmBtn} ${isYesNoQuestion ? styles.yesBtn : ''} me-2`} onClick={firstBtnFunc}>{firstBtnLabel}</button>
                             <button className={`${styles.button} ${styles.confirmBtn} ${isYesNoQuestion ? styles.noBtn : ''}`} onClick={secondBtnFunc}>{secondBtnLabel}</button>
                         </div>

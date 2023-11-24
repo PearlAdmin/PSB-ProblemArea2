@@ -23,7 +23,7 @@ const PaginationControls = ({count, perpage, route}) => {
     const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
     return (
-        <Pagination className="justify-content-center mt-2">
+        <Pagination className="justify-content-center mt-4 mb-0">
             {page > 2 && <Pagination.First onClick={() => {
                 router.push(basePath + `/${route}?page=1`)
             }}/>}

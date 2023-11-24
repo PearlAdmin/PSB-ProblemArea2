@@ -46,31 +46,25 @@ const Navbar = ({PDF, filename, recordId, showLog, isLogVisible}) => {
                 <div className="container-fluid">
                     <div className="navbar-left">
                         <a className="navbar-brand h-100 w-auto d-flex align-items-center" href="/">
-                        <Image
-                            className="d-inline-block me-1 "
-                            id="navbar-logo-img"
-                            draggable={false}
-                            src="/logo.png"
-                            alt=""
-                            height={50}
-                            width={50}
-                        />
-                        <Image
-                            className="h-75 d-none d-md-inline-block"
-                            id="navbar-name-img"
-                            draggable={false}
-                            src="/name.png"
-                            alt=""
-                            height={75}
-                            width={350}
-                        />
+                            <Image
+                                className="d-inline-block me-1 "
+                                id="navbar-logo-img"
+                                draggable={false}
+                                src="/logo.png"
+                                alt=""
+                                height={50}
+                                width={50}
+                            />
+                            <span className={`h-75 d-none d-md-inline-block logo-name`}>
+                                Pearl S. Buck<span className='logo-name-light'> Foundation Philippines Inc.</span>
+                            </span>
                         </a>
                     </div>
 
                     <div className="navbar-right text-end d-flex align-items-center ms-auto">
                         {
                             recordId && showLog && (
-                                <button className='btn btn-dark me-5 my-auto' onClick={showLog}>{!isLogVisible ? 'Show':'Hide'} Edit Logs</button>
+                                <button className='btn btn-dark me-4 my-auto' onClick={showLog}>{!isLogVisible ? 'Show':'Hide'} Edit Logs</button>
                             )
                         }
                         {
@@ -87,7 +81,7 @@ const Navbar = ({PDF, filename, recordId, showLog, isLogVisible}) => {
                         </div>
 
                         <div className={`navbar-menu-container bg-light end-0 flex-column ${showMenu ? 'show-menu' : ''}`} id="navbar-menu">
-                            <div className="list-unstyled p-3">
+                            <div className="list-unstyled p-3" style={{ paddingRight:'5px!important'}}>
                                 <li
                                     className="navbar-menu-option"
                                     onClick={() => router.push('/create')}

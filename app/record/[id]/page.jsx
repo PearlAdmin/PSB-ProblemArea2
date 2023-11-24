@@ -73,7 +73,7 @@ const Record = ({params}) => {
     return (
         <div>
             <Navbar recordId={params.id} showLog={showLogs} isLogVisible={isLogVisible}/>
-            <div className={`${styles.body} container-fluid my-3 px-5 pt-3`}>
+            <div className={`${styles.body} container-fluid my-3 px-2 pt-1 px-md-5 pt-md-3`}>
                 <div className="flex-row justify-content-center align-items-center">
 
                     {/* map items in dataArr to CustomView */}
@@ -82,7 +82,7 @@ const Record = ({params}) => {
                             return <CustomView key={i} id={data.record._id} question={item[0]} answer={item[1].value} options={item[1].options} required={item[1].required} type={item[1].type} order={item[1].order} didEdit={setDidEdit}/>
                         }
                     })}
-                    {isLogVisible && (<History logs={logs}/>)}
+                    {isLogVisible && (<History logs={logs} showLogs={showLogs}/>)}
                 </div>
             </div>
         </div>

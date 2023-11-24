@@ -74,13 +74,21 @@ const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2
             <i className='bi bi-x-circle-fill text-danger'></i>
           )}
         </div>
-        <div className="p-2 flex-grow-1">
+        <div className="p-2 flex-grow-1 truncate">
           <div style={{ fontWeight: 'bold' }}>
-            <a>{lastName}</a><a>{", "}</a><a>{firstname}</a>
+            <Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
+              <a>{lastName}</a><a>{", "}</a><a>{firstname}</a>
+            </Link>
           </div>
           <div style={{ display: 'flex' }}>
-            <div style={{ fontSize: '10px' }}><a>SCN#</a>{scn}</div>
-            <div style={{ fontSize: '10px', marginLeft: '20px' }}><a>SN#</a>{sn}</div>
+            <div style={{ fontSize: '10px'}}><a>SCN#</a>
+              <div className='d-none d-md-inline'>{scn}</div>
+              <div className='d-md-none d-inline'>{scn.length > 7 ? scn.substring(0,7)+'...' : scn}</div>
+            </div>
+            <div style={{ fontSize: '10px', marginLeft: '1rem' }}><a>SN#</a>
+              <div className='d-none d-md-inline'>{sn}</div>
+              <div className='d-md-none d-inline'>{sn.length > 7 ? sn.substring(0,7)+'...' : sn}</div>
+            </div>
           </div>
           <div style={{ fontSize: '10px' }}><a>Assigned Date: </a>{date}</div>
         </div>

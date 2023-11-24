@@ -174,7 +174,7 @@ const CreateRecord = () => {
     return (
         <div>
             <Navbar />
-            <form className={`${styles.body} container-fluid my-3 px-5 pt-3`} onSubmit={submitForm}>
+            <form className={`${styles.body} container-fluid my-3 px-2 pt-1 px-md-5 pt-md-3`} onSubmit={submitForm}>
                 {data.questions.map((item, i) => {
                     if(item.inputType === 'header'){
                         return (
@@ -189,7 +189,7 @@ const CreateRecord = () => {
                 })}
 
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button className={`${styles.button} ${styles.actionBtn} ${styles.bgBlue}`} type='submit' style={{ width: '80%', margin: '10px 25px', borderRadius: '36px' }}>
+                <Button className={`${styles.button} ${styles.actionBtn} ${styles.bgBlue} w-50`} type='submit'>
                     Create Record
                 </Button>
                 </div>
