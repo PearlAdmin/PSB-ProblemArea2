@@ -109,7 +109,6 @@ const EditForm = () => {
     // Close Popup
     const closeModal = (e) => {
         e.preventDefault();
-        // setInputQuestionIDVisible(false);
         setSaveChangesVisible(false);
         setSaveSuccessVisible(false);
         setDeleteQuestionVisible(false);
@@ -120,7 +119,6 @@ const EditForm = () => {
     const openSaveChanges = (e) => {
         e.preventDefault();
         setSaveChangesVisible(true);
-        console.log("form: ", formRef.current)
     }
 
     // Opens Save Changes Success
@@ -138,15 +136,15 @@ const EditForm = () => {
             if (response.ok) {
               // Handle the successful response here
               console.log('POST request was successful');
+              setSaveSuccessVisible(true);
             } else {
               // Handle errors or non-2xx responses
               console.error('POST request failed: ', response);
+              alert("Form edit failed.");
             }
           } catch (error) {
             console.error('An error occurred:', error);
         };
-
-        setSaveSuccessVisible(true);
     }
 
     // Return Home
@@ -157,7 +155,7 @@ const EditForm = () => {
 
     // Put DB data into boxes state and formRef
     useEffect(() =>{
-        let updatedBoxes = boxes
+        let updatedBoxes = [];
         if (data) {
             formRef.current = data.questions
             console.log(formRef.current)
