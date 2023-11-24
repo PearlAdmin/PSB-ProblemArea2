@@ -14,11 +14,12 @@ const CustomInput = (props) => {
   switch (props.config.inputType){
     //if input a text input
     case "number":
-      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[0-9]+'}/>
+      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'^[0-9]+(?:.[0-9]+)?$'}/>
     case "alphanumeric":
       return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9]+'}/>
     case "text":
-      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues}/>
+      //DO NOT DELETE THE SPACE AFTER THE 9 IN THE VALIDATION
+      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9 ]+'}/>   
     //if input a radio choice
     case "radio":
       return <MC type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>

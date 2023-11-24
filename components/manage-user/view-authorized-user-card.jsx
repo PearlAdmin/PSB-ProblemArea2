@@ -124,6 +124,7 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
       window.location.reload();
       alert("User has been edited!");
     }else{
+      window.location.reload();
       alert("Error: User was not edited");
     }
   }

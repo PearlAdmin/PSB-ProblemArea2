@@ -22,11 +22,12 @@ import Header from '@/components/create-record/header';
 const CustomView = ({id, question, answer, options, required, type, order, didEdit}) => {
   switch (type){
     case "number":
-      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'[0-9]+'} order={order} didEdit={didEdit}/>
+      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'^[0-9]+(?:.[0-9]+)?$'} order={order} didEdit={didEdit}/>
     case "alphanumeric":
       return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'[a-zA-Z0-9]+'} order={order} didEdit={didEdit}/>
     case "text":
-      return <Textbox id={id} question={question} answer={answer} required={required} type={type} order={order} didEdit={didEdit} />
+      //DO NOT DELETE THE SPACE AFTER THE 9 IN THE VALIDATION
+      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'[a-zA-Z0-9 ]+'} order={order} didEdit={didEdit} />
     //if input a radio choice
     case "radio":
       return <MC id={id} question={question} answer={answer} options={options} required={required} order={order} didEdit={didEdit}/>

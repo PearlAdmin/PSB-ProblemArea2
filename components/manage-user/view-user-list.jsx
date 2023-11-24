@@ -47,15 +47,17 @@ function DisplaySorted({page, searchText}){
 
     return(
         <div>
-            {items.users.map((user, index) => (
-                <CardUser
-                    key={index}
-                    username={user.username}
-                    password={user.password}
-                    pageNum={page}
-                    searchText={searchText}
-                />
-            ))}
+            {items.users.length > 0 ? (items.users.map((user, index) => {
+                return (
+                    <CardUser
+                        key={index}
+                        username={user.username}
+                        password={user.password}
+                        pageNum={page}
+                        searchText={searchText}
+                    />
+                )
+            })) : (<p>No users found...</p>)}
             
             <PaginationControls count={data.limit} perpage={data.per_page} route={'/manage-user'} />
         </div>
@@ -78,8 +80,10 @@ function UserList() {
 
     const handleSearchChange = (e) => {
         const searchText = e.target.value;
-        setSearchText(searchText);
-        router.push(basePath + `/manage-user/?page=1`);
+        if(!searchText.includes('\\')){
+            setSearchText(searchText);
+            router.push(basePath + `/manage-user/?page=1`);
+        }
     };
 
     return (
