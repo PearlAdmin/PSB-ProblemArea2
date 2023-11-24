@@ -55,7 +55,7 @@ const CreateRecord = () => {
             let dbType = type
             if(type === "text") {
                 switch (pattern){
-                    case '[0-9]+':
+                    case '^[0-9]+(?:.[0-9]+)?$':
                         dbType = "number"; break;
                     case '[a-zA-Z0-9]+':
                         dbType = "alphanumeric"; break;

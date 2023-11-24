@@ -79,8 +79,10 @@
 
         const handleSearchChange = (e) => {
             const searchText = e.target.value;
-            setSearchText(searchText);
-            router.push(basePath + `/?page=1`);
+            if(!searchText.includes('\\')){
+                setSearchText(searchText);
+                router.push(basePath + `/?page=1`);
+            }
         };
 
         const handleSortChange = (e) => {

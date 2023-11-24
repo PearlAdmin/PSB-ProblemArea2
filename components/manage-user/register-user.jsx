@@ -13,6 +13,7 @@ const Register = () => {
      * @type {boolean}
      */
     const [showPassword, setShowPassword] = useState(false);
+    const [confirmation, setConfirmation] = useState(false);
 
     /**
      * State to manage the visibility of the password confirmation.
@@ -50,21 +51,35 @@ const Register = () => {
      */
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('/api/manage-user',{
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
+        try{
+            if (!(data.password.length >= 12)){
+                throw new Error("Password must be at least 12 characters long!");
             }
-        });
-        if(response.ok){
-            window.location.reload();
-            alert("User registered successfully");
-        }else{
-            alert("Failed to register user");
-        }
-    }
 
+            if (!(data.password === confirmation)){
+                throw new Error("Passwords do not match!");
+            }
+            const response = await fetch('/api/manage-user',{
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if(response.ok){
+                window.location.reload();
+                alert("User registered successfully");
+            }else{
+                alert("Failed to register user");
+            }
+
+        } catch(error){
+            alert(error);
+        }
+
+    }
+    
     return (
         <div>
             <div>                
@@ -78,7 +93,9 @@ const Register = () => {
                             </InputGroup.Text>
                             <Form.Control
                                 type="text" 
-                                placeholder="Username" required 
+                                placeholder="Username" 
+                                pattern=  "[a-zA-Z0-9 ]+"
+                                required 
                                 onChange={(e) => setData({ ...data, username: e.target.value })}
                             />
                         </InputGroup>
@@ -91,6 +108,7 @@ const Register = () => {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 placeholder="Password"
+                                pattern="[a-zA-Z0-9!@#$%^&*()_{}|:;<>,.?\/\[\]\-=']"
                                 required
                                 onChange={(e) => setData({ ...data, password: e.target.value })}
                             />
@@ -115,6 +133,7 @@ const Register = () => {
                                 id="passwordConfirmation"
                                 placeholder="Confirm Password"
                                 required
+                                onChange={setConfirmation}
                             />
                             {/* Hide and Show Password */}
                             <Button
