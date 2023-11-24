@@ -60,7 +60,10 @@ const LogIn = () => {
                 setCookie(
                     'user',
                     JSON.stringify(cookieValue),
-                    { path: '/' }
+                    { 
+                        path: '/',
+                        expires: 0,
+                    }
                 )
             }
         

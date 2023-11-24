@@ -241,7 +241,7 @@ const Deleted = () => {
                 func1={(e)=>openRecover(e, item._id)}
                 func2={(e)=>openPermaDelete(e, item._id)}
             />))) : (
-              <p>No Deleted Records...</p>
+              <p>No deleted records.</p>
             )}
   
             {/* Pagination */}

@@ -54,7 +54,7 @@
                         date={item['Assigned Date: '].value}
                     /> 
                 ))) : (
-                    <p>No Records to Display yet...</p>
+                    <p>No records to display.</p>
                 )}
                 
                 <PaginationControls count={items.limit} perpage={items.per_page} />
