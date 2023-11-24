@@ -114,7 +114,7 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
             errorMsg.current = ''
 
             try {
-                const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/records?id=${id}`, {
+                const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+`/api/records?id=${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const createLog = async (id, currentUser) => {
     try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL+`/api/record-logs?id=${id}`, {
+        const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+`/api/record-logs?id=${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
