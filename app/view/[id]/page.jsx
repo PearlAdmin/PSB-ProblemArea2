@@ -4,9 +4,19 @@ import btnStyle from '@/components/create-record/styles.module.css';
 import useSWR from 'swr';
 import Navbar from "@/components/navigation";
 import Loading from '@/components/loading';
-import Error from '@/app/not-found'
+import Error from '@/app/not-found';
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+
+Font.register({
+  family: 'Roboto Condensed',
+  fonts: [{
+    src: '/RobotoCondensed-Light.ttf',
+  },{
+    src: '/RobotoCondensed-Bold.ttf',
+    fontWeight: 'bold',
+  }]
+})
 
 const styles = StyleSheet.create({
   body: {
@@ -16,6 +26,7 @@ const styles = StyleSheet.create({
       fontSize: 12,
       flexDirection: 'row',
       flexWrap: 'wrap',
+      
   },    
   imageContainer: {
       flexDirection: 'row',  
@@ -28,12 +39,17 @@ const styles = StyleSheet.create({
       width: 60,
       marginRight: 20,
   },
-  name: {
-      height: 40,
-      width: 350,
-  },
   header: {
       textAlign: 'center'
+  },
+  leftTitle: {
+    fontFamily: 'Roboto Condensed',
+    color: '#0872a1',
+    fontWeight: 'bold',
+  },
+  rightTitle: {
+    fontFamily: 'Roboto Condensed',
+    color: '#0872a1'
   },
   //Questions
   container: {
@@ -112,13 +128,13 @@ const CustomPdfView = ({ question, answer, options, type }) => {
 };
 
 const MyDocument = ({record}) => {
-  console.log(record);
   return (
     <Document>
       <Page size="A4">
         <View style={styles.imageContainer}>
           <Image src="/logo.png" style={styles.logo} />
-          <Image src="/name.png" style={styles.name} />
+          <Text style={styles.leftTitle}>Pearl S. Buck</Text>
+          <Text style={styles.rightTitle}> Foundation Philippines Inc.</Text>
         </View>
         <View>
           <Text style={styles.header}>Family Progress Report Form</Text>
