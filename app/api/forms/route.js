@@ -2,10 +2,19 @@ import dbConnect from "@/libs/db";
 import Question from "@/models/questions";
 import {NextResponse} from "next/server";
 
-// CREATE A NEW QUESTION
+/**
+ * API route for creating a question.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {string} - the question created.
+ * @returns {string} - the input type of the question created.
+ * @returns {string} - the number identifier of the question created.
+ * @returns {boolean} - indicates whether the question is deletable.
+ * @returns {[string]} - an array of choices for the question. Applicable only for 'radio' and 'checkbox' input types.
+ * @throws {Error} - the error thrown while trying to create the question.
+ */
 export async function POST(req) {
     const toInsert = await req.json()
-    // console.log("POST", toInsert);
     if (Array.isArray(toInsert)){
         try {
             await dbConnect();
@@ -46,7 +55,13 @@ export async function POST(req) {
     }
 }
 
-// GET ALL QUESTIONS
+/**
+ * API route for getting all questions.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {Question} - the list of questions.
+ * @throws {Error} - the error thrown while trying to get the questions.
+ */
 export async function GET() {
     try {
         await dbConnect();

@@ -33,7 +33,6 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
     function validateSCN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
-        console.log(validityState)
       
         if (errorMsg.current == "SCN should be unique") {
           input.setCustomValidity(errorMsg.current);
@@ -53,7 +52,6 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
     function validateSN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
-        console.log(validityState)
       
         if (errorMsg.current == "SN should be unique") {
           input.setCustomValidity(errorMsg.current);

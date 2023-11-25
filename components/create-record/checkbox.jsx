@@ -15,7 +15,6 @@ const Checkbox = ({ type, question, options, required, setValues }) => {
         <div>
             <div className={`${styles.formContainer} col mb-3`}>
                 <div className={`${styles.formTitleContainer}`}>
-                    {/* {TODO: ASK MARCO TP REMOVE THE !REQUIRED} */}
                     <label className={`${styles.formAnswer} ${styles.formTransparent} w-100 fw-bold d-flex me-4 ${!required ? 'flex-grow-1' : ''}`} htmlFor="question">
                         {question}
                     </label>

@@ -2,7 +2,13 @@ import dbConnect from "@/libs/db";
 import User from "@/models/users";
 import { NextResponse } from "next/server";
 
-
+/**
+ * API route for user-cookie checking.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {String} - the message indicating whether the user is found.
+ * @throws {Error} - the error thrown while trying to get the user.
+ */
 export async function POST(req){
     const data = await req.json();
     await dbConnect();

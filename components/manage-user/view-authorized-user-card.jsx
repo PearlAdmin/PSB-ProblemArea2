@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Card } from 'react-bootstrap';
 import Popup from '../popup';
 
-
 /**
  * CardUser component for displaying user information in a card format.
  *

@@ -4,6 +4,12 @@ import Record from "@/models/records";
 import Log from "@/models/logs";
 import Question from "@/models/questions";
 
+/**
+ * API route for creating a record.
+ * @param {Object} req 
+ * @returns {string} - the message indicating whether the record is created.
+ * @throws {Error} - the error thrown while trying to create the record.
+ */
 export async function POST(req) {
   try {
     const data = await req.json(); // Assuming you're sending data in the request body
@@ -40,7 +46,6 @@ export async function POST(req) {
     }
 
     // DONT DELETE THIS CONSOLE LOG
-    console.log("CREATED \n", log);
     await Log.create(log);
     return NextResponse.json({message: "Record created successfully"}, {status: 201});
   } catch (error) {
@@ -48,6 +53,14 @@ export async function POST(req) {
   }
 };
 
+/**
+  * API route for getting all records.
+ * @param {Object} req - HTTP request object.
+ * @returns {[Record]} - the list of records.
+ * @returns {Number} - the number of records.
+ * @returns {Number} - the number of records per page.
+ * @throws {Error} - the error thrown while trying to get the records.
+ */
 export async function GET(req) {
   try {
     const url = new URL(req.url);
@@ -70,7 +83,6 @@ export async function GET(req) {
       }
       
       const formQuestions = await Question.find({});
-      console.log("sopas")
       const new_record = {};
 
       formQuestions.map((item) => {
@@ -80,8 +92,6 @@ export async function GET(req) {
           if (record[item.question].type == item.inputType){
             if (record[item.question].type == 'radio' || record[item.question].type == 'checkbox'){
               //check if options are the same
-              console.log(item.choices)
-              console.log(record[item.question].options)
               if (JSON.stringify(record[item.question].options) === JSON.stringify(item.choices)){
                 //main checks did not change
                 new_record[item.question] = record[item.question]
@@ -135,6 +145,12 @@ export async function GET(req) {
   }
 }
 
+/**
+ * API route for updating a record.
+ * @param {Object} req - HTTP request object.
+ * @returns {string} - the message indicating whether the record is updated.
+ * @throws {Error} - the error thrown while trying to update the record.
+ */
 export async function PATCH(req){
   try {
     const url = new URL(req.url);
@@ -194,16 +210,19 @@ export async function PATCH(req){
   }
 }
 
+/**
+ * API route for deleting a record.
+ * @param {Object} req - HTTP request object.
+ * @returns {string} - the message indicating whether the record is deleted.
+ * @throws {Error} - the error thrown while trying to delete the record.
+ */
 export async function DELETE(req){
   try {    
     const {id} = await req.json();
 
     await dbConnect();
 
-    console.log("DELETE ID", id);
-
     if(id && id != 'ALL'){
-      console.log("DELETE ID", id);
       const record = await Record.findByIdAndDelete(id);
       const log = await Log.findOneAndDelete({recordId: id});
 

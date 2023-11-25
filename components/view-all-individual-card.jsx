@@ -23,7 +23,7 @@ import { useCookies } from 'react-cookie';
  * @param {Function} props.func2 - The second function to be executed on a specific action (optional).
  * @returns {JSX.Element} JSX Element representing the CardIndiv component.
  */
-//TODO: check if func1 and 2 are documented correct
+
 const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2 }) => {
   const [cookies] = useCookies(['user']);
   const user = cookies.user;

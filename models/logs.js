@@ -1,5 +1,13 @@
 import mongoose, {Schema} from "mongoose";
 
+/**
+ * Mongoose schema for representing a form question.
+ * @typedef {Object} Edit
+ * @property {string} editedBy - indicates the user who edited the record
+ * @property {string} action - action taken by the user, it can be either 'created' or 'edited'
+ * @property {number} timestamp - indicates the time when the action was taken
+ */
+
 const editSchema = new Schema({
     editedBy: {
         type: String,
@@ -16,6 +24,14 @@ const editSchema = new Schema({
         required: true
     }
 });
+
+/**
+ * Mongoose schema for representing a form question.
+ * @typedef {Object} Log
+ * @property {string} recordId - indicates the user who edited the record
+ * @property {Edit} edits - contains the information about the edits made to the records
+ * @property {boolean} isdeleted - indicates whether the record is deleted
+ */
 
 const logSchema = new Schema({
     recordId: {

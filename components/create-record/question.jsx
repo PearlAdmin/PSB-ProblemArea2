@@ -36,11 +36,6 @@ const Question = ({ id, question, required, deletable, dbtype, choices, changeQu
      */
     const handleTypeChange = (choices, e) => {
         setType(e.target.value);
-        // console.log('TARGET', e.target.value);
-        // console.log(e.target.value === 'checkbox')
-        // if(e.target.value === 'checkbox') {
-        //     setRequired(false);
-        // }
         changeType(choices, e)
     }
 

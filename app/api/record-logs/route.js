@@ -2,17 +2,13 @@ import dbConnect from "@/libs/db";
 import {NextResponse} from "next/server";
 import Log from "@/models/logs";
 
-export async function GET(req) {
-    try {
-        const url = new URL(req.url);
-        const id = url.searchParams.get('id');
-        const page = url.searchParams.get('page') ?? '1';
-        await dbConnect();
-    } catch (error) {
-        return NextResponse.json({message: error.message}, {status: 500});
-    }
-}
-
+/**
+ * API route for updating a log.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {string} - the log updated.
+ * @throws {Error} - the error thrown while trying to update the log.
+ */
 export async function PATCH(req){
     try {
       const url = new URL(req.url);
@@ -20,9 +16,6 @@ export async function PATCH(req){
       //data is the request body sent.
       const data = await req.json();
       const id = url.searchParams.get('id');
-
-      console.log("DATA IN DB", data);
-      console.log(id);
   
         await dbConnect();
         const updateLog = await Log.findOneAndUpdate(
@@ -32,8 +25,6 @@ export async function PATCH(req){
         );
 
         await updateLog.save();
-
-        console.log("UPDATE LOG", updateLog);
 
         if (!updateLog) {
             return NextResponse.json({ message: "Log not found" }, { status: 404 });

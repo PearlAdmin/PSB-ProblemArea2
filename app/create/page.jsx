@@ -25,7 +25,6 @@ const CreateRecord = () => {
     const handleInputChange = (e, options = null) => {
         const { name, value, type, checked, required, pattern } = e.target;
 
-        console.log("id: ", e.target.id);
         e.target.setCustomValidity('')
     
         // Use a copy of the current values object
@@ -38,7 +37,6 @@ const CreateRecord = () => {
                 updatedValues[name] = {value: [value], options: options, required: required, type: type, version: values[name].version};
             } else {
                 if (checked) {
-                    console.log("in checked")
                     // If the checkbox is checked, add the value to the array
                     // updatedValues[name] = [...updatedValues[name], value];
                     updatedValues[name].value = [...updatedValues[name].value, value];
@@ -68,7 +66,6 @@ const CreateRecord = () => {
     
         // Update the state with the modified values
         setValues(updatedValues);
-        console.log(values)
     };
 
     const submitForm = (e) => {
@@ -79,7 +76,6 @@ const CreateRecord = () => {
     function validateSN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
-        console.log(validityState)
       
         if (errorMsg.current == "SN should be unique") {
           input.setCustomValidity(errorMsg.current);
@@ -94,7 +90,6 @@ const CreateRecord = () => {
     function validateSCN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
-        console.log(validityState)
       
         if (errorMsg.current == "SCN should be unique") {
           input.setCustomValidity(errorMsg.current);
@@ -110,8 +105,7 @@ const CreateRecord = () => {
     const acceptSubmit = async () => {
         // Save your data if needed
         errorMsg.current = ''
-
-        //TODO: look into what values is
+        
         try {
             const response = await fetch('/api/records', {
               method: 'POST',

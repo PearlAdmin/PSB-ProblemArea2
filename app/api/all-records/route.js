@@ -2,6 +2,15 @@ import dbConnect from "@/libs/db";
 import {NextResponse} from "next/server";
 import Record from "@/models/records";
 
+/**
+ * API route for getting all records.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {Record} - the list records.
+ * @returns {Number} - the total number of records.
+ * @returns {Number} - the number of records per page.
+ * @throws {Error} - the error thrown while trying to get the records.
+ */
 export async function GET(req) {
   try {
     const url = new URL(req.url);
