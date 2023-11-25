@@ -71,7 +71,7 @@ const Navbar = ({PDF, filename, recordId, showLog, isLogVisible}) => {
                             PDF && (
                                 <PDFDownloadLink document={PDF} fileName={filename}>
                                     {({ blob, url, loading, error }) =>
-                                        loading ? <p className='me-5 my-auto'>Loading document...</p> : <button className='btn btn-dark me-5 my-auto'>Download PDF</button>
+                                        loading ? <p className='me-4 my-auto'>Loading document...</p> : <button className='btn btn-dark me-4 my-auto'>Download PDF</button>
                                     }
                                 </PDFDownloadLink>
                             )

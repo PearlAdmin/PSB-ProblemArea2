@@ -1,5 +1,6 @@
 "use client";
 import {Page, Image, Text, View, Document, StyleSheet, PDFViewer, Font } from '@react-pdf/renderer';
+import btnStyle from '@/components/create-record/styles.module.css';
 import useSWR from 'swr';
 import Navbar from "@/components/navigation";
 import Loading from '@/components/loading';
@@ -167,9 +168,21 @@ const ViewRecord = ({params}) => {
   return (
       <>
           <Navbar PDF={<MyDocument record={dataArr}/>} filename={filename}/>
-          <PDFViewer style={{width:'100%', height: '88vh'}} showToolbar={false}>
-              <MyDocument record={dataArr}/>
-          </PDFViewer>
+            <div className='d-none d-md-block'>
+            <PDFViewer style={{width:'100%', height: '88vh'}} showToolbar={false}>
+                <MyDocument record={dataArr}/>
+            </PDFViewer>
+            </div>
+            <div className='d-md-none p-5'>
+                <div className='mb-3'>This file cannot be previewed on this device.</div>
+                <div className='mb-5'>Please download the file to view.</div>
+                <a className={``} href='/'>
+                    <div className={`${btnStyle.actionBtn} ${btnStyle.bgBlue} ${btnStyle.button} text-center text-white w-25`}>
+                        Go Back
+                    </div>
+                </a>
+            </div>
+
       </>
   )
 }
