@@ -1,6 +1,5 @@
- import styles from '@/components/create-record/styles.module.css';
+import styles from '@/components/create-record/styles.module.css';
 import { Card } from 'react-bootstrap';
-import PaginationControls from '../pagination';
 
 /**
  * History component for displaying edit history logs.
@@ -18,8 +17,8 @@ const History = (params) => {
     return (
         <div className={`${styles.popupModal}`} id="form-confirm-container">
             <div className={`${styles.popupModalBoxContainer}`}>
-                <div className={`${styles.popupModalBoxShadow} col-12 col-md-6 pe-2 pb-2`}>
-                    <div className={`${styles.popupModalBox} px-4 pt-3 pb-4`}>
+                <div className={`${styles.popupModalBoxShadow} col-10 col-md-5 pe-2 pb-2`}>
+                    <div className={`${styles.popupModalBox} px-3 pt-3 pb-4`}>
                         <div className={`${styles.popupModalBoxTop} d-flex text-start`}>
                             Edit History
                             <i className={`${styles.button} ms-auto bi bi-x`} onClick={showLogs}></i>
@@ -39,7 +38,6 @@ const History = (params) => {
                                     </Card>
                                 )
                             })}
-                            {/* <PaginationControls count={1} perpage={3}/> */}
                         </div>
                     </div>
                 </div>
