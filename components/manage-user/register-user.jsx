@@ -56,7 +56,7 @@ const Register = () => {
             if (!(data.password.length >= 12)){
                 throw new Error("Password must be at least 12 characters long!");
             }
-
+            
             if (!(data.password === confirmation)){
                 throw new Error("Passwords do not match!");
             }
@@ -78,7 +78,6 @@ const Register = () => {
         } catch(error){
             alert(error);
         }
-
     }
     
     return (
@@ -134,7 +133,7 @@ const Register = () => {
                                 id="passwordConfirmation"
                                 placeholder="Confirm Password"
                                 required
-                                onChange={setConfirmation}
+                                onChange={(e) => setConfirmation(e.target.value)}
                             />
                             {/* Hide and Show Password */}
                             <Button

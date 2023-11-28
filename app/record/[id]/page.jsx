@@ -57,8 +57,6 @@ const Record = ({params}) => {
     
     // console.log(data.record);
     if (!data.record || !data.log) return (<Error/>);
-
-    console.log(data);
     
     const filteredKeys = Object.keys(data.record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
     const filteredEntries = filteredKeys.map(key => [key, data.record[key]]);
@@ -69,7 +67,8 @@ const Record = ({params}) => {
         setLogVisible(!isLogVisible);
     }
     
-    const logs = data.log.edits;
+    const logs = data.log.edits.sort((a,b) => b.timestamp-a.timestamp);
+    
     return (
         <div>
             <Navbar recordId={params.id} showLog={showLogs} isLogVisible={isLogVisible}/>
