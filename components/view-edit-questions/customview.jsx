@@ -30,7 +30,7 @@ const CustomView = ({id, question, answer, options, required, type, order, didEd
     //if input a text input
     case "text":
       //DO NOT DELETE THE SPACE AFTER THE 9 IN THE VALIDATION
-      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={"[a-zA-Z0-9 ,.!'@]+"} order={order} didEdit={didEdit} />
+      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={"[a-zA-Z0-9 Ññ_,.!'@-]+"} order={order} didEdit={didEdit} />
     //if input a radio choice
     case "radio":
       return <MC id={id} question={question} answer={answer} options={options} required={required} order={order} didEdit={didEdit}/>

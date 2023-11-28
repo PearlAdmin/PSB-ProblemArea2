@@ -22,8 +22,6 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
   const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
   const [isFormDeleteVisible, setFormDeleteVisible] = useState(false);
 
-  
-
   const[data, setData] = useState({
     lookup: initialUsername,
     username: initialUsername,
@@ -185,13 +183,13 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
                       const withEmojis = /\p{Extended_Pictographic}/u
                       const pattern = /^[a-zA-Z0-9 ]+$/
                       if (e.target.value == '') {
-                        setUsername(e.target.value)
-                        setData({...data, username: e.target.value})
+                        setUsername(e.target.value);
+                        setData({...data, username: e.target.value});
                       } else if (withEmojis.test(e.target.value) || !pattern.test(e.target.value)) {
                         alert('Username cannot contain special characters...');
                       } else {
-                        setUsername(e.target.value)
-                        setData({...data, username: e.target.value})
+                        setUsername(e.target.value);
+                        setData({...data, username: e.target.value});
                       }
                     }
                     
