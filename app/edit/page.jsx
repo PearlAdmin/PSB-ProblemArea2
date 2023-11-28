@@ -8,8 +8,21 @@ import useSWR from 'swr';
 import Popup from '@/components/popup';
 import Loading from '@/components/loading';
 
+/**
+ * Fetcher function for fetching data from the API.
+ * 
+ * @function
+ * @param {String} url - The url to fetch the data from.
+ * @return {Object} - The response from the API.
+ */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+/**
+ * EditForm page. Displays the edit form page.
+ * 
+ * @page
+ * @return {JSX.Element} The EditForm component.
+ */
 const EditForm = () => {
     // Variables
     const tempID = useRef(1)
@@ -38,7 +51,7 @@ const EditForm = () => {
             const newQues = <Question 
                                 id={newQuesID} 
                                 question={`Sample Question`} 
-                                required={false} //change this to false to match db default
+                                required={false}
                                 deletable={true} 
                                 dbtype={"text"} 
                                 choices={null} 
@@ -54,6 +67,7 @@ const EditForm = () => {
     }
 
     // Move positions of Boxes
+    //logic for moving boxes up
     const moveUp = (id) => {
         const currentIndex = boxes.findIndex((box) => box.props.id === id);
         if (currentIndex > 0) {
@@ -72,6 +86,7 @@ const EditForm = () => {
         }
     };
       
+    //logic for moving boxes down
     const moveDown = (id) => {
         const currentIndex = boxes.findIndex((box) => box.props.id === id);
         if (currentIndex < boxes.length - 1) {
@@ -184,7 +199,7 @@ const EditForm = () => {
 
     // Handlers for edits made in the form
     const handleChangesQuestion = (e) => {
-        //handle change to question and required
+        //handle change to question text
         const newForm = formRef.current;
 
         const questionIndex = newForm.findIndex((element) => element._id == e.target.id)
@@ -207,7 +222,9 @@ const EditForm = () => {
         
         question.inputType = e.target.value
         if(question.inputType === "checkbox" || question.inputType === "radio"){
-            question.required = false;
+            question.required = false; //required always false for checkbox
+
+            //logic to put choices when type changed to checkbox or radio
             if(choices){
                 question.choices = choices
             } else {

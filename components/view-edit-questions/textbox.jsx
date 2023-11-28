@@ -42,25 +42,6 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
       
         input.reportValidity();
     }
-
-    /**
-     * Validates the input for SN (Sponsor Number).
-     *
-     * @function
-     * @param {string} inputID - The identifier of the input element.
-     */
-    function validateSN(inputID) {
-        const input = document.getElementById(inputID);
-        const validityState = input.validity;
-      
-        if (errorMsg.current == "SN should be unique") {
-          input.setCustomValidity(errorMsg.current);
-        } else {
-          input.setCustomValidity("");
-        }
-      
-        input.reportValidity();
-    }
     
     /**
      * Handles the click event when the user wants to edit the question.
@@ -93,6 +74,7 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
      * @param {Event} event - The change event.
      */
     const handleAnswerChange = (event) => {
+        document.getElementById(event.target.id).setCustomValidity("");
         setEditableAnswer(event.target.value);
     }
     
@@ -126,15 +108,14 @@ const Textbox = ({ id, question, answer, required, type, validation, order, didE
                     didEdit(true);
                 } else {
                 // Handle errors or non-2xx responses
-                    const data = await response.json()
-                    errorMsg.current = data.message
+                    const data = await response.json();
+                    errorMsg.current = data.message;
                     console.error('PATCH request failed: ', errorMsg.current);
                 }
             } catch (error) {
                 console.error('An error occurred:', error);
             };
-            if(question === 'SCN: ') validateSCN(id)
-            if(question === 'SN: ') validateSN(id)
+            if(question === 'SCN: ') validateSCN(id);
 
             if (errorMsg.current === ''){
                 setIsEditing(false);

@@ -6,8 +6,22 @@ import Navbar from "@/components/navigation";
 import Loading from '@/components/loading';
 import Error from '@/app/not-found';
 
+/**
+ * Fetcher function for fetching data from the API.
+ * 
+ * @function
+ * @param {String} url - The url to fetch the data from.
+ * @return {Object} - The response from the API. 
+ */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+/**
+ * Registers the font to be used in the PDF.
+ * 
+ * @function
+ * @param {Object} family - The font family.
+ * @param {Object[]} fonts - The fonts to be used.
+ */
 Font.register({
   family: 'Roboto Condensed',
   fonts: [{
@@ -18,6 +32,9 @@ Font.register({
   }]
 })
 
+/**
+ * Styles for the PDF.
+ */
 const styles = StyleSheet.create({
   body: {
       paddingTop: 35,
@@ -78,6 +95,16 @@ const styles = StyleSheet.create({
   }
 });
 
+/**
+ * CustomPdfView component for displaying the questions and answers in the PDF.
+ * 
+ * @page
+ * @param {string} question - The question to be displayed.
+ * @param {string} answer - The answer to the question.
+ * @param {string[]} options - The options for the question.
+ * @param {string} type - The type of the question.
+ * @return {React.Element} - The CustomPdfView component JSX.
+ */
 const CustomPdfView = ({ question, answer, options, type }) => {
   switch (type) {
     case "number":
@@ -127,6 +154,14 @@ const CustomPdfView = ({ question, answer, options, type }) => {
   }
 };
 
+
+/**
+ * MyDocument component for displaying the PDF.
+ * 
+ * @component
+ * @param {Object} record - The record to be displayed in the PDF.
+ * @returns {JSX.Element} - The MyDocument component JSX.
+ */
 const MyDocument = ({record}) => {
   return (
     <Document>
@@ -169,6 +204,13 @@ const MyDocument = ({record}) => {
   );
 };
 
+/**
+ * ViewRecord component for displaying the PDF.
+ * 
+ * @component
+ * @param {Object} params
+ * @returns {JSX.Element} - The ViewRecord component JSX.
+ */
 const ViewRecord = ({params}) => {
   const {data, isLoading, error} = useSWR(`/api/records?id=${params.id}`, fetcher);
   if (isLoading) return (<Loading/>);
@@ -183,22 +225,21 @@ const ViewRecord = ({params}) => {
   console.log(filteredKeys);
   return (
       <>
-          <Navbar PDF={<MyDocument record={dataArr}/>} filename={filename}/>
-            <div className='d-none d-md-block'>
-            <PDFViewer style={{width:'100%', height: '88vh'}} showToolbar={false}>
-                <MyDocument record={dataArr}/>
-            </PDFViewer>
-            </div>
-            <div className='d-md-none p-5'>
-                <div className='mb-3'>This file cannot be previewed on this device.</div>
-                <div className='mb-5'>Please download the file to view.</div>
-                <a className={``} href='/'>
-                    <div className={`${btnStyle.actionBtn} ${btnStyle.bgBlue} ${btnStyle.button} text-center text-white w-25`}>
-                        Go Back
-                    </div>
-                </a>
-            </div>
-
+        <Navbar PDF={<MyDocument record={dataArr}/>} filename={filename}/>
+          <div className='d-none d-md-block'>
+          <PDFViewer style={{width:'100%', height: '88vh'}} showToolbar={false}>
+              <MyDocument record={dataArr}/>
+          </PDFViewer>
+          </div>
+          <div className='d-md-none p-5'>
+              <div className='mb-3'>This file cannot be previewed on this device.</div>
+              <div className='mb-5'>Please download the file to view.</div>
+              <a className={``} href='/'>
+                  <div className={`${btnStyle.actionBtn} ${btnStyle.bgBlue} ${btnStyle.button} text-center text-white w-25`}>
+                      Go Back
+                  </div>
+              </a>
+          </div>
       </>
   )
 }

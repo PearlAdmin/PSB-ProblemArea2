@@ -3,6 +3,12 @@ import UserList from "@/components/manage-user/view-user-list";
 import Register from "@/components/manage-user/register-user";
 import './styles.css';
 
+/**
+ * Manage User page. Page for managing users.
+ * 
+ * @page
+ * @return {JSX.Element} The Manage User page.
+ */
 const ManageUser = async () => {
     return (
         <div>

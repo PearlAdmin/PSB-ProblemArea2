@@ -4,6 +4,13 @@ import styles from './homepage.module.css';
 import SortBy from "@/components/sort-search";
 import Link from 'next/link';
 
+/**
+ * Home page. Landing page for the application.
+ * 
+ * @page
+ * 
+ * @returns {JSX.Element} The Home page.
+ */
 const Home = async () => {
   return (
     <div>

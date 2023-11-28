@@ -7,7 +7,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SortBy from "@/components/sort-search";
 
+/**
+ * Deleted page. Displays the deleted records page.
+ * 
+ * @page
+ * @return {JSX.Element} The Deleted page.
+ */
 const Deleted = () => {
+    // State variables
     const [cookieResult, setCookie] = useState(null);
     const [isRecoverAllOpen, setRecoverAllOpen] = useState(false);
     const [isPermaDeleteAllOpen, setPermaDeleteAllOpen] = useState(false);
@@ -16,19 +23,22 @@ const Deleted = () => {
     const router = useRouter();
     const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
 
+    // id of record to be recovered or permanently deleted
     const[id, setId] = useState('');
 
-    // Popup Functions
+    // open recover all popup
     const openRecoverAll = (e) => {
         e.preventDefault();
         setRecoverAllOpen(true);
     }
 
+    // open permanently delete all popup
     const openDeleteAll = (e) => {
         e.preventDefault();
         setPermaDeleteAllOpen(true);
     }
 
+    // recover all records
     const recoverAll = async(e) => {
         e.preventDefault();
         try {
@@ -61,6 +71,7 @@ const Deleted = () => {
       closeModal(e);
     }
 
+    // permanently delete all records
     const deleteAll = async(e) => {
         e.preventDefault();
         try {
@@ -95,18 +106,21 @@ const Deleted = () => {
         // backend stuff
     }
 
+    // open recover popup
     const openRecover = (e, id) => {
         e.preventDefault();
         setId(id)
         setRecoverOpen(true);
     }
 
+    // open permanently delete popup
     const openPermaDelete = (e, id) => {
         e.preventDefault();
         setId(id)
         setPermaDeleteOpen(true);
     }
 
+    // recover record
     const recoverRecord = async(e, id) => {
         e.preventDefault();
         closeModal(e);
@@ -139,7 +153,7 @@ const Deleted = () => {
         };
     }
 
-    //TODO: FIGURE THIS OUT
+    // permanently delete record
     const permaDeleteRecord = async(e, id) => {
         e.preventDefault();
         try {
@@ -167,6 +181,7 @@ const Deleted = () => {
         closeModal(e);
     }
 
+    // close popup
     const closeModal = (e) => {
         e.preventDefault();
         setId('')
@@ -175,6 +190,7 @@ const Deleted = () => {
         setRecoverOpen(false);
         setPermaDeleteOpen(false);
     }
+    
     return (
       <div>
         <Navbar cookie = {cookieResult} />

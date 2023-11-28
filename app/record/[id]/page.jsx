@@ -9,8 +9,23 @@ import { useCookies } from 'react-cookie';
 import Loading from '@/components/loading';
 import Error from '@/app/not-found';
 
+/**
+ * Fetcher function for fetching data from the API.
+ * 
+ * @function
+ * @param {String} url - The url to fetch the data from.
+ * @return {Object} - The response from the API.
+ */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+/**
+ * Creates a log entry for the edit history.
+ * 
+ * @function
+ * @param {string} id - The id of the record.
+ * @param {string} currentUser - The username of the current user.
+ * @return {Object} - The response from the API.
+ */
 const createLog = async (id, currentUser) => {
     try {
         const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+`/api/record-logs?id=${id}`, {
@@ -34,6 +49,13 @@ const createLog = async (id, currentUser) => {
     };
 }
 
+/**
+ * Record page. Displays the record page.
+ * 
+ * @page
+ * @param {Object} params - The parameters passed to the component. 
+ * @return {JSX.Element} The Record component.
+ */
 const Record = ({params}) => {
     const [isLogVisible, setLogVisible] = useState(false);
 

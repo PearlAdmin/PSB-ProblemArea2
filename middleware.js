@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server";
 
-
 /**
  * This function is middleware made to handle user authorization using cookies. 
  * @param {IncomingRequest} request - Incoming request object which contains details of the HTTP request. 
  * @returns {Promise<NextResponse>} - Promise which resolves into a Next Response.
  */
-
-
 export async function cookiesMiddleware(request) {
     if (request.nextUrl.pathname.endsWith('/login')){
         return NextResponse.next()

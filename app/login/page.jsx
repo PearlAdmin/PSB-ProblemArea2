@@ -9,6 +9,12 @@ import { Cookies, useCookies } from 'react-cookie';
 import useSWR from 'swr';
 import 'components/nav.styles.css';
 
+/**
+ * LogIn page. Displays the login page.
+ * 
+ * @page
+ * @return {JSX.Element} The LogIn page.
+ */
 const LogIn = () => {
     const router = useRouter();
     const [cookies, setCookie] = useCookies(['user']);
@@ -43,7 +49,6 @@ const LogIn = () => {
             const data = await response.json();
             const username = data.user.username;
             const role = data.user.role;
-            //TODO: remember me
             const cookieValue = { username, role }
 
             if(isRememberMe){

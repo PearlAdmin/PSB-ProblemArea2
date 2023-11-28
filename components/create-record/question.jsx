@@ -25,7 +25,6 @@ const Question = ({ id, question, required, deletable, dbtype, choices, changeQu
     let displayOnly = false
     if(!deletable) displayOnly = true
     const [type, setType] = useState(defaultType);
-    // const [required, setRequired] = useState(true);
 
     /**
      * Handles changes to the question type and triggers the corresponding callback.

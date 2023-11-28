@@ -12,28 +12,43 @@ import { useRouter } from 'next/navigation';
 import Error from '@/app/not-found';
 import Loading from '@/components/loading';
 
+/**
+ * Fetcher function for fetching data from the API.
+ * @function
+ * @param {String} url - The URL to fetch the data from.
+ * @return {Object} - The response from the API.
+ */
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
+/**
+ * CreateRecord Page. Displays the create record page.
+ * 
+ * @Page
+ * @return {JSX.Element} The CreateRecord component.
+ */
 const CreateRecord = () => {
+    // State variables
     const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
-    const [values, setValues] = useState({}); //TODO: what is values
+    const [values, setValues] = useState({}); 
     const errorMsg = useRef('')
     const [cookies] = useCookies(['user']);
     
+    // router object
     const router = useRouter();
 
     const handleInputChange = (e, options = null) => {
+        // Destructure the event object
         const { name, value, type, checked, required, pattern } = e.target;
 
+        // Clear the validation error message
         e.target.setCustomValidity('')
     
         // Use a copy of the current values object
         let updatedValues = values;
         
-        //TODO: why is order not included here?
+        // Update the copy of the values object
         if (type === "checkbox") {
             if (!updatedValues[name]){
-                // updatedValues[name] = [ value ];
                 updatedValues[name] = {value: [value], options: options, required: required, type: type, version: values[name].version};
             } else {
                 if (checked) {
@@ -49,7 +64,6 @@ const CreateRecord = () => {
             updatedValues[name] = {value: value, options: options, required: required, type: type, order: values[name].order, version: values[name].version};
         } else {
             // For non-checkbox inputs, update the value directly
-            // updatedValues[name] = value;
             let dbType = type
             if(type === "text") {
                 switch (pattern){
@@ -68,25 +82,13 @@ const CreateRecord = () => {
         setValues(updatedValues);
     };
 
+    // Handle the form submission
     const submitForm = (e) => {
         e.preventDefault(); // Prevent the default form submission
         setFormConfirmVisible(true);
     }
 
-    function validateSN(inputID) {
-        const input = document.getElementById(inputID);
-        const validityState = input.validity;
-      
-        if (errorMsg.current == "SN should be unique") {
-          input.setCustomValidity(errorMsg.current);
-          alert(errorMsg.current);
-        } else {
-          input.setCustomValidity("");
-        }
-      
-        input.reportValidity();
-    }
-
+    // Handle the form submission
     function validateSCN(inputID) {
         const input = document.getElementById(inputID);
         const validityState = input.validity;
@@ -101,7 +103,7 @@ const CreateRecord = () => {
         input.reportValidity();
     }
 
-
+    // Handle acceptance of the form submission.
     const acceptSubmit = async () => {
         // Save your data if needed
         errorMsg.current = ''
@@ -130,19 +132,21 @@ const CreateRecord = () => {
             console.error('An error occurred:', error);
         };
 
-        validateSN('SN: ')
+        // validate unique SCN
         validateSCN('SCN: ')
 
         setFormConfirmVisible(false);
         console.error('errMsg: ', errorMsg.current);
     }
     
+    // Handle the rejection of the form submission.
     const declineSubmit = () => {
         setFormConfirmVisible(false);
     }
     //cookie checker if exist  load dis  if not 
     const {data, isLoading, error} = useSWR('/api/forms', fetcher);
 
+    // Initialize the values object
     useEffect(() =>{
         let initiateValues = values
         if (data) {
@@ -161,8 +165,10 @@ const CreateRecord = () => {
         }
     }, [data])
 
+    // Check if the data is loading or if there is an error
     if (isLoading) return (<Loading/>);
     
+    // Check if there is an error
     if (error) return (<Error/>);
 
     return (

@@ -1,6 +1,14 @@
 "use client";
 import styles from '@/components/create-record/styles.module.css';
 
+/**
+ * Error component. Displays an error message.
+ * 
+ * @component
+ * @param {number} errorcode - Props sent to the component which contains the error code to display.
+ * @param {string} errorMessage -  Props sent to the component which contains the error message to display.
+ * @returns {JSX.Element} The Error component.
+ */
 const Error = ({ errorCode, errorMessage }) => {
     return (
         <div className={`${styles.body} w-100 px-4 py-5 text-center`}>

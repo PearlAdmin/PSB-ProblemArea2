@@ -43,6 +43,18 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - corresponds to the page routing
 #### api/
 - directory that stores the APIs
+##### all-records/
+- API route for all-records
+##### cookies/
+- API route for cookies
+##### forms/
+- API route for forms
+##### login/
+- API route for login validation
+##### manage-user/
+- API route for managing the user
+##### records/
+- API route for individual records
 #### create/
 - stores the page for creating new records
 #### edit/
@@ -57,17 +69,25 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - directory for components 
 #### create-record/
 - stores the components for creating records
-#### login/
-- stores the components for login page
 #### manage-user/
 - stores the components for managing user
-#### navigation
+#### view-edit-questions/
+- stores the components for viewing and editing records
+#### navigation.jsx
 - component for the nav bar
-#### bootstrap
+#### bootstrap.jsx
 - component for importing the bootstrap
-#### pagination
+#### pagination.jsx
 - component for creating pagination feature
-#### sort-search
+#### sort-search.jsx
 - component for sorting and searching
-#### view-all-individual-card
+#### view-all-individual-card.jsx
 - component for viewing the individual information of records
+#### loading.jsx
+- component for loading
+#### popup.jsx
+- component for popup messages
+### libs/
+- contains the connection and configuration of the database
+### models/
+- 
