@@ -30,28 +30,72 @@ export async function GET(req) {
 
     let records = "";
 
-    // Check if searchText is present
-    if (searchText) {
-      records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted })
-        .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
-        .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
-        .skip(start)
-        .limit(end);
-    } else {
-      if (selectedValue == "Assigned Date:"){
-        records = await Record.find({isdeleted : isdeleted})
-        .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
-        .sort({ [selectedValue + " "]: -1 }) // 1 for ascending order, -1 for descending order 
-        .skip(start)
-        .limit(end);
-      }else{
-        records = await Record.find({isdeleted : isdeleted})
-        .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
-        .sort({ [selectedValue + " "]: 1 }) // 1 for ascending order, -1 for descending order 
-        .skip(start)
-        .limit(end);
+    if (isdeleted){
+      if (searchText) {
+        if (selectedValue == "Assigned Date: "){
+          records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted })
+            .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+            .sort({ [selectedValue]: -1 }) // 1 for ascending order, -1 for descending order 
+            .skip(start)
+            .limit(end);
+        }
+        else{
+          records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted })
+            .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+            .sort({ [selectedValue]: 1 }) // 1 for ascending order, -1 for descending order 
+            .skip(start)
+            .limit(end);
+        }
+      } else {
+        // console.log("IN DB", selectedValue);
+        if (selectedValue == "Assigned Date: "){
+          records = await Record.find({isdeleted : isdeleted})
+          .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+          .sort({ [selectedValue]: -1 }) // 1 for ascending order, -1 for descending order 
+          .skip(start)
+          .limit(end);
+        }else{
+          records = await Record.find({isdeleted : isdeleted})
+          .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+          .sort({ [selectedValue]: 1 }) // 1 for ascending order, -1 for descending order 
+          .skip(start)
+          .limit(end)
+        }
+      }
+    }else{
+      if (searchText) {
+        if (selectedValue == "Assigned Date:"){
+          records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted })
+            .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+            .sort({ [selectedValue+" "]: -1 }) // 1 for ascending order, -1 for descending order 
+            .skip(start)
+            .limit(end);
+        }
+        else{
+          records = await Record.find({ [`${searchValue}.value`]: { $regex: new RegExp(searchText, 'i')}, isdeleted : isdeleted })
+            .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+            .sort({ [selectedValue+" "]: 1 }) // 1 for ascending order, -1 for descending order 
+            .skip(start)
+            .limit(end);
+        }
+      } else {
+        // console.log("IN DB", selectedValue);
+        if (selectedValue == "Assigned Date:"){
+          records = await Record.find({isdeleted : isdeleted})
+          .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+          .sort({ [selectedValue+" "]: -1 }) // 1 for ascending order, -1 for descending order 
+          .skip(start)
+          .limit(end);
+        }else{
+          records = await Record.find({isdeleted : isdeleted})
+          .collation({ locale: 'en', strength: 2 }) // 'en' for English, strength 2 for case-insensitive
+          .sort({ [selectedValue+" "]: 1 }) // 1 for ascending order, -1 for descending order 
+          .skip(start)
+          .limit(end)
+        }
       }
     }
+    
     
     let limit;
     if (searchText){
@@ -59,6 +103,8 @@ export async function GET(req) {
     } else {
       limit = await Record.find({isdeleted : isdeleted}).countDocuments();
     }
+
+    // console.log(records);
     
     return NextResponse.json({records, limit, per_page}, {status: 200});
   } catch (error) {

@@ -28,10 +28,11 @@
      * 
      * @returns {JSX.Element} JSX Element representing the sorted records.
      */
-    function DisplaySorted({page, searchText, selectedValue, searchValue}){
+    function DisplaySorted({page, searchText, selectedValue, searchValue, isdeleted, openRecover, openPermaDelete}){
         const router = useRouter();
+        // console.log("DELETED:",isdeleted);
 
-        const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&searchText=${searchText}&searchValue=${searchValue}&selectedValue=${selectedValue}`, fetcher);
+        const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&searchText=${searchText}&searchValue=${searchValue}&selectedValue=${selectedValue}${isdeleted ? '&deleted=true' : ''}`, fetcher);
 
         if (isLoading) return (<Loading/>);
         
@@ -42,23 +43,47 @@
         const items = data;
 
         return(
-            <div>
-                {items.records.length > 0 ? (items.records.map((item, i) => (
-                    <CardIndiv
-                        key={i}
-                        id={item._id}
-                        lastName={item['Last Name: '].value}
-                        firstname={item['First Name: '].value}
-                        scn={item['SCN: '].value}
-                        sn={item['SN: '].value}
-                        date={item['Assigned Date: '].value}
-                    /> 
-                ))) : (
-                    <p>No records to display.</p>
-                )}
-                
-                <PaginationControls count={items.limit} perpage={items.per_page} />
-            </div>
+            <>
+            { !isdeleted ? (
+                <div>
+                    {items.records.length > 0 ? (items.records.map((item, i) => (
+                        <CardIndiv
+                            key={i}
+                            id={item._id}
+                            lastName={item['Last Name: '].value}
+                            firstname={item['First Name: '].value}
+                            scn={item['SCN: '].value}
+                            sn={item['SN: '].value}
+                            date={item['Assigned Date: '].value}
+                        /> 
+                    ))) : (
+                        <p>No records to display.</p>
+                    )}
+                    
+                    <PaginationControls count={items.limit} perpage={items.per_page} />
+                </div>
+            ) : (
+                <div>
+                    {items.records.length > 0 ? (items.records.map((item, index) => (
+                        <CardIndiv
+                            key={index}
+                            id={item._id}
+                            lastName={item['Last Name: '].value}
+                            firstname={item['First Name: '].value}
+                            scn={item['SCN: '].value}
+                            sn={item['SN: '].value}
+                            date={item['Assigned Date: '].value}
+                            route={"deleted"}
+                            func1={(e)=>openRecover(e, item._id)}
+                            func2={(e)=>openPermaDelete(e, item._id)}
+                        />))) : (
+                        <p>No deleted records.</p>
+                    )}
+                    
+                    <PaginationControls count={data?.limit} perpage={data?.per_page} route={"deleted"}/>
+                </div>
+            )}
+            </>
         );
     }
 
@@ -68,27 +93,29 @@
      * @component
      * @returns {JSX.Element} JSX Element representing the SortBy component.
      */
-    function SortBy() {
+    function SortBy({isdeleted, openRecover, openPermaDelete}) {
         const [searchText, setSearchText] = useState('');
         const [selectedValue, setSelectedValue] = useState('SCN: ');
         const [searchValue, setsearchValue] = useState('SCN: ');
+        isdeleted = isdeleted ?? false;
         const url = useSearchParams();
         const page = url.get('page') ?? '1';
         const router = useRouter();
         const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
+        const path = isdeleted ? "deleted" : "";
 
         const handleSearchChange = (e) => {
             const searchText = e.target.value;
             if(!searchText.includes('\\')){
                 setSearchText(searchText);
-                router.push(basePath + `/?page=1`);
+                router.push(basePath + `/${path}?page=1`);
             }
         };
 
         const handleSortChange = (e) => {
             const selectedValue = e.target.value;
             setSelectedValue(selectedValue);
-            router.push(basePath + `/?page=1`);
+            router.push(basePath + `/${path}?page=1`);
         };
 
         return (
@@ -138,7 +165,7 @@
                 </div>
 
                 {/* Display the sorted data */}
-                <DisplaySorted page={page} searchText={searchText} selectedValue={selectedValue} searchValue={searchValue}/>            
+                <DisplaySorted page={page} searchText={searchText} selectedValue={selectedValue} searchValue={searchValue} isdeleted={isdeleted} openRecover={openRecover} openPermaDelete={openPermaDelete}/>            
             </div>
         );
     }

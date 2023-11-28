@@ -180,10 +180,21 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
                     type="text"
                     value={username}
                     style={{width: '200px'}}
+                    pattern="[a-zA-Z0-9 ]+"
                     onChange={(e) => {
-                      setUsername(e.target.value)
-                      setData({...data, username: e.target.value})
+                      const withEmojis = /\p{Extended_Pictographic}/u
+                      const pattern = /^[a-zA-Z0-9 ]+$/
+                      if (e.target.value == '') {
+                        setUsername(e.target.value)
+                        setData({...data, username: e.target.value})
+                      } else if (withEmojis.test(e.target.value) || !pattern.test(e.target.value)) {
+                        alert('Username cannot contain special characters...');
+                      } else {
+                        setUsername(e.target.value)
+                        setData({...data, username: e.target.value})
+                      }
                     }
+                    
                     }/>
                 ) : (
                   <input
@@ -191,6 +202,7 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
                     value={username}
                     style={{ borderColor: 'transparent' }}
                     disabled
+                    pattern="[a-zA-Z0-9 ]+"
                   />
                 )}
               </h6>

@@ -26,9 +26,8 @@ const createLog = async (id, currentUser) => {
             console.log('PATCH request was successful');
         } else {
         // Handle errors or non-2xx responses
-            const data = await response.json()
-            errorMsg.current = data.message
-            console.error('PATCH request failed: ', errorMsg.current);
+            console.log(response);
+            // console.error('PATCH request failed: ', errorMsg.current);
         }
     } catch (error) {
         console.error('An error occurred:', error);
@@ -41,8 +40,6 @@ const Record = ({params}) => {
     const [didEdit, setDidEdit] = useState(false);
 
     const [isLogCreated, setLogCreated] = useState(false);
-  
-    const {data, isLoading, error} = useSWR(`/api/records?id=${params.id}`, fetcher);
 
     const [cookies, setCookie] = useCookies(['user']);
 
@@ -50,12 +47,13 @@ const Record = ({params}) => {
         createLog(params.id, cookies.user.username);
         setLogCreated(true);
     }
+
+    const {data, isLoading, error} = useSWR(`/api/records?id=${params.id}`, fetcher);
     
     if (isLoading) return (<Loading/>);
   
     if (error) return (<Error/>);
     
-    // console.log(data.record);
     if (!data.record || !data.log) return (<Error/>);
     
     const filteredKeys = Object.keys(data.record).filter((item) => item !== "_id" && item !== 'isdeleted' && item !== 'expirationDate' && item !== '__v');
@@ -68,7 +66,7 @@ const Record = ({params}) => {
     }
     
     const logs = data.log.edits.sort((a,b) => b.timestamp-a.timestamp);
-    
+
     return (
         <div>
             <Navbar recordId={params.id} showLog={showLogs} isLogVisible={isLogVisible}/>

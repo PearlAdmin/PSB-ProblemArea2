@@ -94,7 +94,7 @@ const Register = () => {
                             <Form.Control
                                 type="text" 
                                 placeholder="Username" 
-                                pattern=  "[a-zA-Z0-9 ]+"
+                                pattern="[a-zA-Z0-9 ]+"
                                 required 
                                 onChange={(e) => setData({ ...data, username: e.target.value })}
                             />
