@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/manage-user/view-user-list.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/manage-user/view-user-list.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client"
+import React, { useState } from 'react';
+import { Form } from '@/components/bootstrap';
+import CardUser from './view-authorized-user-card';
+import PaginationControls from "@/components/pagination";
+import useSWR from 'swr';
+import { useSearchParams, useRouter } from 'next/navigation';
+import Loading from '@/components/loading';
+import Error from '@/app/not-found';
+
+
+/**
+ * SWR function for fetching data from a given URL.
+ *
+ * @function
+ * @param {string} url - The URL to fetch data from.
+ * @returns {Promise} - A promise that resolves to the fetched data.
+ */
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+/**
+ * React component responsible for displaying a sorted list of users and pagination controls.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.page - The current page number.
+ * @param {string} props.searchText - The search text for filtering users.
+ * @returns {React.Element} - The DisplaySorted component JSX.
+ */
+function DisplaySorted({page, searchText}){
+    const [currSearch, setcurrSearch] = useState(searchText);
+    const {data, isLoading, error} = useSWR(`/api/manage-user?page=${page}&amp;searchText=${searchText}`, fetcher);
+    const router = useRouter();
+    const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
+
+    if (isLoading) return (&lt;Loading/>);
+
+    if (error) return (&lt;Error/>);
+
+    // const users = data.users;
+    if (currSearch != searchText){
+        setcurrSearch(searchText);
+        router.push(basePath + `/manage-user/?page=1`);
+    }
+
+    const items = data;
+
+    return(
+        &lt;div>
+            {items.users.length > 0 ? (items.users.map((user, index) => {
+                return (
+                    &lt;CardUser
+                        key={index}
+                        username={user.username}
+                        password={user.password}
+                        pageNum={page}
+                        searchText={searchText}
+                    />
+                )
+            })) : (&lt;p>No users found...&lt;/p>)}
+            
+            &lt;PaginationControls count={data.limit} perpage={data.per_page} route={'/manage-user'} />
+        &lt;/div>
+    );
+}
+
+/**
+ * React component for displaying a list of users with search and pagination functionality.
+ *
+ * @function
+ * @returns {React.Element} - The UserList component JSX.
+ */
+function UserList() {
+    const [searchText, setSearchText] = useState('');
+    
+    const url = useSearchParams();
+    const page = url.get('page') ?? '1';
+    const router = useRouter();
+    const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
+
+    const handleSearchChange = (e) => {
+        const searchText = e.target.value;
+        if(!searchText.includes('\\')){
+            setSearchText(searchText);
+            router.push(basePath + `/manage-user/?page=1`);
+        }
+    };
+
+    return (
+        &lt;div>
+            &lt;h1 className='flex-grow-1' style={{ fontWeight: 'bolder', paddingTop: '10px', paddingBottom: '10px' }}>User List&lt;/h1>
+            &lt;div style={{ display: 'flex', alignItems: 'center' }}>
+                &lt;div style={{ marginRight: '5px', marginBottom: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    &lt;Form.Control
+                        type="text"
+                        placeholder="Search Username..."
+                        id="search"
+                        name="search"
+                        value={searchText}
+                        onChange={handleSearchChange}
+                        style={{ height: '31px' }}
+                    />
+                &lt;/div>
+            &lt;/div>
+            &lt;DisplaySorted page={page} searchText={searchText} />
+        &lt;/div>
+    );
+}
+
+export default UserList;
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/sort-search.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/sort-search.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>    "use client"
+    import React, { useState } from 'react';
+    import { Form } from '@/components/bootstrap';
+    import CardIndiv from "@/components/view-all-individual-card";
+    import styles from '@/app/homepage.module.css';
+    import PaginationControls from "@/components/pagination";
+    import useSWR from 'swr';
+    import { useSearchParams, useRouter } from 'next/navigation';
+    import Loading from './loading';
+
+    /**
+     * SWR function for fetching data from a given URL.
+     *
+     * @function
+     * @param {string} url - The URL to fetch data from.
+     * @returns {Promise} - A promise that resolves to the fetched data.
+     */
+    const fetcher = (url) => fetch(url).then((res) => res.json());
+
+    /**
+     * Renders a sorted list of records based on specified criteria.
+     *
+     * @param {Object} props - The component props.
+     * @param {number} props.page - The current page number.
+     * @param {string} props.searchText - The search text for filtering records.
+     * @param {string} props.selectedValue - The selected sorting criteria.
+     * @param {string} props.searchValue - The specific field to search within.
+     * 
+     * @returns {JSX.Element} JSX Element representing the sorted records.
+     */
+    function DisplaySorted({page, searchText, selectedValue, searchValue, isdeleted, openRecover, openPermaDelete}){
+        const router = useRouter();
+        // console.log("DELETED:",isdeleted);
+
+        const {data, isLoading, error} = useSWR(`/api/all-records?page=${page}&amp;searchText=${searchText}&amp;searchValue=${searchValue}&amp;selectedValue=${selectedValue}${isdeleted ? '&amp;deleted=true' : ''}`, fetcher);
+
+        if (isLoading) return (&lt;Loading/>);
+        
+        if (error) {
+            router.push('/not-found');
+        };
+
+        const items = data;
+
+        return(
+            &lt;>
+            { !isdeleted ? (
+                &lt;div>
+                    {items.records.length > 0 ? (items.records.map((item, i) => (
+                        &lt;CardIndiv
+                            key={i}
+                            id={item._id}
+                            lastName={item['Last Name: '].value}
+                            firstname={item['First Name: '].value}
+                            scn={item['SCN: '].value}
+                            sn={item['SN: '].value}
+                            date={item['Assigned Date: '].value}
+                        /> 
+                    ))) : (
+                        &lt;p>No records to display.&lt;/p>
+                    )}
+                    
+                    &lt;PaginationControls count={items.limit} perpage={items.per_page} />
+                &lt;/div>
+            ) : (
+                &lt;div>
+                    {items.records.length > 0 ? (items.records.map((item, index) => (
+                        &lt;CardIndiv
+                            key={index}
+                            id={item._id}
+                            lastName={item['Last Name: '].value}
+                            firstname={item['First Name: '].value}
+                            scn={item['SCN: '].value}
+                            sn={item['SN: '].value}
+                            date={item['Assigned Date: '].value}
+                            route={"deleted"}
+                            func1={(e)=>openRecover(e, item._id)}
+                            func2={(e)=>openPermaDelete(e, item._id)}
+                        />))) : (
+                        &lt;p>No deleted records.&lt;/p>
+                    )}
+                    
+                    &lt;PaginationControls count={data?.limit} perpage={data?.per_page} route={"deleted"}/>
+                &lt;/div>
+            )}
+            &lt;/>
+        );
+    }
+
+    /**
+     * SortBy component for displaying and sorting records based on different criteria.
+     *
+     * @component
+     * @returns {JSX.Element} JSX Element representing the SortBy component.
+     */
+    function SortBy({isdeleted, openRecover, openPermaDelete}) {
+        const [searchText, setSearchText] = useState('');
+        const [selectedValue, setSelectedValue] = useState('SCN: ');
+        const [searchValue, setsearchValue] = useState('SCN: ');
+        isdeleted = isdeleted ?? false;
+        const url = useSearchParams();
+        const page = url.get('page') ?? '1';
+        const router = useRouter();
+        const basePath = process.env.NEXT_PUBLIC_VERCEL_URL;
+        const path = isdeleted ? "deleted" : "";
+
+        const handleSearchChange = (e) => {
+            const searchText = e.target.value;
+            if(!searchText.includes('\\')){
+                setSearchText(searchText);
+                router.push(basePath + `/${path}?page=1`);
+            }
+        };
+
+        const handleSortChange = (e) => {
+            const selectedValue = e.target.value;
+            setSelectedValue(selectedValue);
+            router.push(basePath + `/${path}?page=1`);
+        };
+
+        return (
+            &lt;div>
+                &lt;div className={`${styles.header} mb-3`}>
+                    &lt;Form.Select
+                        id="searchChild"
+                        name="searchChild"
+                        className={`custom-select ${styles.customHeight31}`}
+                        style={{ maxWidth: '150px' }}
+                        value={searchValue}
+                        onChange={(e) => setsearchValue(e.target.value)} 
+                    >
+                        &lt;option value="SCN: ">SCN&lt;/option>
+                        &lt;option value="SN: ">SN&lt;/option>
+                        &lt;option value="Last Name: ">Lastname&lt;/option>
+                        &lt;option value="First Name: ">Firstname&lt;/option>
+                        &lt;option value="Assigned Date: ">Assigned Date&lt;/option>
+                    &lt;/Form.Select>
+
+                    &lt;Form.Control
+                        type="text"
+                        placeholder="Search..."
+                        id="search"
+                        name="search"
+                        value={searchText}
+                        onChange={handleSearchChange}
+                        style={{ maxWidth: '800px' }}
+                    />
+
+                    &lt;div className={`${styles.customHeight31} align-items-center p-2`} style={{ width: '90px' }}>Sort By:&lt;/div>
+
+                    &lt;Form.Select
+                        id="sortBy"
+                        name="sortBy"
+                        className={`custom-select ${styles.customHeight31}`}
+                        style={{ maxWidth: '200px' }}
+                        value={selectedValue}
+                        onChange={handleSortChange}
+                    >
+                        &lt;option value="SCN: ">SCN&lt;/option>
+                        &lt;option value="SN: ">SN&lt;/option>
+                        &lt;option value="Last Name: ">Lastname&lt;/option>
+                        &lt;option value="First Name: ">Firstname&lt;/option>
+                        &lt;option value="Assigned Date: ">Assigned Date&lt;/option>
+                    &lt;/Form.Select>
+                &lt;/div>
+
+                {/* Display the sorted data */}
+                &lt;DisplaySorted page={page} searchText={searchText} selectedValue={selectedValue} searchValue={searchValue} isdeleted={isdeleted} openRecover={openRecover} openPermaDelete={openPermaDelete}/>            
+            &lt;/div>
+        );
+    }
+
+    export default SortBy;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

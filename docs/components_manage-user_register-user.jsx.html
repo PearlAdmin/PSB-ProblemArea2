@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/manage-user/register-user.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/manage-user/register-user.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+import { useState } from "react";
+import {InputGroup, Button, Form} from '@/components/bootstrap';
+import styles from '@/components/create-record/styles.module.css';
+
+/**
+ * React component for managing authorized users.
+ * @component
+ * @returns {JSX.Element} JSX.Element representing the Register component.
+ */
+const Register = () => {
+    /**
+     * State to manage the visibility of the password.
+     * @type {boolean}
+     */
+    const [showPassword, setShowPassword] = useState(false);
+    const [confirmation, setConfirmation] = useState(false);
+
+    /**
+     * State to manage the visibility of the password confirmation.
+     * @type {boolean}
+     */
+    const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+
+    /**
+     * Function to toggle the visibility of the password.
+     * @function
+     */
+    const togglePassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    /**
+     * Function to toggle the visibility of the password confirmation.
+     * @function
+     */
+    const togglePasswordConfirmation = () => {
+        setShowPasswordConfirmation(!showPasswordConfirmation);
+    };
+
+    /**
+     * State to store user registration data.
+     * @type {Object}
+     */
+    const[data, setData] = useState({});
+
+    /**
+     * Handles the form submission for user registration.
+     * @async
+     * @function
+     * @param {Event} e - The form submission event.
+     */
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try{
+            if (!(data.password.length >= 12)){
+                throw new Error("Password must be at least 12 characters long!");
+            }
+            
+            if (!(data.password === confirmation)){
+                throw new Error("Passwords do not match!");
+            }
+            const response = await fetch('/api/manage-user',{
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if(response.ok){
+                window.location.reload();
+                alert("User registered successfully");
+            }else{
+                alert("Failed to register user");
+            }
+
+        } catch(error){
+            alert(error);
+        }
+    }
+    
+    return (
+        &lt;div>
+            &lt;div>                
+                &lt;h1 style={{ fontWeight: 'bolder', paddingTop: '10px', paddingBottom: '10px' }}>Register New User&lt;/h1>
+                &lt;Form action="#" onSubmit={handleSubmit}>
+                    &lt;div className="row">
+                        {/* Username */}
+                        &lt;InputGroup className='mb-3'>
+                            &lt;InputGroup.Text>
+                                &lt;span className="bi bi-person-fill" style={{ borderColor: 'transparent' }}>&lt;/span>
+                            &lt;/InputGroup.Text>
+                            &lt;Form.Control
+                                type="text" 
+                                placeholder="Username" 
+                                pattern="[a-zA-Z0-9 ]+"
+                                required 
+                                onChange={(e) => setData({ ...data, username: e.target.value })}
+                            />
+                        &lt;/InputGroup>
+                        {/* Password */}
+                        &lt;InputGroup className="mb-3">
+                            &lt;InputGroup.Text>
+                                &lt;span className="bi bi-lock-fill" style={{ borderColor: 'transparent' }}>&lt;/span>
+                            &lt;/InputGroup.Text>
+                            &lt;Form.Control
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                placeholder="Password"
+                                pattern="[a-zA-Z0-9!@#$%^&amp;*()_{}|:;&lt;>,.?\/\[\]\-=']+"
+                                required
+                                onChange={(e) => setData({ ...data, password: e.target.value })}
+                            />
+                            {/* Hide and Show Password */}
+                            &lt;Button
+                            variant="light"
+                            id="showPasswordButton"
+                            onClick={togglePassword}
+                            >
+                                &lt;span className={`primary-text ${showPassword ? '' : ''}`}>
+                                    {showPassword ? 'Hide' : 'Show'}
+                                &lt;/span>
+                            &lt;/Button>
+                        &lt;/InputGroup>
+                        {/* Password Confirmation */}
+                        &lt;InputGroup className="mb-3">
+                            &lt;InputGroup.Text>
+                                &lt;span className="bi bi-lock-fill" style={{ borderColor: 'transparent' }}>&lt;/span>
+                            &lt;/InputGroup.Text>
+                            &lt;Form.Control
+                                type={showPasswordConfirmation ? 'text' : 'password'}
+                                id="passwordConfirmation"
+                                placeholder="Confirm Password"
+                                required
+                                onChange={(e) => setConfirmation(e.target.value)}
+                            />
+                            {/* Hide and Show Password */}
+                            &lt;Button
+                            variant="light"
+                            id="showPasswordConfirmationButton"
+                            onClick={togglePasswordConfirmation}
+                            >
+                                &lt;span className={`primary-text ${showPasswordConfirmation ? '' : ''}`}>
+                                    {showPasswordConfirmation ? 'Hide' : 'Show'}
+                                &lt;/span>
+                            &lt;/Button>
+                        &lt;/InputGroup>
+
+                        {/* Submit Button */}
+                        &lt;div className="input-group">
+                            &lt;Button className={`${styles.button} ${styles.bgBlue} fw-bold w-100`} variant="primary" type="submit" id="submit">Create Account&lt;/Button>{' '}
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/Form>
+            &lt;/div>
+        &lt;/div>
+    );
+};
+export default Register;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

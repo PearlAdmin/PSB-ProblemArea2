@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/view-all-individual-card.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/view-all-individual-card.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+import { Card } from 'react-bootstrap';
+import styles from '@/components/create-record/styles.module.css';
+import './home.cards.css'
+import Link from 'next/link';
+import { useState } from 'react';
+import Popup from './popup';
+import { useCookies } from 'react-cookie';
+
+/**
+ * CardIndiv component representing an individual record card.
+ *
+ * @component
+ * @param {Object} props - The properties of the CardIndiv component.
+ * @param {string} props.id - The unique identifier for the record.
+ * @param {string} props.lastName - The last name of the individual.
+ * @param {string} props.firstname - The first name of the individual.
+ * @param {string} props.scn - The SCN (Serial Control Number) of the individual.
+ * @param {string} props.sn - The SN (Serial Number) of the individual.
+ * @param {string} props.date - The assigned date for the record.
+ * @param {string} props.route - The route or path associated with the record (optional).
+ * @param {Function} props.func1 - The function to be executed on a specific action (optional).
+ * @param {Function} props.func2 - The second function to be executed on a specific action (optional).
+ * @returns {JSX.Element} JSX Element representing the CardIndiv component.
+ */
+
+const CardIndiv = ({ id, lastName, firstname, scn, sn, date, route, func1, func2 }) => {
+  const [cookies] = useCookies(['user']);
+  const user = cookies.user;
+
+  const [isDeleteOpen, setDeleteOpen] = useState(false);
+
+  const openDelete = () => {
+    setDeleteOpen(true);
+  }
+
+  const closeDelete = () => {
+    setDeleteOpen(false);
+  }
+
+  const deleteRecord = async () => {
+    try {
+        const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+`/api/records?id=${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({isdeleted: true, expirationDate: new Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000)}),
+        });
+
+        if (response.ok) {
+          // Handle the successful response here
+          console.log('PATCH request was successful');
+        } else {
+        // Handle errors or non-2xx responses
+            console.error('PATCH request failed');
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    };
+    closeDelete();
+    window.location.reload();
+  }
+
+
+  return (
+      &lt;div>
+        &lt;Card className="info d-flex flex-row align-items-center">
+        &lt;div className="p-2">
+          {/* based on last updated */}
+          {!route ? (
+            &lt;i className="bi bi-check-circle-fill text-success">&lt;/i>
+          ) : (
+            &lt;i className='bi bi-x-circle-fill text-danger'>&lt;/i>
+          )}
+        &lt;/div>
+        &lt;div className="p-2 flex-grow-1 truncate">
+          {!route ? (
+            &lt;div style={{ fontWeight: 'bold' }}>
+              &lt;Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
+                &lt;a>{lastName}&lt;/a>&lt;a>{", "}&lt;/a>&lt;a>{firstname}&lt;/a>
+              &lt;/Link>
+            &lt;/div>
+          ) : (
+            &lt;div style={{ fontWeight: 'bold' }}>
+                &lt;a>{lastName}&lt;/a>&lt;a>{", "}&lt;/a>&lt;a>{firstname}&lt;/a>
+            &lt;/div>
+          )}
+
+          &lt;div style={{ display: 'flex' }}>
+            &lt;div style={{ fontSize: '10px'}}>&lt;a>SCN#&lt;/a>
+              &lt;div className='d-none d-md-inline'>{scn}&lt;/div>
+              &lt;div className='d-md-none d-inline'>{scn.length > 7 ? scn.substring(0,7)+'...' : scn}&lt;/div>
+            &lt;/div>
+            &lt;div style={{ fontSize: '10px', marginLeft: '1rem' }}>&lt;a>SN#&lt;/a>
+              &lt;div className='d-none d-md-inline'>{sn}&lt;/div>
+              &lt;div className='d-md-none d-inline'>{sn.length > 7 ? sn.substring(0,7)+'...' : sn}&lt;/div>
+            &lt;/div>
+          &lt;/div>
+          &lt;div style={{ fontSize: '10px' }}>&lt;a>Assigned Date: &lt;/a>{date}&lt;/div>
+        &lt;/div>
+        {!route ? (
+          &lt;div className="p-2 d-flex flex-row align-items-center">
+            &lt;Link href={`/view/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
+              &lt;i className="bi bi-download p-3">&lt;/i>
+            &lt;/Link>
+            &lt;Link href={`/record/${id}`} style={{ textDecoration: "none", color: "inherit"} }>
+              &lt;i className="bi bi-pencil-fill p-3 my-auto" onClick={func1}>&lt;/i>
+            &lt;/Link>
+            { user &amp;&amp; user.role === "admin" &amp;&amp; (
+              &lt;i className="bi bi-trash p-3" onClick={openDelete}>&lt;/i>
+            )}
+          &lt;/div>
+        ) : (
+            &lt;div className="p-2 d-flex flex-row">
+                &lt;i className={`${styles.button} bi bi-bootstrap-reboot p-3`} onClick={func1}>&lt;/i>
+                 &lt;i className={`${styles.button} bi bi-trash p-3`} onClick={func2}>&lt;/i>
+            &lt;/div>
+        )}
+      &lt;/Card>
+      {isDeleteOpen &amp;&amp; &lt;Popup question={"Are you sure you want to delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteRecord} secondBtnFunc={closeDelete} isYesNoQuestion={true}/>}
+    &lt;/div>
+    );
+  };
+export default CardIndiv;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

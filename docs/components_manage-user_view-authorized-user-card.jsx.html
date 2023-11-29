@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/manage-user/view-authorized-user-card.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/manage-user/view-authorized-user-card.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use client';
+import React, { useState } from 'react';
+import { Card } from 'react-bootstrap';
+import Popup from '../popup';
+
+/**
+ * CardUser component for displaying user information in a card format.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {string} props.username - The initial username of the user.
+ * @param {string} props.password - The initial password of the user.
+ * @param {string} props.searchText - The search text for filtering users.
+ * @param {number} props.pageNum - The page number for pagination.
+ * @returns {JSX.Element} - The CardUser component JSX.
+ */
+const CardUser = ({ username: initialUsername, password: initialPassword, searchText, pageNum}) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState(initialUsername);
+  const [password, setPassword] = useState(initialPassword);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isFormConfirmVisible, setFormConfirmVisible] = useState(false);
+  const [isFormDeleteVisible, setFormDeleteVisible] = useState(false);
+
+  const[data, setData] = useState({
+    lookup: initialUsername,
+    username: initialUsername,
+    password: initialPassword,
+  });
+
+    /**
+   * Toggles the visibility of the user's password.
+   * @function
+   */
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+  
+    /**
+   * Toggles the editing mode for the user information.
+   * @function
+   */
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+    /**
+   * Displays the confirmation of the form.
+   * @function
+   */
+  const showFormConfirm = () => {
+    setFormConfirmVisible(true);
+  };
+
+
+    /**
+   * Handles the submission of the user information form.
+   * @function
+   */
+  const acceptSubmit = () => {
+    // Save your data if needed
+    setFormConfirmVisible(false);
+    setIsEditing(false);
+    handleSubmit();
+  };
+
+  /**
+   * Declines the submission of the user information form.
+   * @function
+   */
+  const declineSubmit = () => {
+    setFormConfirmVisible(false);
+    setUsername(initialUsername);
+    setPassword(initialPassword); 
+    setIsEditing(false);
+  };  
+
+    /**
+   * Displays the confirmation form for deleting a user.
+   * @function
+   */
+  const showDeleteUser = () => {
+    setFormDeleteVisible(true);
+  };
+
+    /**
+   * Handles the submission of the user deletion form.
+   * @function
+   */
+  const acceptSubmitDel = () => {
+    // Save your data if needed
+    setFormDeleteVisible(false);
+    handleDelete();
+  };
+
+  /**
+   * Declines the submission of the user deletion form.
+   * @function
+   */
+  const declineSubmitDel = () => {
+    setFormDeleteVisible(false);
+  };
+
+  /**
+   * Handles the submission of the user information for editing.
+   * @async
+   * @function
+   * @param {Event} e - The event object.
+   */
+  const handleSubmit = async (e) => {
+    //send put request to the api with a JSON body attached. 
+    const response = await fetch('/api/manage-user', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    //handle response from api
+    if(response.ok){
+      window.location.reload();
+      alert("User has been edited!");
+    }else{
+      window.location.reload();
+      alert("Error: User was not edited");
+    }
+  }
+    /**
+   * Handles the submission of the user deletion.
+   * @async
+   * @function
+   * @param {Event} e - The event object.
+   */
+  const handleDelete = async (e) => {
+    //send delete request to the api with a JSON body attached. 
+    const response = await fetch('/api/manage-user', {
+      method: 'DELETE',
+      body: JSON.stringify({username: username}),
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    });
+    //handle response from api.
+    if(response.ok){
+      window.location.reload();
+      alert("User has been deleted!");
+    }else{
+      alert("Could not delete user!");
+    }
+  }
+
+  //The following code bellow is used for pagination.
+  const [state, setState] = useState(pageNum);
+  const [search, setSearch] = useState(searchText);
+
+  if (state !== pageNum) {
+    setState(pageNum);
+    setUsername(initialUsername);
+    setPassword(initialPassword);
+  }
+
+  if (search !== searchText) {
+    setSearch(searchText);
+    setUsername(initialUsername);
+    setPassword(initialPassword);
+  }
+
+  return (
+    &lt;div>
+      &lt;Card className="mb-1">
+        &lt;div className="d-flex flex-row align-items-center px-2">
+          &lt;div className="flex-grow-1 mt-1" style={{minWidth:'200px'}}>
+            &lt;div className="ml-2">
+            &lt;h6 className="mb-0">
+                &lt;span>Username: &amp;nbsp;&lt;/span>
+                {isEditing ? (
+                  &lt;input
+                    type="text"
+                    value={username}
+                    style={{width: '200px'}}
+                    pattern="[a-zA-Z0-9 ]+"
+                    onChange={(e) => {
+                      const withEmojis = /\p{Extended_Pictographic}/u
+                      const pattern = /^[a-zA-Z0-9 ]+$/
+                      if (e.target.value == '') {
+                        setUsername(e.target.value);
+                        setData({...data, username: e.target.value});
+                      } else if (withEmojis.test(e.target.value) || !pattern.test(e.target.value)) {
+                        alert('Username cannot contain special characters...');
+                      } else {
+                        setUsername(e.target.value);
+                        setData({...data, username: e.target.value});
+                      }
+                    }
+                    
+                    }/>
+                ) : (
+                  &lt;input
+                    type="text"
+                    value={username}
+                    style={{ borderColor: 'transparent' }}
+                    disabled
+                    pattern="[a-zA-Z0-9 ]+"
+                  />
+                )}
+              &lt;/h6>
+              &lt;h6>
+                &lt;span>Password: &amp;nbsp;&lt;/span>
+                {isEditing ? (
+                  &lt;input
+                    type="text"
+                    value={password}
+                    style={{width: '200px'}}
+                    onChange={(e) =>{
+                      setPassword(e.target.value)
+                      setData({...data, password: e.target.value})
+                    } 
+                }/>
+                ) : (
+                  &lt;input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    style={{ borderColor: 'transparent' }}
+                    disabled
+                  />
+                )}
+              &lt;/h6>
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="p-0" style={{ cursor: 'pointer' }}>
+            &lt;button type="button" className="btn btn-light showPasswordUser" onClick={togglePassword}>
+              {showPassword ? &lt;i className="bi bi-eye-slash-fill">&lt;/i> : &lt;i className="bi bi-eye-fill">&lt;/i>}
+            &lt;/button>
+          &lt;/div>
+          &lt;div className="p-0" style={{ cursor: 'pointer' }}>
+            &lt;button type="button" className="btn btn-light edit-icon" onClick={isEditing ? showFormConfirm : toggleEdit}>
+              {isEditing ? &lt;i className="bi bi-save2">&lt;/i> : &lt;i className="bi bi-pencil-square">&lt;/i>}
+            &lt;/button>
+          &lt;/div>
+          &lt;div className="p-0" style={{ cursor: 'pointer' }}>
+            &lt;button type="button" className="btn btn-light edit-icon" onClick={showDeleteUser}>
+              &lt;i className="bi bi-trash">&lt;/i>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/Card>
+      {isFormConfirmVisible &amp;&amp; &lt;Popup question={"Are you sure you want to save edits?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={acceptSubmit} secondBtnFunc={declineSubmit} isYesNoQuestion={true}/>}
+      {isFormDeleteVisible &amp;&amp; &lt;Popup question={"Are you sure you want to delete user record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={acceptSubmitDel} secondBtnFunc={declineSubmitDel} isYesNoQuestion={true}/>}
+    &lt;/div>
+  );
+};
+
+export default CardUser;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

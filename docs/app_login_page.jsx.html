@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/login/page.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/login/page.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+
+import {React, useState, useEffect} from 'react';
+import Head from 'next/head';
+import Image from 'next/image';
+import { Button, Stack, Form, InputGroup } from 'react-bootstrap';
+import { useRouter } from 'next/navigation';
+import { Cookies, useCookies } from 'react-cookie';
+import useSWR from 'swr';
+import 'components/nav.styles.css';
+
+/**
+ * LogIn page. Displays the login page.
+ * 
+ * @page
+ * @return {JSX.Element} The LogIn page.
+ */
+const LogIn = () => {
+    const router = useRouter();
+    const [cookies, setCookie] = useCookies(['user']);
+    const [passwordVisible, setPasswordVisible] = useState(false); 
+    const [isRememberMe, setIsRememberMe] = useState(false);
+    const [showIncorrect, setIncorrect] = useState(false);
+    const [credentials, setCredentials] = useState({
+        username: '',
+        password: '',
+    });
+
+    const onLogin = async (event) => {
+        event.preventDefault();
+        
+        try {
+            const response = await fetch(process.env.NEXT_PUBLIC_VERCEL_URL+'/api/login', {
+                cache: 'no-store',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: credentials.username,
+                    password: credentials.password,
+                }),
+            });
+            
+            if (!response.ok) {
+                setIncorrect(true);
+                throw new Error('Invalid credentials');
+            }
+            const data = await response.json();
+            const username = data.user.username;
+            const role = data.user.role;
+            const cookieValue = { username, role }
+
+            if(isRememberMe){
+                const ageValue = 30 * 24 * 60 * 60;
+                setCookie(
+                    'user',
+                    JSON.stringify(cookieValue),
+                    {
+                        path: '/',
+                        maxAge: ageValue,
+                    }
+                )
+            } else {
+                setCookie(
+                    'user',
+                    JSON.stringify(cookieValue),
+                    { 
+                        path: '/',
+                        expires: 0,
+                    }
+                )
+            }
+        
+            router.push('/')
+        } catch (error) {
+            console.log(error);
+            return { success: false, error: error.message };
+        }
+    }
+
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    return (
+        &lt;div>
+            &lt;Head>
+                &lt;style dangerouslySetInnerHTML={{ __html: `        
+                #showPasswordButton {
+                    position: absolute;
+                    right: 10px;
+                    background-color: transparent;
+                    border: none;
+                    z-index: 5;
+                }
+
+                #submit{
+                    width: 100%;
+                }
+
+                .primary-text {
+                    color: #0D6EFE;
+                }
+                
+                `}} />
+            &lt;/Head>
+            
+            &lt;div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh'}}>
+                &lt;div className="container" style={{ maxWidth: '600px', padding: '5%', textAlign: 'center' }}>
+                    {/* Logo + Name */}
+                    &lt;Stack gap={2} className="col mx-auto" style={{ alignItems: 'center' }}>
+                        &lt;Image src="/logo.png" alt="Pearl S Buck Logo" width={150} height={150} draggable='false' /> 
+                        &lt;span className={`logo-name mb-3 fs-4`}>
+                                Pearl S. Buck&lt;span className='logo-name-light'> Foundation Philippines Inc.&lt;/span>
+                        &lt;/span>
+                    &lt;/Stack>
+                    {/* Login Form */}
+                    &lt;Form onSubmit={onLogin}>
+                        {/* Display if Login is Incorrect */}
+                        {showIncorrect &amp;&amp; (
+                            &lt;div style={{marginBottom: '1.25em', color:'red'}}>Incorrect Username or Password&lt;/div>
+                        )}
+                        {/* Username */}
+                        &lt;InputGroup>
+                            &lt;Form.Control className="mb-3" 
+                                type="text" 
+                                placeholder="Username" required 
+                                onChange={event => setCredentials({ ...credentials, username: event.target.value})}
+                            />
+                        &lt;/InputGroup>
+                        {/* Password */}
+                        &lt;InputGroup className="mb-3">
+                            &lt;Form.Control
+                                type={passwordVisible ? 'text' : 'password'}
+                                id="password"
+                                placeholder="Password"
+                                required
+                                value={credentials.password}
+                                onChange={(event) =>
+                                    setCredentials({ ...credentials, password: event.target.value })
+                                }
+                            />
+                            {/* Hide and Show Password */}
+                            &lt;Button
+                            variant="light"
+                            id="showPasswordButton"
+                            onClick={togglePasswordVisibility}
+                            >
+                                &lt;span className={`primary-text ${passwordVisible ? '' : ''}`}>
+                                    {passwordVisible ? 'Hide' : 'Show'}
+                                &lt;/span>
+                            &lt;/Button>
+                        &lt;/InputGroup>
+                        {/* Remember Me */}
+                        &lt;Form.Check
+                            className="mb-3"
+                            type="checkbox"
+                            id={`remember-me`}
+                            label={`Remember Me`}
+                            style={{ textAlign: 'left' }}
+                            onChange = { (event) => setIsRememberMe(true) }
+                        />
+                        {/* Login Button */}
+                        &lt;Button variant="primary" type="submit" id="submit">Login&lt;/Button>{' '}
+                    &lt;/Form>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    )
+}
+
+export default LogIn;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

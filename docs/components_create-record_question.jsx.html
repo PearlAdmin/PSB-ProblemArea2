@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/create-record/question.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/create-record/question.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useState } from 'react';
+import MCeditable from '@/components/create-record/mc_editable';
+import styles from './styles.module.css';
+
+/**
+ * Question component for rendering a dynamic form question.
+ * @component
+ * @param {Object} props - The properties of the Question component.
+ * @param {string} props.id - The unique identifier for the question.
+ * @param {string} props.question - The text of the question.
+ * @param {boolean} props.required - Indicates whether the question is required.
+ * @param {boolean} props.deletable - Indicates whether the question can be deleted.
+ * @param {string} props.dbtype - The type of the question stored in the database.
+ * @param {string[]} props.choices - An array of choices for multiple-choice questions.
+ * @param {Function} props.changeQuestion - A function to handle changes to the question text.
+ * @param {Function} props.changeType - A function to handle changes to the question type.
+ * @param {Function} props.changeChoices - A function to handle changes to the question choices.
+ * @param {Function} props.changeRequired - A function to handle changes to the question's required status.
+ * @returns {JSX.Element} JSX.Element representing the Question component.
+ */
+
+const Question = ({ id, question, required, deletable, dbtype, choices, changeQuestion, changeType, changeChoices, changeRequired }) => {
+    let defaultType = "text"
+    if(dbtype) defaultType = dbtype
+    let displayOnly = false
+    if(!deletable) displayOnly = true
+    const [type, setType] = useState(defaultType);
+
+    /**
+     * Handles changes to the question type and triggers the corresponding callback.
+     * @constant {Function}
+     * @param {string[]} choices - The choices for multiple-choice questions.
+     * @param {Event} e - The change event for the question type dropdown.
+     * @returns {void}
+     */
+    const handleTypeChange = (choices, e) => {
+        setType(e.target.value);
+        changeType(choices, e)
+    }
+
+    return (
+        &lt;div className={`${styles.formContainer} col`}>
+            &lt;div className={`${styles.formTitleContainer}`}>
+                &lt;input className={`${styles.input} ${styles.formAnswer} ${styles.formTransparent} w-100 fw-bold me-4`} id={id} type="text" defaultValue={question} onChange={changeQuestion} readOnly={displayOnly}>&lt;/input>
+                &lt;select className={`${styles.formDropdown} custom-select custom-select-sm ms-auto`} name="formtype" id={id} required defaultValue={defaultType} onChange={(e)=>handleTypeChange(choices, e)} disabled={displayOnly}>
+                    &lt;option value="text" >Text&lt;/option>
+                    &lt;option value="number" >Number&lt;/option>
+                    &lt;option value="alphanumeric" >Alphanumeric&lt;/option>
+                    &lt;option value="radio" >Multiple Choice&lt;/option>
+                    &lt;option value="checkbox" >Checkbox&lt;/option>
+                    &lt;option value="date" >Date&lt;/option>
+                &lt;/select>
+            &lt;/div>
+            &lt;div className={`${styles.formChoiceGroup}`}>
+                {(type === "text" || type === "number" || type === "alphanumeric") &amp;&amp;
+                     (&lt;input className={`${styles.input} ${styles.formAnswer} w-100`} type="text" disabled required={required}>&lt;/input>)
+                }
+                {type === "radio" &amp;&amp; (&lt;MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
+                {type === "checkbox" &amp;&amp; (&lt;MCeditable dbid={id} type={type} required={required} choices={choices} handleChange={changeChoices}/>)}
+                {type === "date" &amp;&amp; (&lt;input className={`${styles.input} ${styles.formAnswer} w-100`} type="date" disabled required={required}>&lt;/input>)}
+            &lt;/div>
+            {type !== 'checkbox' &amp;&amp; &lt;div className={`form-check form-switch my-2 d-flex`}>
+                &lt;input className={`${styles.input} form-check-input ms-auto me-2`} type="checkbox" id={id} defaultChecked={required} onChange={changeRequired} disabled={displayOnly}>&lt;/input>
+                &lt;label className={`form-check-label fw-normal`}>Required&lt;/label>
+            &lt;/div>}
+        &lt;/div>
+    );
+};
+export default Question;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

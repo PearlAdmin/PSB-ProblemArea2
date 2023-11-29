@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/navigation.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/navigation.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use client";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import './nav.styles.css';
+import { useRouter } from 'next/navigation';
+import { useCookies } from 'react-cookie';
+import {PDFDownloadLink} from '@react-pdf/renderer';
+
+/**
+ * Navigation bar component for the application.
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {Object} props.PDF - PDF document content to enable the 'Download PDF' button.
+ * @param {string} props.filename - The name to be used when downloading the PDF.
+ * @param {string} props.recordId - The ID of the record for which to show edit logs.
+ * @param {function} props.showLog - Function to toggle the visibility of edit logs.
+ * @param {boolean} props.isLogVisible - Flag indicating whether edit logs are currently visible.
+ * @returns {JSX.Element} JSX element representing the navigation bar.
+ */
+const Navbar = ({PDF, filename, recordId, showLog, isLogVisible}) => {
+    const [showMenu, setShowMenu] = useState(false);
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
+    const router = useRouter();
+    const [cookies, removeCookie] = useCookies(['user']);
+
+    const user = cookies.user;
+
+    // Add a state to track whether the component is mounted
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Use useEffect to set isMounted to true once the component has mounted
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    // Avoid rendering components that depend on cookies during server-side rendering
+    if (!isMounted) {
+        return null;
+    }
+
+    return (
+        &lt;div style={{ marginBottom: '75px' }}>
+            &lt;div className="navbar navbar-light bg-light fixed-top" id="navbar">
+                &lt;div className="container-fluid">
+                    &lt;div className="navbar-left">
+                        &lt;a className="navbar-brand h-100 w-auto d-flex align-items-center" href="/">
+                            &lt;Image
+                                className="d-inline-block me-1 "
+                                id="navbar-logo-img"
+                                draggable={false}
+                                src="/logo.png"
+                                alt=""
+                                height={50}
+                                width={50}
+                            />
+                            &lt;span className={`h-75 d-none d-md-inline-block logo-name`}>
+                                Pearl S. Buck&lt;span className='logo-name-light'> Foundation Philippines Inc.&lt;/span>
+                            &lt;/span>
+                        &lt;/a>
+                    &lt;/div>
+
+                    &lt;div className="navbar-right text-end d-flex align-items-center ms-auto">
+                        {
+                            recordId &amp;&amp; showLog &amp;&amp; (
+                                &lt;button className='btn btn-dark me-4 my-auto' onClick={showLog}>{!isLogVisible ? 'Show':'Hide'} Edit Logs&lt;/button>
+                            )
+                        }
+                        {
+                            PDF &amp;&amp; (
+                                &lt;PDFDownloadLink document={PDF} fileName={filename}>
+                                    {({ blob, url, loading, error }) =>
+                                        loading ? &lt;p className='me-4 my-auto'>Loading document...&lt;/p> : &lt;button className='btn btn-dark me-4 my-auto'>Download PDF&lt;/button>
+                                    }
+                                &lt;/PDFDownloadLink>
+                            )
+                        }
+                        &lt;div className="nav-right col-md text-end d-flex align-items-center h-100">
+                        &lt;button className="navbar-menu-btn navbar-toggler-icon" id="navbar-menu-btn" onClick={toggleMenu}>&lt;/button>
+                        &lt;/div>
+
+                        &lt;div className={`navbar-menu-container bg-light end-0 flex-column ${showMenu ? 'show-menu' : ''}`} id="navbar-menu">
+                            &lt;div className="list-unstyled p-3" style={{ paddingRight:'5px!important'}}>
+                                &lt;li
+                                    className="navbar-menu-option"
+                                    onClick={() => router.push('/create')}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                        router.push('/create');
+                                        }
+                                    }}
+                                    tabIndex="0"
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    Create Record
+                                &lt;/li>
+                                &lt;li 
+                                    className="navbar-menu-option"
+                                    onClick={() => router.push('/')}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                        router.push('/');
+                                        }
+                                    }}
+                                    tabIndex="0"
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    View Records
+                                &lt;/li>
+                                {user &amp;&amp; user.role === 'admin' &amp;&amp; ( 
+                                    &lt;li 
+                                        className="navbar-menu-option"
+                                        onClick={() => {
+                                            router.push('/edit');
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                router.push('/edit');
+                                            }
+                                        }}
+                                        tabIndex="0"
+                                        style={{ cursor: 'pointer' }}
+                                        >
+                                        
+                                            &lt;div className="manage-user-dropdown">
+                                                Edit Form
+                                            &lt;/div>
+                                    &lt;/li>
+                                )}
+
+                                {user &amp;&amp; user.role === 'admin' &amp;&amp; (
+                                    &lt;li className="navbar-menu-option"
+                                        onClick={() => {
+                                            router.push('/manage-user');
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                router.push('/manage-user');
+                                            }
+                                        }}
+                                        tabIndex="0"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                            &lt;div className="manage-user-dropdown">
+                                                Manage Users
+                                            &lt;/div>
+                                    &lt;/li>
+                                )}
+                                {user &amp;&amp; user.role === 'admin' &amp;&amp; (
+                                    &lt;li 
+                                        className="navbar-menu-option"
+                                        onClick={() => {
+                                            router.push('/deleted');
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                router.push('/deleted');
+                                            }
+                                        }}
+                                        tabIndex="0"
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        &lt;div className="manage-user-dropdown">
+                                            Deleted Records
+                                        &lt;/div>
+                                    &lt;/li>
+                                )}
+                                &lt;li 
+                                    className="navbar-menu-option red-text mb-auto"
+                                    onClick={() => {
+                                        removeCookie('user', {maxAge: -1})
+                                        router.push('/login');
+                                    }}
+                                    onKeyDown={(e) => {
+                                        removeCookie('user', {maxAge: -1})
+                                        router.push('/login');
+                                    }}
+                                    tabIndex="0"
+                                    style={{ cursor: 'pointer' }}
+                                    >
+                                    Log Out
+                                &lt;/li>
+                            &lt;/div>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    );
+};
+
+export default Navbar;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

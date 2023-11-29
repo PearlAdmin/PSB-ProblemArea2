@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/api/manage-user/route.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app/api/manage-user/route.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import dbConnect from "@/libs/db";
+import User from "@/models/users";
+import { NextResponse } from "next/server";
+
+/**
+ * API route for creating authorized users.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @return {NextResponse} - Response containing:
+ *                         - {String} message - A message providing information about the user check.
+ *                         - {Number} status - The appropriate status code.
+ * @throws {Error} - the error thrown while trying to get the user.
+ */
+export async function POST(req){
+    const {username, password} = await req.json();
+
+    await dbConnect();
+    await User.create({username, password});
+
+    return NextResponse.json({message: "User created successfully"}, {status: 201});
+}
+
+/**
+ * API route for getting all user.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @return {NextResponse} - Response containing:
+ *                        - {String} message - Response message.
+ *                        - {User} users - the list of users
+ *                        - {Number} limit - the total number of users.
+ *                        - {Number} per_page - the number of users per page.
+ *                        - {Number} status - The appropriate status code.
+ * @throws {Error} - the error thrown while trying to get the users.
+ */
+export async function GET(req){
+    try{
+        // Extract query parameters from the request URL
+        const url = new URL(req.url);
+        const page = url.searchParams.get('page') ?? '1';
+        const per_page = '5';
+
+        const start = (Number(page) - 1) * Number(per_page);
+
+        // Connect to the database
+        await dbConnect();
+        
+        // Extract search parameters from the URL
+        const searchText= url.searchParams.get('searchText') || "";
+
+        // Initialize variable for storing users
+        let limit;
+        let users = "";
+
+        // Handle sorting and filtering for users
+        if (searchText) {
+            // Users are sorted by username in ascending order
+            users = await User.find({ 'username': { $regex: new RegExp(searchText, 'i') } })
+                .collation({ locale: 'en', strength: 2 })
+                .sort({ 'username': 1 })
+                .skip(start).limit(Number(per_page));
+            // Get the total number of users
+            limit = await User.find({ 'username': { $regex: new RegExp(searchText, 'i') } }).countDocuments();
+        } else {
+            // Users are sorted by username in ascending order
+            users = await User.find({})
+                .sort({ 'username': 1 })
+                .skip(start).limit(Number(per_page));
+            // Get the total number of users
+            limit = await User.countDocuments();
+        }
+        // const users = await User.find({}).skip(start).limit(Number(per_page));
+        return NextResponse.json({users, limit, per_page}, {status: 200});
+    } catch (error){
+        // Return error message if there is an error
+        return NextResponse.json({message: error.message}, {status: 500});
+    }
+}
+
+/**
+ * API route for updating a user.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {string} - the message indicating whether the user is updated.
+ * @throws {Error} - the error thrown while trying to get the user.
+ */
+export async function PUT(req){
+    try {
+        // Extract the lookup username, username and password from the request body
+        const {lookup, username, password} = await req.json();
+        // Connect to the database
+        await dbConnect();
+        // Find the user by the lookup username
+        const user = await User.findOne({ username: lookup });
+
+        // Return error message if the user is not found
+        if(!user) {
+            return NextResponse.json({message: "User not found"}, {status: 404});
+        }
+        // Update the user
+        user.username = username;
+        user.password = password;
+        // Save the user
+        await user.save();
+
+        // Return success message if the user is updated
+        return NextResponse.json({message: "User updated successfully"}, {status: 200});
+    } catch (error) {
+        // Return error message if there is an error
+        return NextResponse.json({message: error.message}, {status: 500});
+    }
+}
+
+/**
+ * API route for deleting a user.
+ * @api
+ * @param {Object} req - HTTP request object.
+ * @returns {NextResponse} - Response containing:
+ *                         - {String} message - Response message. 
+ *                         - {Number} status - The appropriate status code.
+ * @throws {Error} - the error thrown while trying to get the user.
+ */
+export async function DELETE(req){
+    const {username} = await req.json();
+    await dbConnect();
+
+    const user = await User.findOneAndDelete({username: username});
+
+    if(!user){
+        return NextResponse.json({message: "User not deleted"}, {status: 404});
+    }
+    return NextResponse.json({message: "User deleted successfully"}, {status: 200});
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

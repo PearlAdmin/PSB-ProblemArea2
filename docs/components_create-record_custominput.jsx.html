@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/create-record/custominput.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/create-record/custominput.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Textbox from './textbox';
+import MC from './mc';
+import Checkbox from './checkbox';
+import Dates from './date';
+
+/**
+ * CustomInput component for rendering different question types in a create record page.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ *                          May contain the following:
+ *                            config - contains the data saved in the db (question, inputType, required, choices), 
+ *                            setValues - function that handles onChange of input field of that question
+ * @returns {React.Element} - The CustomInput component JSX.
+ */
+const CustomInput = (props) => {
+  switch (props.config.inputType){
+    //if input a number input
+    case "number":
+      return &lt;Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'^[0-9]+(?:.[0-9]+)?$'}/>
+    //if input an alphanumeric input
+    case "alphanumeric":
+      return &lt;Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9]+'}/>
+    //if input a text input
+    case "text":
+      //DO NOT DELETE THE SPACE AFTER THE 9 IN THE VALIDATION
+      return &lt;Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={"[a-zA-Z0-9 Ññ_,.!'@\\-]+"}/>   
+    //if input a radio choice
+    case "radio":
+      return &lt;MC type={"radio"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues}/>
+    //if input a checkbox choice
+    case "checkbox":
+        return &lt;Checkbox type={"checkbox"} question={props.config.question} options={props.config.choices} required={props.config.required} setValues={props.setValues} />
+    //if input a date input
+    case "date":
+        return &lt;Dates question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues}/>
+  }
+};
+export default CustomInput;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

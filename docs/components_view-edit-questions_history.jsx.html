@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/view-edit-questions/history.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/view-edit-questions/history.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import styles from '@/components/create-record/styles.module.css';
+import { Card } from 'react-bootstrap';
+
+/**
+ * History component for displaying edit history logs.
+ *
+ * @function
+ * @param {Object} props - The properties passed to the component.
+ * @param {Array} props.logs - An array of edit history logs.
+ * @returns {React.Element} - The History component JSX.
+ */
+const History = (params) => {
+    const { logs, showLogs } = params;
+    //Array representing month names in abbreviated form. 
+    const monthString = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    return (
+        &lt;div className={`${styles.popupModal}`} id="form-confirm-container">
+            &lt;div className={`${styles.popupModalBoxContainer}`}>
+                &lt;div className={`${styles.popupModalBoxShadow} col-10 col-md-5 pe-2 pb-2`}>
+                    &lt;div className={`${styles.popupModalBox} px-3 pt-3 pb-4`}>
+                        &lt;div className={`${styles.popupModalBoxTop} d-flex text-start`}>
+                            Edit History
+                            &lt;i className={`${styles.button} ms-auto bi bi-x`} onClick={showLogs}>&lt;/i>
+                        &lt;/div>
+                        &lt;div className={`${styles.historyContainer} text-start my-2 border-0`}>
+                            {logs.map((log, i) => {
+                                const action = log.action.charAt(0).toUpperCase() + log.action.slice(1);
+                                const date = new Date(log.timestamp);
+                                const stringDate = monthString[date.getMonth()] + ' ' + date.getDate() + ', ' +  date.getFullYear();
+                                const time = date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true, minute: 'numeric' });
+                                return (
+                                    &lt;Card className={`${styles.historyContainer} p-2`}>
+                                        &lt;div className={`${styles.historyOthersContainer}`}>
+                                            &lt;div>Timestamp: &lt;b>{stringDate} {time}&lt;/b>&lt;/div>
+                                            &lt;div>{action} by: &lt;b>{log.editedBy}&lt;/b>&lt;/div>
+                                        &lt;/div>
+                                    &lt;/Card>
+                                )
+                            })}
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    );
+}
+
+export default History;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

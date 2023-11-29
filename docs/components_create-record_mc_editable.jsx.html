@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/create-record/mc_editable.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/create-record/mc_editable.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
+import styles from './styles.module.css';
+
+/**
+ * MCeditable component for rendering a multiple-choice editable input.
+ * @component
+ * @param {Object} props - The properties of the MCeditable component. 
+ * @param {string} props.dbid - The unique identifier for the item in the Database.
+ * @param {boolean} props.required - Indicates whether the input is required.
+ * @param {string} props.type - The type of input (e.g., 'checkbox', 'radio').
+ * @param {string[]} props.choices - An array of choices for the multiple-choice input.
+ * @param {Function} props.handleChange - A function to handle changes to the input choices.
+ * @returns {JSX.Element} JSX.Element representing the MCeditable component.
+ */
+const MCeditable  = ({ dbid, required, type, choices, handleChange }) => {
+    let defaultOp = ['Edit Me']
+    if(choices) defaultOp = choices
+    const [options, setOptions] = useState(defaultOp);
+
+    /**
+     * Adds a new option to the list of choices.
+     * @param {Event} e - The click event triggering the addition of a new option.
+     */
+    const addOption = (e) => {
+        e.preventDefault();
+        setOptions([...options, 'Edit Me']);
+    };
+
+    /**
+     * Updates the value of a specific option in the list of choices.
+     * @param {number} index - The index of the option to be updated.
+     * @param {string} value - The new value for the option.
+     */
+    const updateOption = (index, value) => {
+        const updatedOptions = [...options];
+        updatedOptions[index] = value;
+        setOptions(updatedOptions);
+    }
+    /**
+     * Removes a specific option from the list of choices.
+     * @param {number} index - The index of the option to be removed.
+     */
+    const removeOption = (index) => {
+        const updatedOptions = options.filter((_,i) => i !== index);
+        setOptions(updatedOptions);
+    }
+
+    useEffect(()=>handleChange(options, dbid), [options])
+
+    return (
+        &lt;div>
+            {options.map((option, index) => (
+                &lt;div key={index} className={`d-flex mb-1`}>
+                    &lt;input
+                        type={type}
+                        name="answerOptions"
+                        value={option}
+                        // onChange={(e) => updateOption(index, e.target.value)}
+                        required={required}
+                        disabled
+                    />
+                    &lt;input className={`${styles.input} ${styles.formChoice} bg-transparent ms-2 me-2 w-100`} type="text" required={required} defaultValue={options[index]} onChange={(e) => updateOption(index, e.target.value)}>&lt;/input>
+                    {(options.length > 1 &amp;&amp;
+                        &lt;div className={`${styles.editBlockBtn} ${styles.bi} bi-x ms-auto pe-2`} onClick={() => removeOption(index)}>&lt;/div>
+                    )}
+                &lt;/div>
+             ))}
+             &lt;button className={`${styles.addOptBtn} fw-normal pt-2 text-secondary`} onClick={addOption}>+ Add More Options...&lt;/button>
+        &lt;/div>
+    );
+};
+export default MCeditable ;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#CardIndiv">CardIndiv</a></li><li><a href="global.html#CardUser">CardUser</a></li><li><a href="global.html#Checkbox">Checkbox</a></li><li><a href="global.html#CreateRecord">CreateRecord</a></li><li><a href="global.html#CustomInput">CustomInput</a></li><li><a href="global.html#CustomView">CustomView</a></li><li><a href="global.html#DELETE">DELETE</a></li><li><a href="global.html#Dates">Dates</a></li><li><a href="global.html#Deleted">Deleted</a></li><li><a href="global.html#DisplaySorted">DisplaySorted</a></li><li><a href="global.html#EditForm">EditForm</a></li><li><a href="global.html#Error">Error</a></li><li><a href="global.html#GET">GET</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#History">History</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#LogIn">LogIn</a></li><li><a href="global.html#MC">MC</a></li><li><a href="global.html#MCeditable">MCeditable</a></li><li><a href="global.html#ManageUser">ManageUser</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#PATCH">PATCH</a></li><li><a href="global.html#POST">POST</a></li><li><a href="global.html#PUT">PUT</a></li><li><a href="global.html#PaginationControls">PaginationControls</a></li><li><a href="global.html#Popup">Popup</a></li><li><a href="global.html#Question">Question</a></li><li><a href="global.html#Record">Record</a></li><li><a href="global.html#Register">Register</a></li><li><a href="global.html#SALT_WORK_FACTOR">SALT_WORK_FACTOR</a></li><li><a href="global.html#SortBy">SortBy</a></li><li><a href="global.html#Textbox">Textbox</a></li><li><a href="global.html#UserList">UserList</a></li><li><a href="global.html#dbConnect">dbConnect</a></li><li><a href="global.html#fetcher">fetcher</a></li><li><a href="global.html#metadata">metadata</a></li><li><a href="global.html#save">save</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Nov 29 2023 21:17:35 GMT+0800 (Philippine Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
