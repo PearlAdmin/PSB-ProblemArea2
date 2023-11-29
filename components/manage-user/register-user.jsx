@@ -108,7 +108,7 @@ const Register = () => {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 placeholder="Password"
-                                pattern="[a-zA-Z0-9!@#$%^&*()_{}|:;<>,.?\/\[\]\-=']"
+                                pattern="[a-zA-Z0-9!@#$%^&*()_{}|:;<>,.?\/\[\]\-=']+"
                                 required
                                 onChange={(e) => setData({ ...data, password: e.target.value })}
                             />

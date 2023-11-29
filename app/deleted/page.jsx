@@ -13,9 +13,10 @@ import SortBy from "@/components/sort-search";
  * @page
  * @return {JSX.Element} The Deleted page.
  */
+
 const Deleted = () => {
     // State variables
-    const [cookieResult, setCookie] = useState(null);
+    const [cookieResult] = useState(null);
     const [isRecoverAllOpen, setRecoverAllOpen] = useState(false);
     const [isPermaDeleteAllOpen, setPermaDeleteAllOpen] = useState(false);
     const [isRecoverOpen, setRecoverOpen] = useState(false);
@@ -103,7 +104,6 @@ const Deleted = () => {
           alert(error);
       };
         closeModal(e);
-        // backend stuff
     }
 
     // open recover popup
