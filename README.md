@@ -38,6 +38,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Coding Standards
 - This guide serves as a fundamental resource, outlining the established guidelines to maintain uniformity and clarity within our codebase.
 - By adhering to these coding standards, you contribute significantly to our collaborative development efforts. Consistency in coding practices not only enhances readability but also streamlines the debugging and maintenance processes. We appreciate your attention to detail and commitment to upholding these standards, ensuring the creation of a robust and efficient Next.js React application.
+## Documentation
+- To view the documentation run npx serve ./docs
+- Any new jsdoc added to the solution should be compiled using npx jsdoc --configure jsdoc.json
 ### app/
 - main directory for frontend pages and APIs
 - corresponds to the page routing
