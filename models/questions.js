@@ -2,6 +2,7 @@ import mongoose, {Schema} from "mongoose";
 
 /**
  * Mongoose schema for representing a form question.
+ * @module models/questions
  * @typedef {Object} Question
  * @property {number} version - indicates the version number of the questions
  * @property {string} question - The question being asked.

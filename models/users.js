@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 
 /**
  * Mongoose schema for representing a user.
+ * @module models/users
  * @typedef {Object} User
  * @property {string} username - The username of the user. Required and unique.
  * @property {string} email - The email address of the user. Only applicable to admin and must be manually set in the database. 

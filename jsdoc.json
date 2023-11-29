@@ -1,0 +1,12 @@
+{
+  "source": {
+    "include": ["./app", "./app/create", "./app/deleted", "./app/edit", "./app/login", "./app/manage-user", "./app/record", "./app/view",
+                "./app/api/all-records", "./app/api/cookies", "./app/api/cookies", "./app/api/forms", "./app/api/login", "./app/api/manage-user",
+                "./app/api/record-logs", "./app/api/records", "./components", "./components/create-record", "./components/manage-user", "./components/view-edit-questions",
+                "./libs", "./models"],
+    "exclude": ["./node_modules"]
+  },
+  "opts": {
+    "destination": "./docs"
+  }
+}

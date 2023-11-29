@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 /**
  * Mongoose schema with no strict structure for representing a sponsored child record.
+ * @module models/records
  * @typedef {Object} NoStrictRecord
  * @property {*} - This schema has no strict structure and allows any properties.
  */

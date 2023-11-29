@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 /** 
 * Establishes a connection to a MongoDB database using Mongoose.
+* @module libs/db
 * @function
 * @name dbConnect
 * @async

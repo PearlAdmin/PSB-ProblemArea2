@@ -2,6 +2,7 @@ import mongoose, {Schema} from "mongoose";
 
 /**
  * Mongoose schema for representing a form question.
+ * @module model/logs
  * @typedef {Object} Edit
  * @property {string} editedBy - indicates the user who edited the record
  * @property {string} action - action taken by the user, it can be either 'created' or 'edited'
