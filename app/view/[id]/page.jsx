@@ -36,6 +36,10 @@ Font.register({
  * Styles for the PDF.
  */
 const styles = StyleSheet.create({
+  page: {
+      paddingTop: 45,
+      paddingBottom: 85
+  },
   body: {
       paddingTop: 35,
       paddingBottom: 65,
@@ -48,7 +52,6 @@ const styles = StyleSheet.create({
   imageContainer: {
       flexDirection: 'row',  
       alignItems: 'center',  
-      marginTop: 15,
       justifyContent: 'center',
   },
   logo: {
@@ -165,7 +168,7 @@ const CustomPdfView = ({ question, answer, options, type }) => {
 const MyDocument = ({record}) => {
   return (
     <Document>
-      <Page size="A4">
+      <Page size="A4" style={styles.page}>
         <View style={styles.imageContainer}>
           <Image src="/logo.png" style={styles.logo} />
           <Text style={styles.leftTitle}>Pearl S. Buck</Text>
