@@ -190,6 +190,8 @@ const Deleted = () => {
         setRecoverOpen(false);
         setPermaDeleteOpen(false);
     }
+
+    
     
     return (
       <div>
@@ -219,11 +221,9 @@ const Deleted = () => {
                 </Button>
               </div>
             </div>
-            <SortBy isdeleted={true} openRecover={openRecover} openPermaDelete={openPermaDelete}/>
+            <SortBy isdeleted={true} openRecover={openRecover} openPermaDelete={openPermaDelete} isRecoverAllOpen={isRecoverAllOpen} isPermaDeleteAllOpen={isPermaDeleteAllOpen} recoverAll={recoverAll} deleteAll={deleteAll} closeModal={closeModal}/>
           </div>
         </div>
-        {isRecoverAllOpen && items.records.length > 0 && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-        {isPermaDeleteAllOpen && items.records.length > 0 && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
         {isRecoverOpen && <Popup question={"Are you sure you want to recover this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>recoverRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
         {isPermaDeleteOpen && <Popup question={"Are you sure you want to permanently delete this record?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={(e)=>permaDeleteRecord(e, id)} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
       </div>

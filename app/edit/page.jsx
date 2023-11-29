@@ -7,6 +7,7 @@ import styles from '@/components/create-record/styles.module.css';
 import useSWR from 'swr';
 import Popup from '@/components/popup';
 import Loading from '@/components/loading';
+import Error from '@/app/not-found';
 
 /**
  * Fetcher function for fetching data from the API.
@@ -272,7 +273,7 @@ const EditForm = () => {
     
     if (isLoading) return (<Loading/>);
 
-    if (error) return (<div>{error.message}</div>);
+    if (error) return (<Error/>);
 
     return (
         <div>
@@ -307,7 +308,6 @@ const EditForm = () => {
             {isSaveSuccessVisible && <Popup question={"Form successfully edited."} firstBtnLabel={"Return Home"} secondBtnLabel={"Continue"} firstBtnFunc={returnHome} secondBtnFunc={closeModal} isYesNoQuestion={false}/>}            
             {/* Delete Question Confirmation Message */}
             {isDeleteQuestionVisible && <Popup question={`Are you sure you want delete this block? All recorded information will be lost.`} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteBox} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
-            
         </div>
     );
 };

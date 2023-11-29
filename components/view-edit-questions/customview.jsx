@@ -23,7 +23,7 @@ const CustomView = ({id, question, answer, options, required, type, order, didEd
   switch (type){
     //if input a number input
     case "number":
-      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'^[0-9]+(?:.[0-9]+)?$'} order={order} didEdit={didEdit}/>
+      return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'^([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$'} order={order} didEdit={didEdit}/>
     //if input an alphanumeric input
     case "alphanumeric":
       return <Textbox id={id} question={question} answer={answer} required={required} type={type} validation={'[a-zA-Z0-9]+'} order={order} didEdit={didEdit}/>

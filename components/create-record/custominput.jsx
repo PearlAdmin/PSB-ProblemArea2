@@ -17,7 +17,7 @@ const CustomInput = (props) => {
   switch (props.config.inputType){
     //if input a number input
     case "number":
-      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'^[0-9]+(?:.[0-9]+)?$'}/>
+      return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'^([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$'}/>
     //if input an alphanumeric input
     case "alphanumeric":
       return <Textbox question={props.config.question} type={props.config.inputType} required={props.config.required} setValues={props.setValues} validation={'[a-zA-Z0-9]+'}/>

@@ -7,6 +7,7 @@
     import useSWR from 'swr';
     import { useSearchParams, useRouter } from 'next/navigation';
     import Loading from './loading';
+    import Popup from './popup';
 
     /**
      * SWR function for fetching data from a given URL.
@@ -28,7 +29,7 @@
      * 
      * @returns {JSX.Element} JSX Element representing the sorted records.
      */
-    function DisplaySorted({page, searchText, selectedValue, searchValue, isdeleted, openRecover, openPermaDelete}){
+    function DisplaySorted({page, searchText, selectedValue, searchValue, isdeleted, openRecover, openPermaDelete, isRecoverAllOpen, isPermaDeleteAllOpen, recoverAll, deleteAll, closeModal}){
         const router = useRouter();
         // console.log("DELETED:",isdeleted);
 
@@ -79,7 +80,8 @@
                         />))) : (
                         <p>No deleted records.</p>
                     )}
-                    
+                    {isRecoverAllOpen && items.records.length > 0 && <Popup question={"Are you sure you want to recover all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={recoverAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
+                    {isPermaDeleteAllOpen && items.records.length > 0 && <Popup question={"Are you sure you want to delete all records?"} firstBtnLabel={"Yes"} secondBtnLabel={"No"} firstBtnFunc={deleteAll} secondBtnFunc={closeModal} isYesNoQuestion={true}/>}
                     <PaginationControls count={data?.limit} perpage={data?.per_page} route={"deleted"}/>
                 </div>
             )}
@@ -93,7 +95,7 @@
      * @component
      * @returns {JSX.Element} JSX Element representing the SortBy component.
      */
-    function SortBy({isdeleted, openRecover, openPermaDelete}) {
+    function SortBy({isdeleted, openRecover, openPermaDelete, isRecoverAllOpen, isPermaDeleteAllOpen, recoverAll,deleteAll, closeModal}) {
         const [searchText, setSearchText] = useState('');
         const [selectedValue, setSelectedValue] = useState('SCN: ');
         const [searchValue, setsearchValue] = useState('SCN: ');
@@ -165,7 +167,7 @@
                 </div>
 
                 {/* Display the sorted data */}
-                <DisplaySorted page={page} searchText={searchText} selectedValue={selectedValue} searchValue={searchValue} isdeleted={isdeleted} openRecover={openRecover} openPermaDelete={openPermaDelete}/>            
+                <DisplaySorted page={page} searchText={searchText} selectedValue={selectedValue} searchValue={searchValue} isdeleted={isdeleted} openRecover={openRecover} openPermaDelete={openPermaDelete}  isRecoverAllOpen={isRecoverAllOpen} isPermaDeleteAllOpen={isPermaDeleteAllOpen} recoverAll={recoverAll} deleteAll={deleteAll} closeModal={closeModal}/>            
             </div>
         );
     }

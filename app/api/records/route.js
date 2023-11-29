@@ -114,6 +114,8 @@ export async function GET(req) {
             } else {
               new_record[item.question] = record[item.question]
               new_record[item.question].order = item.number
+              if (new_record[item.question].type == 'text')
+              console.log("IN DB", new_record[item.question])
             }
           } else {
             // handle change type 

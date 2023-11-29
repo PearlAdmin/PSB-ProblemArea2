@@ -41,7 +41,9 @@ const MCeditable  = ({ dbid, required, type, choices, handleChange }) => {
      * @param {number} index - The index of the option to be removed.
      */
     const removeOption = (index) => {
+        console.log("index: ", index)
         const updatedOptions = options.filter((_,i) => i !== index);
+        console.log("options: ", updatedOptions)
         setOptions(updatedOptions);
     }
 
