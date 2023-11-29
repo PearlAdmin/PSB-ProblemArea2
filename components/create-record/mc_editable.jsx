@@ -61,7 +61,7 @@ const MCeditable  = ({ dbid, required, type, choices, handleChange }) => {
                         required={required}
                         disabled
                     />
-                    <input className={`${styles.input} ${styles.formChoice} bg-transparent ms-2 me-2 w-100`} type="text" required={required} defaultValue={options[index]} onChange={(e) => updateOption(index, e.target.value)}></input>
+                    <input className={`${styles.input} ${styles.formChoice} bg-transparent ms-2 me-2 w-100`} type="text" required={required} value={options[index]} onChange={(e) => updateOption(index, e.target.value)}></input>
                     {(options.length > 1 &&
                         <div className={`${styles.editBlockBtn} ${styles.bi} bi-x ms-auto pe-2`} onClick={() => removeOption(index)}></div>
                     )}

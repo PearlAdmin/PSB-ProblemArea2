@@ -109,20 +109,28 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
    */
   const handleSubmit = async (e) => {
     //send put request to the api with a JSON body attached. 
-    const response = await fetch('/api/manage-user', {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
+    try {
+      if (!(data.password.length >= 12)){
+        throw new Error("Password must be at least 12 characters long!");
       }
-    });
-    //handle response from api
-    if(response.ok){
+      const response = await fetch('/api/manage-user', {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      //handle response from api
+      if(response.ok){
+        window.location.reload();
+        alert("User has been edited!");
+      }else{
+        window.location.reload();
+        alert("Error: User was not edited");
+      }
+    } catch (error) {
+      alert(error);
       window.location.reload();
-      alert("User has been edited!");
-    }else{
-      window.location.reload();
-      alert("Error: User was not edited");
     }
   }
     /**
@@ -211,9 +219,19 @@ const CardUser = ({ username: initialUsername, password: initialPassword, search
                     type="text"
                     value={password}
                     style={{width: '200px'}}
+                    pattern="[a-zA-Z0-9 ]+"
                     onChange={(e) =>{
-                      setPassword(e.target.value)
-                      setData({...data, password: e.target.value})
+                      const withEmojis = /\p{Extended_Pictographic}/u
+                      const pattern = /^[a-zA-Z0-9 !-\\/_]+$/
+                      if (e.target.value == '') {
+                        setPassword(e.target.value)
+                        setData({...data, password: e.target.value})
+                      } else if (withEmojis.test(e.target.value) || !pattern.test(e.target.value)) {
+                        alert('Password cannot contain special characters...');
+                      } else {
+                        setPassword(e.target.value)
+                        setData({...data, password: e.target.value})
+                      }
                     } 
                 }/>
                 ) : (

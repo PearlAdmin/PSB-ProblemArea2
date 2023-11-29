@@ -15,6 +15,8 @@ const Register = () => {
      */
     const [showPassword, setShowPassword] = useState(false);
     const [confirmation, setConfirmation] = useState(false);
+    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
 
     /**
      * State to manage the visibility of the password confirmation.
@@ -57,6 +59,7 @@ const Register = () => {
                 throw new Error("Password must be at least 12 characters long!");
             }
             
+            
             if (!(data.password === confirmation)){
                 throw new Error("Passwords do not match!");
             }
@@ -96,7 +99,11 @@ const Register = () => {
                                 placeholder="Username" 
                                 pattern="[a-zA-Z0-9 ]+"
                                 required 
-                                onChange={(e) => setData({ ...data, username: e.target.value })}
+                                value={username}
+                                onChange={(e) => {
+                                    setUsername(e.target.value);
+                                    setData({ ...data, username: e.target.value })
+                                }}
                             />
                         </InputGroup>
                         {/* Password */}
@@ -108,9 +115,23 @@ const Register = () => {
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 placeholder="Password"
-                                pattern="[a-zA-Z0-9!@#$%^&*()_{}|:;<>,.?\/\[\]\-=']+"
+                                pattern="[a-zA-Z0-9 !-\\/_]+"
                                 required
-                                onChange={(e) => setData({ ...data, password: e.target.value })}
+                                value={password}
+                                onChange={(e) => {
+                                    const withEmojis = /\p{Extended_Pictographic}/u
+                                    const pattern = /^[a-zA-Z0-9 !-\\/_]+$/
+                                        if (e.target.value == '') {
+                                            setPassword(e.target.value);
+                                            setData({...data, password: e.target.value})
+                                        } else if (withEmojis.test(e.target.value) || !pattern.test(e.target.value)) {
+                                            alert('Password cannot contain special characters...');
+                                        } else {
+                                            setPassword(e.target.value)
+                                            setData({...data, password: e.target.value})
+                                        }
+                                    } 
+                                }
                             />
                             {/* Hide and Show Password */}
                             <Button

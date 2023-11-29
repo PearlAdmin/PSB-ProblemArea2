@@ -105,17 +105,18 @@ export async function GET(req) {
               //check if options are the same
               if (JSON.stringify(record[item.question].options) === JSON.stringify(item.choices)){
                 //main checks did not change
+                record[item.question].required = item.required 
                 new_record[item.question] = record[item.question]
                 new_record[item.question].order = item.number
               }else{
+                record[item.question].required = item.required 
                 new_record[item.question] = record[item.question]
                 new_record[item.question].choices = item.choices
               }
             } else {
+              record[item.question].required = item.required 
               new_record[item.question] = record[item.question]
               new_record[item.question].order = item.number
-              if (new_record[item.question].type == 'text')
-              console.log("IN DB", new_record[item.question])
             }
           } else {
             // handle change type 
