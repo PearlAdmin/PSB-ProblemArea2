@@ -19,7 +19,7 @@ export async function POST(req) {
     // Insert the data into the database
     await dbConnect();
     const doubleSCN = await Record.findOne({"SCN: .value": data['SCN: '].value});
-    
+
     //Chck if SCN has duplicates in the data. 
     if(doubleSCN) {
       return NextResponse.json({message: 'SCN should be unique'}, {status: 500});
@@ -188,7 +188,7 @@ export async function PATCH(req){
     if(id){
       //check if SCN has a duplicate in the DB
       if(data['SCN: ']){
-        const doubleSCN = await Record.findOne({'SCN: ': data['SCN: ']});
+        const doubleSCN = await Record.findOne({"SCN: .value": data['SCN: '].value});
         if(doubleSCN) {
           return NextResponse.json({message: 'SCN should be unique'}, {status: 500});
         }
