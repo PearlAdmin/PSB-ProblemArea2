@@ -18,7 +18,7 @@ export async function POST(req) {
 
     // Insert the data into the database
     await dbConnect();
-    const doubleSCN = await Record.findOne({'SCN: ': data['SCN: ']});
+    const doubleSCN = await Record.findOne({"SCN: .value": data['SCN: '].value});
     
     //Chck if SCN has duplicates in the data. 
     if(doubleSCN) {
