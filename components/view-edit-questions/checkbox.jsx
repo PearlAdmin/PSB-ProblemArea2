@@ -153,7 +153,7 @@ const Checkbox = ({ id, question, options, answer, required, order, didEdit}) =>
                     <input
                         className={`${styles.formAnswer} ${styles.formChoice} w-100`}
                         type="text"
-                        value={editableAnswers.join(', ')}
+                        value={editableAnswers.length > 0 ? editableAnswers.join(', ') : ''}
                         disabled
                     />
                     )}
